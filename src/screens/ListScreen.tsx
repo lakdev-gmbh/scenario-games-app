@@ -49,7 +49,10 @@ export const ListScreen = () => {
     const [fullHeaderHeight, setFullHeaderHeight] = useState(0)
     const scrollY = new Animated.Value(0)
 
-    return <SafeAreaView style={styles.fullHeight}>
+    return <SafeAreaView style={[
+            {backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED},
+            styles.fullHeight]}>
+
         <View style={
             [{
                 backgroundColor: themeColors.BACKGROUND,

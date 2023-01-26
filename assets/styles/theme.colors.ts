@@ -6,4 +6,5 @@ export default {
     BORDER_INPUT: '#B5BDD6',
     TEXT: "#2B2D33",
     BACKGROUND: '#F3F3F3',
+    BACKGROUND_HIGHLIGHTED: 'white'
 }

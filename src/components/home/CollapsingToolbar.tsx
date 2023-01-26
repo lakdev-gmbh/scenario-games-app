@@ -1,6 +1,7 @@
 import React from "react";
 import { Animated, Image, LayoutChangeEvent, StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
+import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { H1 } from "../global/Text";
 
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingTop: 24,
         paddingBottom: 14,
-        backgroundColor: "white",
+        backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
         shadowOpacity: 0.2,
         shadowOffset: {width: 10, height: 10},
         borderBottomEndRadius: themeDimensions.BORDER_RADIUS_BAR,

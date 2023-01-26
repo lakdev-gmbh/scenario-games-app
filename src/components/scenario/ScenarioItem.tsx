@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { Tag } from "../global/Tag";
@@ -57,7 +58,11 @@ export const ScenarioItem = ({scenario}: {
     }
 }) => {
 
-    return <View style={styles.container}>
+    const navigation = useNavigation()
+
+    return <TouchableOpacity 
+        onPress={() => {navigation.navigate("ScenarioStart")}}
+        style={styles.container}>
         <View style={styles.content}>
             <View style={styles.statusContainer}>
                 <Image 
@@ -80,6 +85,6 @@ export const ScenarioItem = ({scenario}: {
             source={{uri: 
                 globalUrl + scenario.image}
             } />
-    </View>
+    </TouchableOpacity>
 
 }
