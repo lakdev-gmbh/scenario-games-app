@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     smallTag: {
-        paddingVertical: 2,
-        paddingHorizontal: 4,
+        paddingVertical: 2.5,
+        paddingHorizontal: 5,
     },
     fatTag: {
         paddingVertical: 5,

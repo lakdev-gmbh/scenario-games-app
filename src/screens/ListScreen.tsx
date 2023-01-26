@@ -97,8 +97,8 @@ export const ListScreen = () => {
                     data={scenarioData}
                     renderItem={({item, index}) => <View 
                         style={[
-                            index === 0 && {paddingTop: fullHeaderHeight + 24},
-                            index+1 === scenarioData.length && {paddingBottom: 32}
+                            index === 0 && {paddingTop: fullHeaderHeight + themeDimensions.MARGIN_VERTICAL_BIG},
+                            index+1 === scenarioData.length && {paddingBottom: themeDimensions.PADDING_SCROLLVIEW_BOTTOM}
                         ]}>
                             <ScenarioItem scenario={item} />
                         </View>

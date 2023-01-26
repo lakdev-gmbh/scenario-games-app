@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import themeColors from "../../../assets/styles/theme.colors";
+import { globalStyles } from "../../../assets/styles/global";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { Tag } from "../global/Tag";
 import { DefaultText, SmallLabel } from "../global/Text";
@@ -11,8 +11,6 @@ const globalUrl = "https://scenario.laknet.de"
 const styles = StyleSheet.create({
     container: {
       paddingVertical: themeDimensions.LIST_ITEM_PADDING_VERTICAL,
-      borderBottomWidth: themeDimensions.LIST_ITEM_BORDER_WIDTH,
-      borderBottomColor: themeColors.BORDER,
       flexDirection: 'row'
     },
     content: {
@@ -62,7 +60,7 @@ export const ScenarioItem = ({scenario}: {
 
     return <TouchableOpacity 
         onPress={() => {navigation.navigate("ScenarioStart")}}
-        style={styles.container}>
+        style={[styles.container, globalStyles.borderBottom]}>
         <View style={styles.content}>
             <View style={styles.statusContainer}>
                 <Image 

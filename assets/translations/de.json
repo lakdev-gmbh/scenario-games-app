@@ -3,5 +3,6 @@
     "filter_subjects": "Fachbereich",
     "filter_grades": "Klassenstufe",
     "filter_search": "Themensuche",
-    "filter_search_placeholder": "Suchbegriff"
+    "filter_search_placeholder": "Suchbegriff",
+    "button_start": "Starten"
 }

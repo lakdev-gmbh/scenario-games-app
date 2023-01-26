@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import themeColors from "../../../assets/styles/theme.colors";
-import themeDimensions from "../../../assets/styles/theme.dimensions";
+import { globalStyles } from "../../../assets/styles/global";
 import { Label } from "../global/Text";
 
 const styles = StyleSheet.create({
     container: {
-        borderTopWidth: themeDimensions.LIST_ITEM_BORDER_WIDTH,
-        borderTopColor: themeColors.BORDER,
         marginTop: 8,
         paddingTop: 8
     },
@@ -41,7 +38,7 @@ export const Collapsible = ({title, children, openOnDefault = false}: {
     const arrowDown = require("../../../assets/images/icons/arrow_down.png")
     const arrowImage = open ? arrowUp : arrowDown
 
-    return <View style={styles.container}>
+    return <View style={[styles.container, globalStyles.borderTop]}>
         <TouchableOpacity 
             onPress={() => setOpen(!open)}
             style={styles.titleContainer}>
