@@ -11,7 +11,9 @@
     "filter_search": "Themensuche",
     "filter_search_placeholder": "Suchbegriff",
 
+    "screen_success": "Geschafft!",
 
     "button_add": "hinzufügen",
-    "button_start": "Starten"
+    "button_start": "Starten",
+    "button_next_scenario": "Nächste Challenge"
 }

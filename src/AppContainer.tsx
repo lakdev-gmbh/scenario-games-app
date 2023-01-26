@@ -4,6 +4,7 @@ import { RootStackParamList } from "./navigation/types";
 import { ClassroomListScreen } from "./screens/home/ClassroomListScreen";
 import { HomeListScreen } from "./screens/home/HomeListScreen";
 import { ScenarioStartScreen } from "./screens/scenario/StartScreen";
+import { ScenarioSuccessScreen } from "./screens/scenario/SuccessScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -14,5 +15,6 @@ export const AppContainer = () => {
         <Stack.Screen name="Home" component={HomeListScreen} />
         <Stack.Screen name="Classrooms" component={ClassroomListScreen} />
         <Stack.Screen name="ScenarioStart" component={ScenarioStartScreen} />
+        <Stack.Screen name="ScenarioSuccess" component={ScenarioSuccessScreen} />
     </Stack.Navigator>
 }

@@ -1,3 +1,5 @@
+import { NavigationProp } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -8,6 +10,7 @@ import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { TextButton } from "../../components/global/Button";
 import { Tag } from "../../components/global/Tag";
 import { DefaultText, H1 } from "../../components/global/Text";
+import { RootStackParamList } from "../../navigation/types";
 
 // define overlap (negative margin) of the container
 const overlap = themeDimensions.BORDER_RADIUS_BAR
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     },
 })
 
-export const ScenarioStartScreen = () => {
+export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootStackParamList>) => {
     const { t } = useTranslation()
 
     // TODO: change hardcoded props
@@ -71,6 +74,7 @@ export const ScenarioStartScreen = () => {
 
     const onStart = () => {
         // TODO: next screen
+        navigation.navigate('ScenarioSuccess')
     }
 
     // TODO: maybe use scrollview + animations for bigger texts
@@ -82,7 +86,7 @@ export const ScenarioStartScreen = () => {
             source={require("../../../assets/images/placeholder_scenario.png")}>
                 <LinearGradient
                 style={[{ flex: 1, flexDirection: 'column-reverse' }, globalStyles.container]}
-                colors={[themeColors.BACKGROUND_GRADIENT_START, themeColors.BACKGROUND_GRADIENT_END]}
+                colors={[themeColors.BACKGROUND_OVERLAY_START, themeColors.BACKGROUND_OVERLAY_END]}
                 locations={[0.2, 1]}>
                     <Image
                      style={styles.owlImage}

@@ -2,6 +2,7 @@ export type RootStackParamList = {
     Home: undefined;
     Classrooms: undefined;
     ScenarioStart: undefined;
+    ScenarioSuccess: undefined;
 };
 
 // This registers which makes navigation fully type-safe.
