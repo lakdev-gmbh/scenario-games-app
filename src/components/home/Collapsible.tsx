@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
+import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { Label } from "../global/Text";
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 8,
-        paddingTop: 8
+        marginTop: themeDimensions.MARGIN_VERTICAL_SMALL,
+        paddingTop: themeDimensions.MARGIN_VERTICAL_SMALL,
     },
     titleContainer: {
         flexDirection: "row",
@@ -15,11 +16,6 @@ const styles = StyleSheet.create({
     },
     title: {
         flex: 1,
-    },
-    arrowIcon: {
-        width: 18,
-        height: 18,
-        resizeMode: "center",
     },
     contentContainer: {
         flexDirection: "row", 
@@ -45,7 +41,7 @@ export const Collapsible = ({title, children, openOnDefault = false}: {
             <Label style={styles.title}>
                 { title }
             </Label>
-            <Image style={styles.arrowIcon} source={arrowImage} />
+            <Image style={globalStyles.arrowIcon} source={arrowImage} />
         </TouchableOpacity>
         {open && <View style={styles.contentContainer}>
             { children }

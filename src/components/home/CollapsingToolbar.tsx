@@ -1,16 +1,19 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { Animated, Image, LayoutChangeEvent, StyleSheet, View } from "react-native";
+import { Animated, LayoutChangeEvent, StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import { RootStackParamList } from "../../navigation/types";
+import { ActionIcon } from "../global/ActionIcon";
 import { H1 } from "../global/Text";
 
 const styles = StyleSheet.create({
     barStyle: {
         position: "absolute",
         width: "100%",
-        paddingTop: 24,
-        paddingBottom: 14,
+        paddingVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
         shadowOpacity: 0.2,
         shadowOffset: {width: 10, height: 10},
@@ -21,21 +24,16 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: "row"
     },
-    actionIcon: {
-        width: 40,
-        height: 30,
-        resizeMode: "center",
-        marginStart: 4,
-    }
 })
 
 const imageAssets = "../../../assets/images/"
 
-export const CollapsingToolbar = ({title, children, scrollY, onLayout}: {
+export const CollapsingToolbar = ({title, children, scrollY, onLayout, classroom = false}: {
     title: string;
     children?: React.ReactNode;
     scrollY: Animated.Value;
     onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
+    classroom?: boolean
 }) => {
     const maxHeaderHeight = scrollY.interpolate({
         // make input range a smaller to faster shrink the view
@@ -50,6 +48,19 @@ export const CollapsingToolbar = ({title, children, scrollY, onLayout}: {
         extrapolate: 'clamp',
     })
 
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    
+    const classroomButton = <ActionIcon
+        onPress={() => {
+            navigation.replace("Classrooms")
+        }}
+        source={require(imageAssets + "actions/action_users.png")} />
+    const homeButton = <ActionIcon
+        onPress={() => {
+            navigation.replace("Home")
+        }}
+        source={require(imageAssets + "actions/action_user.png")} />
+
     return <View 
                 onLayout={onLayout}
                 style={[globalStyles.container, styles.barStyle]}>
@@ -58,11 +69,8 @@ export const CollapsingToolbar = ({title, children, scrollY, onLayout}: {
                     <H1 
                         style={{flex: 1}}
                         bold>{ title }</H1>
-                    <Image
-                        style={styles.actionIcon}
-                        source={require(imageAssets + "actions/action_users.png")} />
-                    <Image
-                        style={styles.actionIcon}
+                    {classroom ? homeButton : classroomButton}
+                    <ActionIcon
                         source={require(imageAssets + "actions/action_info.png")} />
                 </View>
 

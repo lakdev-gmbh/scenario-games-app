@@ -73,7 +73,7 @@ export const ScenarioItem = ({scenario}: {
                 { scenario.title }
             </DefaultText>
             <View style={styles.tagContainer}>
-                {scenario.subjects.map(subject => 
+                {scenario.subjects && scenario.subjects.map(subject => 
                     <Tag key={subject.name}> {subject.name} </Tag>
                 )}
             </View>

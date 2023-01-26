@@ -13,5 +13,17 @@ export const globalStyles = StyleSheet.create({
     borderBottom: {
         borderBottomColor: themeColors.BORDER,
         borderBottomWidth: themeDimensions.LIST_ITEM_BORDER_WIDTH
-    }
+    },
+    textInput: {
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderColor: themeColors.BORDER_INPUT,
+        borderRadius: themeDimensions.BORDER_RADIUS_INPUT,
+        borderWidth: 1
+    },
+    arrowIcon: {
+        width: 18,
+        height: 18,
+        resizeMode: "center",
+    },
 })

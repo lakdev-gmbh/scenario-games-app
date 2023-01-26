@@ -57,8 +57,21 @@ export const ScenarioStartScreen = () => {
     // --- END scenario properties ---
 
     //--- START random owl image ---
-        let randomOwlImage = require('../../../assets/images/owls/owl_scenario_4.png')
+    const assetFolder = "../../../assets/images/owls"
+    const owlAssets = [
+        require(assetFolder + '/owl_scenario_1.png'),
+        require(assetFolder + '/owl_scenario_2.png'),
+        require(assetFolder + '/owl_scenario_3.png'),
+        require(assetFolder + '/owl_scenario_4.png'),
+        require(assetFolder + '/owl_scenario_5.png'),
+    ]
+    const randomNumber = Math.floor(Math.random() * owlAssets.length);
+    let randomOwlImage = owlAssets[randomNumber]
     //--- END random owl image ---
+
+    const onStart = () => {
+        // TODO: next screen
+    }
 
     // TODO: maybe use scrollview + animations for bigger texts
 
@@ -91,7 +104,9 @@ export const ScenarioStartScreen = () => {
                 { scenarioText }
             </DefaultText>
 
-            <TextButton style={styles.button}>{ t("button_start") }</TextButton>
+            <TextButton onPress={onStart} style={styles.button}>
+                { t("button_start") }
+            </TextButton>
         </View>
 
     </View>

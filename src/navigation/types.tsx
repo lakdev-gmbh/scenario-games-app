@@ -1,5 +1,6 @@
 export type RootStackParamList = {
     Home: undefined;
+    Classrooms: undefined;
     ScenarioStart: undefined;
 };
 
