@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useMemo, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Image, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { Image, ImageBackground, ImageStyle, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../assets/styles/global";
@@ -25,9 +25,8 @@ const styles = StyleSheet.create({
         borderBottomEndRadius: themeDimensions.BORDER_RADIUS_BAR,
     },
     speechTitle: {
-        color: themeColors.TEXT_PRIMARY_LIGHT,
         textAlign: 'center',
-        fontSize: themeFontSizes.BIG,
+        marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         marginBottom: themeDimensions.MARGIN_VERTICAL_MEDIUM
     },
     speechBottom: {
@@ -38,7 +37,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
     resultText: {
-        color: themeColors.TEXT_PRIMARY_LIGHT,
         fontSize: themeFontSizes.H3,
         textAlign: 'center',
         flex: 1,
@@ -74,6 +72,11 @@ const styles = StyleSheet.create({
         marginTop: -10,
         transform: [{ rotate: "-8deg" }],
       },
+      star: {
+        position: "absolute", 
+        height: 35, 
+        width: 35,
+      },
       overview: {
         backgroundColor: themeColors.BACKGROUND,
         borderTopStartRadius: themeDimensions.BORDER_RADIUS_BAR,
@@ -92,37 +95,35 @@ export const ScenarioSuccessScreen = () => {
 
     // TODO: add real data
     const questionData = ["index-1", "index-2","index-3","index-4"]
-    const correctShare = 0.9
+    const correctShare = 1
     const negativeSeconds = 15
     const totalTime = 320
-
+    const streak = undefined // TODO
+    const averageTime = undefined // TODO
     
     // calculate or format data
     const correctPercentage = (correctShare * 100)
     const totalTimeMinutes = Math.floor(totalTime / 60)
     const totalTimeSeconds = totalTime % 60
+    const owlAssets = calculateOwl(correctShare, totalTime, streak, averageTime)
 
     // Bottom Sheet
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const snapPoints = useMemo(() => ['30%', '90%'], []);
+    const snapPoints = useMemo(() => ['35%', '90%'], []);
 
     const renderQuestion = useCallback(({item}:
          {item: any}) => (
             <ResultsQuestionSummary />
     ), [])
 
+    const hasBackground = streak && streak > 1
     const footer = <View style={[globalStyles.container, styles.bottomContainer]}>
         <TextButton>{ t("button_next_scenario") }</TextButton>
     </View>
 
-    return <SafeAreaView style={[styles.fullSize, styles.container]}>
-        <LinearGradient
-            style={styles.fullSize}
-            colors={[themeColors.BACKGROUND_GRADIENT_ONE, themeColors.BACKGROUND_GRADIENT_TWO, themeColors.BACKGROUND_GRADIENT_THREE]}
-            locations={[0.125, 0.5625, 0.95]}>
-            
-            <View style={[globalStyles.container, styles.speechContainer]}>
-                <H1 bold style={styles.speechTitle}>{ t("screen_success") }</H1>
+    const screenContent = <View style={styles.fullSize}>
+        <View style={[globalStyles.container, styles.speechContainer]}>
+                <DefaultText bold style={styles.speechTitle}>{ t("screen_success") }</DefaultText>
                 <View style={[styles.results, globalStyles.borderTop, globalStyles.borderBottom]}>
                     <DefaultText style={styles.resultText}>
                         <Trans i18nKey="screen_success_correct" values={{percentage: correctPercentage}} />
@@ -138,15 +139,19 @@ export const ScenarioSuccessScreen = () => {
                     </DefaultText>
                 </View>
 
-                <H1 bold style={styles.speechBottom}>Oh je. Das kannst du besser.</H1>
+                <H1 bold style={styles.speechBottom}>
+                    <Trans i18nKey={owlAssets.key} values={{streak: streak}} />
+                </H1>
             </View>
 
             <TriangleCorner style={styles.trianglePosition} />
 
-            <Image
-                style={styles.owl}
-                source={require("../../../assets/images/owls/owl_1.png")} 
-                />
+            <View>
+                <Stars count={owlAssets.starCount} />
+                <Image
+                    style={styles.owl}
+                    source={owlAssets.owl} />
+            </View>
 
             <BottomSheet
                 ref={bottomSheetRef}
@@ -164,16 +169,97 @@ export const ScenarioSuccessScreen = () => {
                     alwaysBounceVertical={false}
                     renderItem={renderQuestion}
                 />
-            </BottomSheet>            
-        </LinearGradient>
+            </BottomSheet>
+    </View>
 
+    return <SafeAreaView style={[styles.fullSize, styles.container]}>
+        <LinearGradient
+            style={styles.fullSize}
+            colors={[themeColors.BACKGROUND_GRADIENT_ONE, themeColors.BACKGROUND_GRADIENT_TWO, themeColors.BACKGROUND_GRADIENT_THREE]}
+            locations={[0.0625, 0.5417, 0.9271]}>
+            
+            {hasBackground ? <ImageBackground
+                style={styles.fullSize}
+             source={require('../../../assets/images/owls/background_for_owl.png')}>
+                 {screenContent} 
+            </ImageBackground>  : screenContent}
+
+        </LinearGradient>
     </SafeAreaView>
 }
 
-const ScenarioOverview = () => {
+const calculateOwl = (
+    // percentage of correct answers
+    correct: number,
+    // needed time in seconds to complete the scenario
+    totalTime: number,
+    // current streak amount, if exists
+    streak?: number,
+    // average time in seconds of other users to complete this scenario
+    averageTime?: number,
+) => {    
+    const isFast = averageTime && averageTime > totalTime
+
+    const owlAssets = "../../../assets/images/owls/"
+    let starCount = 0;
+    let key, owl;
+    if(correct <= 0.3) {
+        key = "screen_success_message_bad_1"
+        owl = require(owlAssets + "owl_1.png")
+    } else if(correct <= 0.5) {
+        key = "screen_success_message_bad_2"
+        owl = require(owlAssets + "owl_1.png")
+    } else if(correct <= 0.6) {
+        key = "screen_success_message_okay"
+        owl = require(owlAssets + "owl_okay.png")
+    } else if(correct <= 0.75) {
+        key = "screen_success_message_good"
+        owl = require(owlAssets + "owl_good.png")
+    } else if (correct < 1) {
+        key = isFast ? "screen_success_message_fast" : "screen_success_message_very_good"
+        owl = require(owlAssets + "owl_good.png")
+    } else if(streak && streak > 1) {
+        starCount = 5;
+        owl = require(owlAssets + "owl_super.png")
+        key = "screen_success_message_streak"
+    } else {
+        starCount = 7;
+        key = isFast ? "screen_success_message_complete_fast" : "screen_success_message_complete"
+        owl = require(owlAssets + "owl_okay.png")
+    }
+
+    return {
+        key,
+        owl,
+        starCount
+    }
+}
+
+const Stars = ({count}: {count: number}) => {
+    const positions = [
+        {top: -35, left: 80},
+        {top: 0, left: 20},
+        {top: 10, right: 40},
+        {top: -25, right: 80},
+        {top: 35, right: 90},
+        {top: 80, left: 100},
+        {top: 40, left: 60},
+    ]
+    
+    const starCount = Math.min(positions.length, count)
+
     return <Fragment>
-        <ResultsQuestionSummary />
+        {[...Array(starCount).keys()]
+            .map((i) => <Star style={positions[i]} />)}
     </Fragment>
+}
+
+const Star = ({style}: {
+    style?: StyleProp<ImageStyle>;
+}) => {
+    return <Image 
+        source={require("../../../assets/images/icons/star_white.png")}
+        style={[styles.star, style]} />
 }
 
 const TriangleCorner = ({style}: {
