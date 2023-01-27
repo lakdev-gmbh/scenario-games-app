@@ -74,7 +74,7 @@ export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootSta
 
     const onStart = () => {
         // TODO: next screen
-        navigation.navigate('ScenarioSuccess')
+        navigation.replace('ScenarioTask')
     }
 
     // TODO: maybe use scrollview + animations for bigger texts

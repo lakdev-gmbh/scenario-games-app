@@ -31,5 +31,6 @@
 
     "button_add": "hinzufügen",
     "button_start": "Starten",
-    "button_next_scenario": "Nächste Challenge"
+    "button_next_scenario": "Nächste Challenge",
+    "button_continue": "Weiter"
 }

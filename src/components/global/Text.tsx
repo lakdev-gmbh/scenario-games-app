@@ -11,11 +11,12 @@ function createTextComponent(fontSize: number) {
     }) => {
     
         return <Text style={[
-            style,
             {
                 fontWeight: bold ? '700' : 'normal',
-                fontSize: fontSize
-            }
+                fontSize: fontSize,
+                lineHeight: fontSize * 1.4
+            },
+            style
         ]}>
                 { children }
         </Text>
@@ -24,5 +25,6 @@ function createTextComponent(fontSize: number) {
 
 export const H1 = createTextComponent(themeFontSizes.H1)
 export const DefaultText = createTextComponent(themeFontSizes.DEFAULT)
+export const BiggerText = createTextComponent(themeFontSizes.H3)
 export const Label = createTextComponent(themeFontSizes.LABEL)
 export const SmallLabel = createTextComponent(themeFontSizes.TAG)
