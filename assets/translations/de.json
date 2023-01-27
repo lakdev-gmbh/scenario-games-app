@@ -12,6 +12,8 @@
     "filter_search_placeholder": "Suchbegriff",
 
     "screen_success": "Geschafft!",
+    "screen_success_overview": "Übersicht",
+    "question_correct_answer": "Richtige Antwort: {{answer}}",
 
     "button_add": "hinzufügen",
     "button_start": "Starten",

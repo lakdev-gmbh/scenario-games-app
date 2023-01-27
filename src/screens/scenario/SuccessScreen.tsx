@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -8,7 +8,8 @@ import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import themeFontSizes from "../../../assets/styles/theme.fontSizes";
 import { TextButton } from "../../components/global/Button";
-import { DefaultText, H1 } from "../../components/global/Text";
+import { DefaultText, H1, Label } from "../../components/global/Text";
+import { ResultsQuestionSummary } from "../../components/results/QuestionSummary";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         color: themeColors.TEXT_PRIMARY_LIGHT,
         textAlign: 'center',
         fontSize: themeFontSizes.BIG,
-        marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM
+        marginBottom: themeDimensions.MARGIN_VERTICAL_MEDIUM
     },
     speechBottom: {
         color: themeColors.PRIMARY,
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
         height: 145,
         resizeMode: "contain",
         marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
+        marginBottom: themeDimensions.MARGIN_VERTICAL_BIG,
     },
     trianglePosition: {
         left: '60%',
@@ -72,7 +74,13 @@ const styles = StyleSheet.create({
         transform: [{ rotate: "-8deg" }],
       },
       overview: {
-
+        backgroundColor: themeColors.BACKGROUND,
+        borderTopStartRadius: themeDimensions.BORDER_RADIUS_BAR,
+        borderTopEndRadius: themeDimensions.BORDER_RADIUS_BAR,
+        height: 150,
+      },
+      overViewTitle: {
+        marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
       },
       bottomContainer: {
         paddingVertical: themeDimensions.MARGIN_VERTICAL_BIG,
@@ -109,8 +117,11 @@ export const ScenarioSuccessScreen = () => {
                 source={require("../../../assets/images/owls/owl_1.png")} 
                 />
 
-            <View style={[styles.fullSize, styles.overview]}>
-                
+            <View style={styles.fullSize} />
+
+            <View style={[globalStyles.container, styles.overview]}>
+                <H1 style={styles.overViewTitle} bold>{ t("screen_success_overview") }</H1>
+                <ScenarioOverview />
             </View>
 
             <View style={[globalStyles.container, styles.bottomContainer]}>
@@ -119,7 +130,12 @@ export const ScenarioSuccessScreen = () => {
         </LinearGradient>
 
     </SafeAreaView>
+}
 
+const ScenarioOverview = () => {
+    return <Fragment>
+        <ResultsQuestionSummary />
+    </Fragment>
 }
 
 const TriangleCorner = ({style}: {
