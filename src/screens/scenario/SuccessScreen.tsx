@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import React, { Fragment, useCallback, useMemo, useRef } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../assets/styles/global";
@@ -8,8 +8,9 @@ import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import themeFontSizes from "../../../assets/styles/theme.fontSizes";
 import { TextButton } from "../../components/global/Button";
-import { DefaultText, H1, Label } from "../../components/global/Text";
+import { DefaultText, H1 } from "../../components/global/Text";
 import { ResultsQuestionSummary } from "../../components/results/QuestionSummary";
+import BottomSheet, { BottomSheetFlatList, BottomSheetFooter } from '@gorhom/bottom-sheet';
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -77,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: themeColors.BACKGROUND,
         borderTopStartRadius: themeDimensions.BORDER_RADIUS_BAR,
         borderTopEndRadius: themeDimensions.BORDER_RADIUS_BAR,
-        height: 150,
       },
       overViewTitle: {
         marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
@@ -90,6 +90,31 @@ const styles = StyleSheet.create({
 export const ScenarioSuccessScreen = () => {
     const { t } = useTranslation()
 
+    // TODO: add real data
+    const questionData = ["index-1", "index-2","index-3","index-4"]
+    const correctShare = 0.9
+    const negativeSeconds = 15
+    const totalTime = 320
+
+    
+    // calculate or format data
+    const correctPercentage = (correctShare * 100)
+    const totalTimeMinutes = Math.floor(totalTime / 60)
+    const totalTimeSeconds = totalTime % 60
+
+    // Bottom Sheet
+    const bottomSheetRef = useRef<BottomSheet>(null);
+    const snapPoints = useMemo(() => ['30%', '90%'], []);
+
+    const renderQuestion = useCallback(({item}:
+         {item: any}) => (
+            <ResultsQuestionSummary />
+    ), [])
+
+    const footer = <View style={[globalStyles.container, styles.bottomContainer]}>
+        <TextButton>{ t("button_next_scenario") }</TextButton>
+    </View>
+
     return <SafeAreaView style={[styles.fullSize, styles.container]}>
         <LinearGradient
             style={styles.fullSize}
@@ -99,12 +124,18 @@ export const ScenarioSuccessScreen = () => {
             <View style={[globalStyles.container, styles.speechContainer]}>
                 <H1 bold style={styles.speechTitle}>{ t("screen_success") }</H1>
                 <View style={[styles.results, globalStyles.borderTop, globalStyles.borderBottom]}>
-                    <DefaultText style={styles.resultText}>90 % Richtig</DefaultText>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_correct" values={{percentage: correctPercentage}} />
+                    </DefaultText>
                     <View style={styles.borderRight}></View>
-                    <DefaultText style={styles.resultText}>Strafzeit: 15 Sek.</DefaultText>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_negative" values={{seconds: negativeSeconds}} />
+                    </DefaultText>
                 </View>
                 <View style={styles.results}>
-                    <DefaultText style={styles.resultText}>Zeit: 3:24 Min</DefaultText>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_time" values={{minutes: totalTimeMinutes, seconds: totalTimeSeconds}} />
+                    </DefaultText>
                 </View>
 
                 <H1 bold style={styles.speechBottom}>Oh je. Das kannst du besser.</H1>
@@ -117,16 +148,23 @@ export const ScenarioSuccessScreen = () => {
                 source={require("../../../assets/images/owls/owl_1.png")} 
                 />
 
-            <View style={styles.fullSize} />
-
-            <View style={[globalStyles.container, styles.overview]}>
-                <H1 style={styles.overViewTitle} bold>{ t("screen_success_overview") }</H1>
-                <ScenarioOverview />
-            </View>
-
-            <View style={[globalStyles.container, styles.bottomContainer]}>
-                <TextButton>{ t("button_next_scenario") }</TextButton>
-            </View>
+            <BottomSheet
+                ref={bottomSheetRef}
+                index={0}
+                snapPoints={snapPoints}
+                backgroundStyle={styles.overview}
+                footerComponent={({animatedFooterPosition}) => <BottomSheetFooter animatedFooterPosition={animatedFooterPosition}>
+                    {footer}
+                </BottomSheetFooter>}>
+                    <H1 style={[styles.overViewTitle,globalStyles.container]} bold>{ t("screen_success_overview") }</H1>
+                <BottomSheetFlatList
+                    style={globalStyles.container}
+                    data={questionData}
+                    keyExtractor={(i) => i}
+                    alwaysBounceVertical={false}
+                    renderItem={renderQuestion}
+                />
+            </BottomSheet>            
         </LinearGradient>
 
     </SafeAreaView>

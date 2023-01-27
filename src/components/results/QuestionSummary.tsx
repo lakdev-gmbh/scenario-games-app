@@ -1,5 +1,5 @@
 import React from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
 })
 
 export const ResultsQuestionSummary = () => {
+    // TODO: use real data
     const correct = false
     const questionTitle = "Frage 1"
     const questionText = "Vor den Messungen benötigen wir einige Informationen von Ihnen, um die Messungen auf Plausibilität zu prüfen?"
     const answeredText = '13 Länder'
     const correctAnswer = "14 Länder"
 
+    // set assets
     const wrongIcon = require("../../../assets/images/icons/icon_wrong.png")
     const correctIcon = require("../../../assets/images/icons/icon_correct.png")
     const resultIcon = correct ? correctIcon : wrongIcon
