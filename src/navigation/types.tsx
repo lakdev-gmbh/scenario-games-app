@@ -4,6 +4,7 @@ export type RootStackParamList = {
     ScenarioStart: undefined;
     ScenarioSuccess: undefined;
     ScenarioTask: undefined;
+    ScenarioTaskText: undefined;
 };
 
 // This registers which makes navigation fully type-safe.

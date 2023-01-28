@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.5",
+    "@jamsch/react-native-duo-drag-drop": "^1.1.1",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
     "i18next": "^22.4.9",

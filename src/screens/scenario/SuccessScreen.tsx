@@ -11,6 +11,7 @@ import { TextButton } from "../../components/global/Button";
 import { DefaultText, H1 } from "../../components/global/Text";
 import { ResultsQuestionSummary } from "../../components/results/QuestionSummary";
 import BottomSheet, { BottomSheetFlatList, BottomSheetFooter } from '@gorhom/bottom-sheet';
+import { SpeechBubble } from "../../components/scenario/SpeechBubble";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -57,21 +58,6 @@ const styles = StyleSheet.create({
         marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         marginBottom: themeDimensions.MARGIN_VERTICAL_BIG,
     },
-    trianglePosition: {
-        left: '60%',
-    },
-    triangleCorner: {
-        width: 0,
-        height: 0,
-        backgroundColor: "transparent",
-        borderStyle: "solid",
-        borderRightWidth: 60,
-        borderTopWidth: 60,
-        borderRightColor: "transparent",
-        borderTopColor: themeColors.BACKGROUND_HIGHLIGHTED,
-        marginTop: -10,
-        transform: [{ rotate: "-8deg" }],
-      },
       star: {
         position: "absolute", 
         height: 35, 
@@ -122,7 +108,7 @@ export const ScenarioSuccessScreen = () => {
     </View>
 
     const screenContent = <View style={styles.fullSize}>
-        <View style={[globalStyles.container, styles.speechContainer]}>
+            <SpeechBubble>
                 <DefaultText bold style={styles.speechTitle}>{ t("screen_success") }</DefaultText>
                 <View style={[styles.results, globalStyles.borderTop, globalStyles.borderBottom]}>
                     <DefaultText style={styles.resultText}>
@@ -142,9 +128,7 @@ export const ScenarioSuccessScreen = () => {
                 <H1 bold style={styles.speechBottom}>
                     <Trans i18nKey={owlAssets.key} values={{streak: streak}} />
                 </H1>
-            </View>
-
-            <TriangleCorner style={styles.trianglePosition} />
+            </SpeechBubble>
 
             <View>
                 <Stars count={owlAssets.starCount} />
@@ -176,7 +160,7 @@ export const ScenarioSuccessScreen = () => {
         <LinearGradient
             style={styles.fullSize}
             colors={[themeColors.BACKGROUND_GRADIENT_ONE, themeColors.BACKGROUND_GRADIENT_TWO, themeColors.BACKGROUND_GRADIENT_THREE]}
-            locations={[0.0625, 0.5417, 0.9271]}>
+            locations={[0.3, 0.5, 0.65]}>
             
             {hasBackground ? <ImageBackground
                 style={styles.fullSize}
@@ -250,7 +234,7 @@ const Stars = ({count}: {count: number}) => {
 
     return <Fragment>
         {[...Array(starCount).keys()]
-            .map((i) => <Star style={positions[i]} />)}
+            .map((i) => <Star key={i} style={positions[i]} />)}
     </Fragment>
 }
 
@@ -261,9 +245,3 @@ const Star = ({style}: {
         source={require("../../../assets/images/icons/star_white.png")}
         style={[styles.star, style]} />
 }
-
-const TriangleCorner = ({style}: {
-    style?: StyleProp<ViewStyle>;
-}) => {
-    return <View style={[styles.triangleCorner, style]} />;
-};
