@@ -2,6 +2,7 @@ export default {
     PRIMARY: "#3B4AD2", // #2960EE
     SECONDARY: "#5846D9", // #5E5E5E
     LIGHT: "#D0CAC3",
+    GREY: "#666A75",
     BORDER: '#0723754D',
     BORDER_INPUT: '#B5BDD6',
     TEXT: "#2B2D33",

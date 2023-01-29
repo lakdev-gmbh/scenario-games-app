@@ -11,6 +11,12 @@
     "filter_search": "Themensuche",
     "filter_search_placeholder": "Suchbegriff",
 
+    "screen_task_correct": "Korrekt!",
+    "screen_task_wrong": "Falsch!",
+    "screen_task_negative": "{{seconds}} Strafsekunden",
+    "screen_task_answer": "Richtig wäre: {{answer}}",
+    "screen_task_mc_answer": "Antwort {{index}}",
+
     "screen_success": "Geschafft!",
     "screen_success_overview": "Übersicht",
     "screen_success_correct": "{{percentage}} % Richtig",
