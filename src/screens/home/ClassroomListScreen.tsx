@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GestureResponderEvent, Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { FatTag } from "../../components/global/Tag";
 import { DefaultText, Label } from "../../components/global/Text";
+import { Scenario } from "../../model/ui/Scenario";
 import { ListScreen } from "../ListScreen";
 
 const styles = StyleSheet.create({
@@ -70,24 +71,27 @@ export const ClassroomListScreen = () => {
         id: 10,
         name: "Herman Mayer, Leistungskurs"
     }]
-    const scenarioData = []
+    const [scenarioData, setScenarioData] = useState<Scenario[]>([]);
 
     const subjectsInClass = (classroom: {}) => {
-        return [
-            {name: 'Mathematik', id: 1},
-            {name: 'Mathematik2', id: 2},
-            {name: 'Physik', id: 3}
-        ]
+        return scenarioData.map((scenario: Scenario) => scenario.subjects).flat();
     }
 
     const levelsInClass = (classroom: {}) => {
-        return [
-            {name: '7', id: 100},
-        ]
+        return scenarioData.map((scenario: Scenario) => scenario.schoolYears).flat();
     }
 
 
     const [activeClassroom, setClassroom] = useState()
+
+    useEffect(() => {
+        getScenarios()
+    })
+
+    const getScenarios = async () => {
+        // TODO: get scenarios only for active classrooms
+        setScenarioData(await Scenario.all());
+    }
 
     // --- START add classroom logic ---
     const [accessCode, setAccessCode] = useState<string>("")
