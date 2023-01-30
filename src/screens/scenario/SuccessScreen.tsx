@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import React, { Fragment, useCallback, useMemo, useRef } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { Image, ImageBackground, ImageStyle, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../assets/styles/global";
@@ -8,8 +8,12 @@ import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
 import themeFontSizes from "../../../assets/styles/theme.fontSizes";
 import { TextButton } from "../../components/global/Button";
-import { DefaultText, H1, Label } from "../../components/global/Text";
+import { DefaultText, H1 } from "../../components/global/Text";
 import { ResultsQuestionSummary } from "../../components/results/QuestionSummary";
+import BottomSheet, { BottomSheetFlatList, BottomSheetFooter } from '@gorhom/bottom-sheet';
+import { SpeechBubble } from "../../components/scenario/SpeechBubble";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/types";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -24,9 +28,8 @@ const styles = StyleSheet.create({
         borderBottomEndRadius: themeDimensions.BORDER_RADIUS_BAR,
     },
     speechTitle: {
-        color: themeColors.TEXT_PRIMARY_LIGHT,
         textAlign: 'center',
-        fontSize: themeFontSizes.BIG,
+        marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         marginBottom: themeDimensions.MARGIN_VERTICAL_MEDIUM
     },
     speechBottom: {
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
     resultText: {
-        color: themeColors.TEXT_PRIMARY_LIGHT,
         fontSize: themeFontSizes.H3,
         textAlign: 'center',
         flex: 1,
@@ -58,26 +60,15 @@ const styles = StyleSheet.create({
         marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         marginBottom: themeDimensions.MARGIN_VERTICAL_BIG,
     },
-    trianglePosition: {
-        left: '60%',
-    },
-    triangleCorner: {
-        width: 0,
-        height: 0,
-        backgroundColor: "transparent",
-        borderStyle: "solid",
-        borderRightWidth: 60,
-        borderTopWidth: 60,
-        borderRightColor: "transparent",
-        borderTopColor: themeColors.BACKGROUND_HIGHLIGHTED,
-        marginTop: -10,
-        transform: [{ rotate: "-8deg" }],
+      star: {
+        position: "absolute", 
+        height: 35, 
+        width: 35,
       },
       overview: {
         backgroundColor: themeColors.BACKGROUND,
         borderTopStartRadius: themeDimensions.BORDER_RADIUS_BAR,
         borderTopEndRadius: themeDimensions.BORDER_RADIUS_BAR,
-        height: 150,
       },
       overViewTitle: {
         marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
@@ -87,59 +78,182 @@ const styles = StyleSheet.create({
         backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
       }
 })
-export const ScenarioSuccessScreen = () => {
+export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioSuccess">) => {
+    const { scenarioId } = route.params;
     const { t } = useTranslation()
+
+    // TODO: add real data
+    const questionData = ["index-1", "index-2","index-3","index-4"]
+    const correctShare = 1
+    const negativeSeconds = 15
+    const totalTime = 320
+    const streak = undefined // TODO
+    const averageTime = undefined // TODO
+    // TODO: get all questions, ignore/filter info texts
+    
+    // calculate or format data
+    const correctPercentage = (correctShare * 100)
+    const totalTimeMinutes = Math.floor(totalTime / 60)
+    const totalTimeSeconds = totalTime % 60
+    const owlAssets = calculateOwl(correctShare, totalTime, streak, averageTime)
+
+    // Bottom Sheet
+    const bottomSheetRef = useRef<BottomSheet>(null);
+    const snapPoints = useMemo(() => ['35%', '90%'], []);
+
+    const renderQuestion = useCallback(({item, index}:
+         {item: any, index: number}) => (
+            <ResultsQuestionSummary
+                title={t("screen_success_question", {index: index+1})}
+                question="Diese lange Frage wurde mir gestellt und dir?"
+                answer="Meine Lösung"
+                correct={false}
+                correctAnswer="Korrekte Lösung" />
+    ), [])
+    const onClose = useCallback(() => {
+        navigation.goBack()
+    }, [navigation])
+
+    const hasBackground = streak && streak > 1
+    const footer = <View style={[globalStyles.container, styles.bottomContainer]}>
+        <TextButton onPress={onClose}>{ t("button_next_scenario") }</TextButton>
+    </View>
+
+    const screenContent = <View style={styles.fullSize}>
+            <SpeechBubble>
+                <DefaultText bold style={styles.speechTitle}>{ t("screen_success") }</DefaultText>
+                <View style={[styles.results, globalStyles.borderTop, globalStyles.borderBottom]}>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_correct" values={{percentage: correctPercentage}} />
+                    </DefaultText>
+                    <View style={styles.borderRight}></View>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_negative" values={{seconds: negativeSeconds}} />
+                    </DefaultText>
+                </View>
+                <View style={styles.results}>
+                    <DefaultText style={styles.resultText}>
+                        <Trans i18nKey="screen_success_time" values={{minutes: totalTimeMinutes, seconds: totalTimeSeconds}} />
+                    </DefaultText>
+                </View>
+
+                <H1 bold style={styles.speechBottom}>
+                    <Trans i18nKey={owlAssets.key} values={{streak: streak}} />
+                </H1>
+            </SpeechBubble>
+
+            <View>
+                <Stars count={owlAssets.starCount} />
+                <Image
+                    style={styles.owl}
+                    source={owlAssets.owl} />
+            </View>
+
+            <BottomSheet
+                ref={bottomSheetRef}
+                index={0}
+                snapPoints={snapPoints}
+                backgroundStyle={styles.overview}
+                footerComponent={({animatedFooterPosition}) => <BottomSheetFooter animatedFooterPosition={animatedFooterPosition}>
+                    {footer}
+                </BottomSheetFooter>}>
+                    <H1 style={[styles.overViewTitle,globalStyles.container]} bold>{ t("screen_success_overview") }</H1>
+                <BottomSheetFlatList
+                    style={globalStyles.container}
+                    data={questionData}
+                    keyExtractor={(i) => i}
+                    alwaysBounceVertical={false}
+                    renderItem={renderQuestion}
+                />
+            </BottomSheet>
+    </View>
 
     return <SafeAreaView style={[styles.fullSize, styles.container]}>
         <LinearGradient
             style={styles.fullSize}
             colors={[themeColors.BACKGROUND_GRADIENT_ONE, themeColors.BACKGROUND_GRADIENT_TWO, themeColors.BACKGROUND_GRADIENT_THREE]}
-            locations={[0.125, 0.5625, 0.95]}>
+            locations={[0.3, 0.5, 0.65]}>
             
-            <View style={[globalStyles.container, styles.speechContainer]}>
-                <H1 bold style={styles.speechTitle}>{ t("screen_success") }</H1>
-                <View style={[styles.results, globalStyles.borderTop, globalStyles.borderBottom]}>
-                    <DefaultText style={styles.resultText}>90 % Richtig</DefaultText>
-                    <View style={styles.borderRight}></View>
-                    <DefaultText style={styles.resultText}>Strafzeit: 15 Sek.</DefaultText>
-                </View>
-                <View style={styles.results}>
-                    <DefaultText style={styles.resultText}>Zeit: 3:24 Min</DefaultText>
-                </View>
+            {hasBackground ? <ImageBackground
+                style={styles.fullSize}
+             source={require('../../../assets/images/owls/background_for_owl.png')}>
+                 {screenContent} 
+            </ImageBackground>  : screenContent}
 
-                <H1 bold style={styles.speechBottom}>Oh je. Das kannst du besser.</H1>
-            </View>
-
-            <TriangleCorner style={styles.trianglePosition} />
-
-            <Image
-                style={styles.owl}
-                source={require("../../../assets/images/owls/owl_1.png")} 
-                />
-
-            <View style={styles.fullSize} />
-
-            <View style={[globalStyles.container, styles.overview]}>
-                <H1 style={styles.overViewTitle} bold>{ t("screen_success_overview") }</H1>
-                <ScenarioOverview />
-            </View>
-
-            <View style={[globalStyles.container, styles.bottomContainer]}>
-                <TextButton>{ t("button_next_scenario") }</TextButton>
-            </View>
         </LinearGradient>
-
     </SafeAreaView>
 }
 
-const ScenarioOverview = () => {
+const calculateOwl = (
+    // percentage of correct answers
+    correct: number,
+    // needed time in seconds to complete the scenario
+    totalTime: number,
+    // current streak amount, if exists
+    streak?: number,
+    // average time in seconds of other users to complete this scenario
+    averageTime?: number,
+) => {    
+    const isFast = averageTime && averageTime > totalTime
+
+    const owlAssets = "../../../assets/images/owls/"
+    let starCount = 0;
+    let key, owl;
+    if(correct <= 0.3) {
+        key = "screen_success_message_bad_1"
+        owl = require(owlAssets + "owl_1.png")
+    } else if(correct <= 0.5) {
+        key = "screen_success_message_bad_2"
+        owl = require(owlAssets + "owl_1.png")
+    } else if(correct <= 0.6) {
+        key = "screen_success_message_okay"
+        owl = require(owlAssets + "owl_okay.png")
+    } else if(correct <= 0.75) {
+        key = "screen_success_message_good"
+        owl = require(owlAssets + "owl_good.png")
+    } else if (correct < 1) {
+        key = isFast ? "screen_success_message_fast" : "screen_success_message_very_good"
+        owl = require(owlAssets + "owl_good.png")
+    } else if(streak && streak > 1) {
+        starCount = 5;
+        owl = require(owlAssets + "owl_super.png")
+        key = "screen_success_message_streak"
+    } else {
+        starCount = 7;
+        key = isFast ? "screen_success_message_complete_fast" : "screen_success_message_complete"
+        owl = require(owlAssets + "owl_okay.png")
+    }
+
+    return {
+        key,
+        owl,
+        starCount
+    }
+}
+
+const Stars = ({count}: {count: number}) => {
+    const positions = [
+        {top: -35, left: 80},
+        {top: 0, left: 20},
+        {top: 10, right: 40},
+        {top: -25, right: 80},
+        {top: 35, right: 90},
+        {top: 80, left: 100},
+        {top: 40, left: 60},
+    ]
+    
+    const starCount = Math.min(positions.length, count)
+
     return <Fragment>
-        <ResultsQuestionSummary />
+        {[...Array(starCount).keys()]
+            .map((i) => <Star key={i} style={positions[i]} />)}
     </Fragment>
 }
 
-const TriangleCorner = ({style}: {
-    style?: StyleProp<ViewStyle>;
+const Star = ({style}: {
+    style?: StyleProp<ImageStyle>;
 }) => {
-    return <View style={[styles.triangleCorner, style]} />;
-};
+    return <Image 
+        source={require("../../../assets/images/icons/star_white.png")}
+        style={[styles.star, style]} />
+}

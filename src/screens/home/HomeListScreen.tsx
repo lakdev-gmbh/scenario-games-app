@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
-import themeColors from "../../../assets/styles/theme.colors";
-import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { FatTag } from "../../components/global/Tag";
 import { Collapsible } from "../../components/home/Collapsible";
 import { sync } from "../../model/db/database";
@@ -14,6 +12,7 @@ import { SchoolYear } from "../../model/ui/SchoolYear";
 import { Topic } from "../../model/ui/Topic";
 import { PropertyBag } from "../../model/ui/PropertyBag";
 import { Property } from "../../model/ui/Property";
+import SplashScreen from "react-native-splash-screen";
 
 const styles = StyleSheet.create({
     fullHeight: {
@@ -111,7 +110,8 @@ export const HomeListScreen = () => {
 
     useEffect(() => {
         getScenarios();
-    }, []);
+        SplashScreen.hide()
+    }, [])
 
     return isLoading ? (
         <ActivityIndicator />

@@ -11,11 +11,34 @@
     "filter_search": "Themensuche",
     "filter_search_placeholder": "Suchbegriff",
 
+    "screen_task_info": "Info",
+    "screen_task_correct": "Korrekt!",
+    "screen_task_wrong": "Falsch!",
+    "screen_task_negative": "{{seconds}} Strafsekunden",
+    "screen_task_answer": "Richtig wäre: {{answer}}",
+    "screen_task_mc_answer": "Antwort {{index}}",
+
     "screen_success": "Geschafft!",
     "screen_success_overview": "Übersicht",
+    "screen_success_question": "Frage {{index}}",
+    "screen_success_correct": "{{percentage}} % Richtig",
+    "screen_success_negative": "Strafzeit: {{seconds}} Sek.",
+    "screen_success_time": "Zeit: {{minutes}}:{{seconds}} Min.",
+
+    "screen_success_message_bad_1": "Oh je. Das kannst du besser.",
+    "screen_success_message_bad_2": "Schade. Versuch es doch nochmal!",
+    "screen_success_message_okay": "Guter Versuch.",
+    "screen_success_message_good": "Gut gemacht! Weiter so!",
+    "screen_success_message_very_good": "Sehr gut! Kaum Fehler!",
+    "screen_success_message_fast": "Du bist super schnell!",
+    "screen_success_message_complete": "Wow! Alles richtig!",
+    "screen_success_message_complete_fast": "Wow! Top Zeit! Alles richtig!",
+    "screen_success_message_streak": "Streak! {{streak}} Szenarios ohne Fehler!",
+
     "question_correct_answer": "Richtige Antwort: {{answer}}",
 
     "button_add": "hinzufügen",
     "button_start": "Starten",
-    "button_next_scenario": "Nächste Challenge"
+    "button_next_scenario": "Nächste Challenge",
+    "button_continue": "Weiter"
 }

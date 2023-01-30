@@ -12,8 +12,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4A27793337A24B8DACE7D7CD /* PTSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-ScenarioGames-ScenarioGamesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ScenarioGames-ScenarioGamesTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		82BA14FD57D347CE8BEDE7A7 /* PTSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */; };
+		8D1659E60A02468293357F08 /* PTSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9128139948174AC9BA21A047 /* PTSans-Italic.ttf */; };
+		EE7451D96F564999B7F19D63 /* PTSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,11 +43,15 @@
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ScenarioGames-ScenarioGamesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ScenarioGames-ScenarioGamesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-ScenarioGames.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScenarioGames.debug.xcconfig"; path = "Target Support Files/Pods-ScenarioGames/Pods-ScenarioGames.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ScenarioGames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScenarioGames.release.xcconfig"; path = "Target Support Files/Pods-ScenarioGames/Pods-ScenarioGames.release.xcconfig"; sourceTree = "<group>"; };
+		58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-BoldItalic.ttf"; path = "../assets/fonts/PTSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ScenarioGames-ScenarioGamesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScenarioGames-ScenarioGamesTests.debug.xcconfig"; path = "Target Support Files/Pods-ScenarioGames-ScenarioGamesTests/Pods-ScenarioGames-ScenarioGamesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-ScenarioGames.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ScenarioGames.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Regular.ttf"; path = "../assets/fonts/PTSans-Regular.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ScenarioGames/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig"; path = "Target Support Files/Pods-ScenarioGames-ScenarioGamesTests/Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig"; sourceTree = "<group>"; };
+		9128139948174AC9BA21A047 /* PTSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Italic.ttf"; path = "../assets/fonts/PTSans-Italic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSans-Bold.ttf"; path = "../assets/fonts/PTSans-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +130,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				B919A4E1DCC448C387B8CDD0 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +144,18 @@
 				00E356EE1AD99517003FC87E /* ScenarioGamesTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B919A4E1DCC448C387B8CDD0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */,
+				FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */,
+				58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */,
+				9128139948174AC9BA21A047 /* PTSans-Italic.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -244,6 +265,10 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				EE7451D96F564999B7F19D63 /* PTSans-Regular.ttf in Resources */,
+				82BA14FD57D347CE8BEDE7A7 /* PTSans-Bold.ttf in Resources */,
+				4A27793337A24B8DACE7D7CD /* PTSans-BoldItalic.ttf in Resources */,
+				8D1659E60A02468293357F08 /* PTSans-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,8 +511,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FNB29ENJ93;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ScenarioGames/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Scenario Games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,7 +525,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.lakdev.--PRODUCT-NAME-rfc1034identifier-";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = de.lakdev.ScenarioGames;
 				PRODUCT_NAME = ScenarioGames;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -513,7 +541,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FNB29ENJ93;
 				INFOPLIST_FILE = ScenarioGames/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Scenario Games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -524,7 +554,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.lakdev.--PRODUCT-NAME-rfc1034identifier-";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = de.lakdev.ScenarioGames;
 				PRODUCT_NAME = ScenarioGames;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
@@ -38,29 +38,30 @@ const styles = StyleSheet.create({
     }
 })
 
-export const ResultsQuestionSummary = () => {
-    const correct = false
-    const questionTitle = "Frage 1"
-    const questionText = "Vor den Messungen benötigen wir einige Informationen von Ihnen, um die Messungen auf Plausibilität zu prüfen?"
-    const answeredText = '13 Länder'
-    const correctAnswer = "14 Länder"
-
+export const ResultsQuestionSummary = ({title, question, answer, correctAnswer, correct}: {
+    title: string;
+    question: string;
+    answer: string;
+    correct: boolean;
+    correctAnswer?: string;
+}) => {
+    // set assets
     const wrongIcon = require("../../../assets/images/icons/icon_wrong.png")
     const correctIcon = require("../../../assets/images/icons/icon_correct.png")
     const resultIcon = correct ? correctIcon : wrongIcon
 
     return <View style={[globalStyles.borderBottom, styles.container]}>
     <View style={{flexDirection: 'row'}}>
-        <DefaultText style={styles.questionTitle} bold>{ questionTitle }</DefaultText>
+        <DefaultText style={styles.questionTitle} bold>{ title }</DefaultText>
         <View style={{flex: 1}}>
             <Label>
-                { questionText }
+                { question }
             </Label>
             <View style={styles.questionContainer}>
                 <Image style={styles.tickImage} 
                     source={resultIcon} />
                 <Label style={correct ? styles.correct : styles.wrong}>
-                    { answeredText }
+                    { answer }
                 </Label>
                 {!correct && <Label style={styles.correct}>
                     <Trans i18nKey="question_correct_answer" values={{answer: correctAnswer}}></Trans>

@@ -1,8 +1,17 @@
+type ScenarioProp = { scenarioId: string }
+
+type ScenarioTaskProps = ScenarioProp & {
+  scenarioId: string;
+  taskGroupIndex: number;
+  taskIndex: number;
+}
+
 export type RootStackParamList = {
     Home: undefined;
     Classrooms: undefined;
-    ScenarioStart: undefined;
-    ScenarioSuccess: undefined;
+    ScenarioStart: ScenarioProp;
+    ScenarioSuccess: ScenarioProp;
+    ScenarioTask: ScenarioTaskProps;
 };
 
 // This registers which makes navigation fully type-safe.

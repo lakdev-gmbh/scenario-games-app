@@ -17,7 +17,7 @@ const overlap = themeDimensions.BORDER_RADIUS_BAR
 
 const styles = StyleSheet.create({
     headerBackground: {
-        height: 280,
+        height: 230,
     },
     owlImage: {
         alignSelf: 'flex-end',
@@ -40,12 +40,13 @@ const styles = StyleSheet.create({
         
     },
     button: {
-        marginVertical: themeDimensions.MARGIN_VERTICAL_BIG
+        marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM
     },
 })
 
-export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootStackParamList>) => {
+export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioStart">) => {
     const { t } = useTranslation()
+    const { scenarioId } = route.params
 
     // TODO: change hardcoded props
     // --- START scenario properties ---
@@ -55,8 +56,9 @@ export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootSta
         {name: 'Physik', id: 3}
     ]
     const classLevel = "9"
-    const scenarioTitle = "EU Scenario Biologische Vielfalt"
-    const scenarioText = "Auch gibt es niemanden, der den Schmerz an sich liebt, sucht oder wünscht, nur, weil er Schmerz ist, es sei denn, es kommt zu zufälligen Umständen, in denen Mühen und Schmerz ihm große Freude bereiten können. Um ein triviales Beispiel zu nehmen, wer von uns unterzieht sich je anstrengender körperlicher Betätigung, außer um Vorteile daraus zu ziehen? Aber wer hat irgend ein Recht, einen Menschen zu tadeln, der die Entscheidung trifft, eine Freude zu genießen, die keine unangenehmen Folgen hat, oder einen, der Schmerz vermeidet, welcher."
+    const scenarioTitle = "EU Scenario"
+    const scenarioText = "Die Europäische Union, kurz EU, ist ein einzigartiger wirtschaftlicher und politischer Zusammenschluss aus 27 europäischen Ländern. Dank der EU können wir in viele Länder ganz ohne Grenzkontrollen reisen, leben in Frieden und Stabilität und profitieren indirekt von vielen Förderprogrammen und Unterstützungen. Selbst diese App würde es ohne die EU sowie die Förderung durch das Erasmus+ Programm gar nicht geben." 
+    const imageUri = "https://scenario.laknet.de" + "/storage/2022/02/25/c6af290bc45c413d724b7a0a36aaafa9304d378c.png"
     // --- END scenario properties ---
 
     //--- START random owl image ---
@@ -73,17 +75,22 @@ export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootSta
     //--- END random owl image ---
 
     const onStart = () => {
-        // TODO: next screen
-        navigation.navigate('ScenarioSuccess')
+        // start first screen
+        navigation.replace("ScenarioTask", {
+            scenarioId: scenarioId,
+            taskGroupIndex: 0,
+            taskIndex: 0,
+        })
     }
 
     // TODO: maybe use scrollview + animations for bigger texts
-
+    
     return <View style={{flex: 1}}>
         <ImageBackground
             style={styles.headerBackground}
             resizeMode="cover"
-            source={require("../../../assets/images/placeholder_scenario.png")}>
+            onError={e=> console.log(e.nativeEvent.error)}
+            source={{uri: imageUri}}>
                 <LinearGradient
                 style={[{ flex: 1, flexDirection: 'column-reverse' }, globalStyles.container]}
                 colors={[themeColors.BACKGROUND_OVERLAY_START, themeColors.BACKGROUND_OVERLAY_END]}
