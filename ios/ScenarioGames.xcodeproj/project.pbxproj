@@ -14,6 +14,10 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-ScenarioGames-ScenarioGamesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ScenarioGames-ScenarioGamesTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		EE7451D96F564999B7F19D63 /* PTSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */; };
+		82BA14FD57D347CE8BEDE7A7 /* PTSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */; };
+		4A27793337A24B8DACE7D7CD /* PTSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */; };
+		8D1659E60A02468293357F08 /* PTSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9128139948174AC9BA21A047 /* PTSans-Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ScenarioGames/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig"; path = "Target Support Files/Pods-ScenarioGames-ScenarioGamesTests/Pods-ScenarioGames-ScenarioGamesTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */ = {isa = PBXFileReference; name = "PTSans-Regular.ttf"; path = "../assets/fonts/PTSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */ = {isa = PBXFileReference; name = "PTSans-Bold.ttf"; path = "../assets/fonts/PTSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "PTSans-BoldItalic.ttf"; path = "../assets/fonts/PTSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9128139948174AC9BA21A047 /* PTSans-Italic.ttf */ = {isa = PBXFileReference; name = "PTSans-Italic.ttf"; path = "../assets/fonts/PTSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +130,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				B919A4E1DCC448C387B8CDD0 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +156,18 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		B919A4E1DCC448C387B8CDD0 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				5FCBEED574A94071AB51B5FD /* PTSans-Regular.ttf */,
+				FBC341FE0A264343B781E604 /* PTSans-Bold.ttf */,
+				58CDBF3F12A94753BF555B66 /* PTSans-BoldItalic.ttf */,
+				9128139948174AC9BA21A047 /* PTSans-Italic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +265,10 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				EE7451D96F564999B7F19D63 /* PTSans-Regular.ttf in Resources */,
+				82BA14FD57D347CE8BEDE7A7 /* PTSans-Bold.ttf in Resources */,
+				4A27793337A24B8DACE7D7CD /* PTSans-BoldItalic.ttf in Resources */,
+				8D1659E60A02468293357F08 /* PTSans-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

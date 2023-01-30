@@ -12,6 +12,7 @@ function createTextComponent(fontSize: number) {
     
         return <Text style={[
             {
+                fontFamily: 'PT Sans',
                 fontWeight: bold ? '700' : 'normal',
                 fontSize: fontSize,
                 lineHeight: fontSize * 1.4
