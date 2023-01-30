@@ -58,15 +58,32 @@ export const ScenarioItem = ({scenario}: {
 
     const navigation = useNavigation()
 
+    // TODO: get progress, either as prop (probably better) or as watermelon query
+    const scenarioProgress: number = 1
+
+    // --- START calculate progress ---
+    const iconFolder = "../../../assets/images/icons/"
+    let statusImage = require(iconFolder + "status_none.png")
+    if(scenarioProgress == 1) {
+        statusImage = require(iconFolder + "status_completed.png")
+    } else if(scenarioProgress > 0) {
+        statusImage = require(iconFolder + "status_started.png")
+    }
+    const scenarioPercentage = Math.round(scenarioProgress*100)
+    // --- END calculate progress ---
+
+
     return <TouchableOpacity 
-        onPress={() => {navigation.navigate("ScenarioStart")}}
+        onPress={() => {navigation.navigate("ScenarioStart", {
+            scenarioId: scenario.id
+        })}}
         style={[styles.container, globalStyles.borderBottom]}>
         <View style={styles.content}>
             <View style={styles.statusContainer}>
                 <Image 
                     style={styles.statusImage}
-                    source={require("../../../assets/images/icons/status_none.png")} />
-                <SmallLabel style={styles.statusLabel} bold>0 %</SmallLabel>
+                    source={statusImage} />
+                <SmallLabel style={styles.statusLabel} bold>{scenarioPercentage} %</SmallLabel>
             </View>
                 
             <DefaultText style={styles.title} bold>

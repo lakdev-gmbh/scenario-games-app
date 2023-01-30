@@ -1,7 +1,7 @@
-type ScenarioProp = { scenarioId: number }
+type ScenarioProp = { scenarioId: string }
 
 type ScenarioTaskProps = ScenarioProp & {
-  scenarioId: number;
+  scenarioId: string;
   taskGroupIndex: number;
   taskIndex: number;
 }
