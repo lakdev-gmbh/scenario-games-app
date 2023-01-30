@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useMemo, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Image, ImageBackground, ImageStyle, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { Image, ImageBackground, ImageStyle, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../assets/styles/global";
@@ -12,6 +12,8 @@ import { DefaultText, H1 } from "../../components/global/Text";
 import { ResultsQuestionSummary } from "../../components/results/QuestionSummary";
 import BottomSheet, { BottomSheetFlatList, BottomSheetFooter } from '@gorhom/bottom-sheet';
 import { SpeechBubble } from "../../components/scenario/SpeechBubble";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/types";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -76,7 +78,8 @@ const styles = StyleSheet.create({
         backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
       }
 })
-export const ScenarioSuccessScreen = () => {
+export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioSuccess">) => {
+    const { scenarioId } = route.params;
     const { t } = useTranslation()
 
     // TODO: add real data
@@ -86,6 +89,7 @@ export const ScenarioSuccessScreen = () => {
     const totalTime = 320
     const streak = undefined // TODO
     const averageTime = undefined // TODO
+    // TODO: get all questions, ignore/filter info texts
     
     // calculate or format data
     const correctPercentage = (correctShare * 100)
@@ -97,14 +101,22 @@ export const ScenarioSuccessScreen = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['35%', '90%'], []);
 
-    const renderQuestion = useCallback(({item}:
-         {item: any}) => (
-            <ResultsQuestionSummary />
+    const renderQuestion = useCallback(({item, index}:
+         {item: any, index: number}) => (
+            <ResultsQuestionSummary
+                title={t("screen_success_question", {index: index+1})}
+                question="Diese lange Frage wurde mir gestellt und dir?"
+                answer="Meine Lösung"
+                correct={false}
+                correctAnswer="Korrekte Lösung" />
     ), [])
+    const onClose = useCallback(() => {
+        navigation.goBack()
+    }, [navigation])
 
     const hasBackground = streak && streak > 1
     const footer = <View style={[globalStyles.container, styles.bottomContainer]}>
-        <TextButton>{ t("button_next_scenario") }</TextButton>
+        <TextButton onPress={onClose}>{ t("button_next_scenario") }</TextButton>
     </View>
 
     const screenContent = <View style={styles.fullSize}>

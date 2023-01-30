@@ -44,8 +44,9 @@ const styles = StyleSheet.create({
     },
 })
 
-export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootStackParamList>) => {
+export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioStart">) => {
     const { t } = useTranslation()
+    const { scenarioId } = route.params
 
     // TODO: change hardcoded props
     // --- START scenario properties ---
@@ -74,8 +75,12 @@ export const ScenarioStartScreen = ({navigation}: NativeStackScreenProps<RootSta
     //--- END random owl image ---
 
     const onStart = () => {
-        // TODO: next screen
-        navigation.replace('ScenarioTaskText')
+        // start first screen
+        navigation.replace("ScenarioTask", {
+            scenarioId: scenarioId,
+            taskGroupIndex: 0,
+            taskIndex: 0,
+        })
     }
 
     // TODO: maybe use scrollview + animations for bigger texts

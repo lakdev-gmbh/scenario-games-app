@@ -46,16 +46,13 @@ const styles = StyleSheet.create({
     },
 })
 
-export const ScenarioTaskTextScreen = ({navigation}: NativeStackScreenProps<RootStackParamList>) => {
-    // TODO: task text here
-    const taskText = "Ein Verbund dieser Größe benötigt entsprechend auch eine Vielzahl an Organen und Institutionen, um Entscheidungen zu treffen, zu organisieren und durchzusetzen. Eine besondere Bedeutung hat hier das Europäische Parlament - denn dieses kann alle 5 Jahre von jedem volljährigen EU-Bürger gewählt und damit direkt mit beeinflusst werden. Eine solche Menge an Wahlberechtigten stellt die EU vor viele Herausforderungen."
-    const taskTitle = "Wahlen"
-
+export const ScenarioTaskEasyText = ({title, body, onContinue}: {
+    onContinue: () => void;
+    title: string;
+    body: string;
+}) => {
     const {t} = useTranslation()
     const [finished, setFinished] = useState(false)
-    const onContinue = useCallback(() => {
-        navigation.replace("ScenarioTask")
-    }, [])
 
     return <LinearGradient
         style={styles.fullSize}
@@ -63,11 +60,11 @@ export const ScenarioTaskTextScreen = ({navigation}: NativeStackScreenProps<Root
         locations={[0.3, 0.5, 0.65]}>
 
         <SafeAreaView style={[globalStyles.container, styles.container]}>
-            <H1 bold style={styles.titleText}>{taskTitle}</H1>
+            <H1 bold style={styles.titleText}>{title}</H1>
 
             <SpeechBubble full
                 style={styles.speechBubble}>
-                <TypingText onFinish={() => setFinished(true)}>{ taskText }</TypingText>
+                <TypingText onFinish={() => setFinished(true)}>{ body }</TypingText>
             </SpeechBubble>
 
             <Image

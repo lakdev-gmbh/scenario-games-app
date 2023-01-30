@@ -20,6 +20,7 @@
 
     "screen_success": "Geschafft!",
     "screen_success_overview": "Übersicht",
+    "screen_success_question": "Frage {{index}}",
     "screen_success_correct": "{{percentage}} % Richtig",
     "screen_success_negative": "Strafzeit: {{seconds}} Sek.",
     "screen_success_time": "Zeit: {{minutes}}:{{seconds}} Min.",
