@@ -1,49 +1,44 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
-import { BiggerText } from "../../../components/global/Text";
+import { BiggerText, Label } from "../../../components/global/Text";
 import { ScenarioTaskRef } from "./DragDropComponent";
-
-export type AnswerType = {
-    answer: string;
-    is_correct: boolean;
-}
-
-export type MultipleChoiceType = {
-    solve?: boolean;
-    setEmpty: (empty: boolean) => void;
-    possible_answers: [AnswerType];
-}
+import { MultipleChoiceType } from "./MultipleChoiceComponent";
 
 const styles = StyleSheet.create({
     answerContainer: {
-        backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
-        flexDirection: 'row',
-        paddingVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
-        paddingHorizontal: themeDimensions.MARGIN_VERTICAL_MEDIUM,
-        marginTop: themeDimensions.MARGIN_VERTICAL_SMALL,
-        borderRadius: themeDimensions.BORDER_RADIUS_TAG
+        flex: 1,
+        margin: themeDimensions.MARGIN_VERTICAL_SMALL/2,
+        borderRadius: themeDimensions.BORDER_RADIUS_TAG,
+        borderColor: "transparent",
+        borderWidth: 7,
     },
     selectedContainer: {
-        backgroundColor: themeColors.SECONDARY,
+        borderColor: themeColors.SECONDARY,
     },
     correctContainer: {
-        backgroundColor: themeColors.CORRECT,
+        borderColor: themeColors.CORRECT,
     },
     wrongContainer: {
-        backgroundColor: themeColors.WRONG,
+        borderColor: themeColors.WRONG,
     },
     answerIndex: {
         marginEnd: 24,
+        position: "absolute",
+        zIndex: 100,
+        backgroundColor: "white",
+        top: 2,
+        left: 2,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 8,
+        overflow: 'hidden',
     },
-    answerText: {
-        color: themeColors.GREY,
-    }
 })
 
-export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoiceType>(({solve = false, possible_answers, setEmpty}, ref) => {
+export const MultipleChoiceImageTask = React.forwardRef<ScenarioTaskRef, MultipleChoiceType>(({solve = false, possible_answers, setEmpty}, ref) => {
     const [selectedAnswers, setSelectedAnswers] = useState<boolean[]>([]);
     const {t} = useTranslation()
 
@@ -70,25 +65,28 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
         setSelectedAnswers(answers);
     }
 
-    return <View>
-        {possible_answers.map((possibleAnswer, index) =>
-            <TouchableOpacity 
+    return <FlatList
+        alwaysBounceVertical={false}
+        data={possible_answers}
+        numColumns={2}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={(item) => {
+            const possibleAnswer = item.item
+            const index = item.index
+
+            return <TouchableOpacity 
             style={[styles.answerContainer,
                 selectedAnswers[index] && styles.selectedContainer,
                 solve && possibleAnswer.is_correct && styles.correctContainer,
                 solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
-            key={index} 
             disabled={solve}
             onPress={() => { handleChange(index) }}>
-                <BiggerText bold style={[styles.answerText, styles.answerIndex, 
-                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                <Label bold style={[styles.answerIndex]}>
                     { index+1 }
-                </BiggerText>
-                <BiggerText bold style={[styles.answerText,, 
-                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
-                    {possibleAnswer.answer}
-                </BiggerText>
+                </Label>
+                <Image 
+                    style={{width: "100%", height: 100, resizeMode: "cover"}}
+                    source={{uri: possibleAnswer.answer}} />
             </TouchableOpacity>
-        )}
-    </View>
+        }} />
 })

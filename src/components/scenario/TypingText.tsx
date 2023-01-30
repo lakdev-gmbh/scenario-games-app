@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { TouchableWithoutFeedback, View } from "react-native";
 import { DefaultText } from "../global/Text";
 
-export const TypingText = ({children, animationDuration = 50, growWhileTyping = false, onFinish}: {
+export const TypingText = ({children, animationDuration = 40, growWhileTyping = false, onFinish}: {
     children: string;
     animationDuration?: number;
     onFinish?: () => void;
@@ -37,11 +37,17 @@ export const TypingText = ({children, animationDuration = 50, growWhileTyping = 
         }
     }, [visibleText])
 
+    const onSkip = () => {
+        setText(children)
+    }
+
     const fixedHeight = !growWhileTyping
 
-    return <View>
-        <DefaultText style={fixedHeight && {position: "absolute"}}>{visibleText}</DefaultText>
-        {fixedHeight && <DefaultText style={{color: 'transparent'}}>{ children }</DefaultText>}
-    </View>
+    return <TouchableWithoutFeedback  onPress={onSkip}>
+        <View>
+            <DefaultText style={fixedHeight && {position: "absolute"}}>{visibleText}</DefaultText>
+            {fixedHeight && <DefaultText style={{color: 'transparent'}}>{ children }</DefaultText>}
+        </View>
+    </TouchableWithoutFeedback>
 
 }

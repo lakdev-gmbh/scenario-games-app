@@ -11,6 +11,7 @@
     "filter_search": "Themensuche",
     "filter_search_placeholder": "Suchbegriff",
 
+    "screen_task_info": "Info",
     "screen_task_correct": "Korrekt!",
     "screen_task_wrong": "Falsch!",
     "screen_task_negative": "{{seconds}} Strafsekunden",

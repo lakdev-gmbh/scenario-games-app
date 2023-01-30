@@ -17,13 +17,15 @@ const styles = StyleSheet.create({
     }
 })
 
-export const TextButton = ({children, onPress, style, textStyle}: {
+export const TextButton = ({children, onPress, style, textStyle, disabled}: {
     children?: React.ReactNode;
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
+    disabled?: boolean;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 }) => {
     return <TouchableOpacity 
+        disabled={disabled}
         onPress={onPress}
         style={[styles.container, style]}>
         <DefaultText bold style={[styles.text, textStyle]}>{ children }</DefaultText>

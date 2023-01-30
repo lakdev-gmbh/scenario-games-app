@@ -1,5 +1,5 @@
 import DuoDragDrop, { DuoDragDropRef, Word } from "@jamsch/react-native-duo-drag-drop";
-import React, { useCallback, useImperativeHandle, useRef } from "react";
+import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
@@ -26,18 +26,23 @@ const styles = StyleSheet.create({
     }
 })
 
+export type ScenarioTaskProps<T> = {
+    solution: T;
+    solve?: boolean;
+    setEmpty?: ((empty: boolean) => void);
+}
+
 export type ScenarioTaskRef = {
-    isCorrect(): boolean,
-    getCorrectAnswer(): string,
+    isCorrect(): boolean;
+    getCorrectAnswer(): string;
 }
 
-type DragDropProps = {
-    words: Array<string>,
-    solution: Array<string>,
-    solve?: boolean,
+type DragDropProps = ScenarioTaskProps<Array<string>> & {
+    words: Array<string>;
 }
 
-export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({words, solution, solve = false}, ref) => {
+export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({words, solution, solve = false, setEmpty}, ref) => {
+    const duoDragDropRef = useRef<DuoDragDropRef>(null);
     const isCorrect = () => {
         const answeredWords = duoDragDropRef.current?.getAnsweredWords()
         if(answeredWords?.length != solution.length)
@@ -52,7 +57,14 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
         }
     }))
 
-    const duoDragDropRef = useRef<DuoDragDropRef>(null);
+    const checkEmpty = () => {
+        const answeredWords = duoDragDropRef.current?.getAnsweredWords().length ?? 0
+        setEmpty && setEmpty(answeredWords == 0)
+    }
+
+    useEffect(() => {
+        checkEmpty()
+    }, [])
 
     const renderWord = useCallback((word: string, index: number) => {    
         const answered = duoDragDropRef.current?.getOffsets()
@@ -79,6 +91,7 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
         gesturesDisabled={solve}
         renderWord={renderWord} 
         wordHeight={40}
+        onDrop={checkEmpty}
         words={words} />
     </View>
 })

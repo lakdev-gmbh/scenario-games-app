@@ -67,7 +67,7 @@ export const ScenarioTaskTextScreen = ({navigation}: NativeStackScreenProps<Root
 
             <SpeechBubble full
                 style={styles.speechBubble}>
-                <TypingText onFinish={() => setFinished(true)}>{ "taskText" }</TypingText>
+                <TypingText onFinish={() => setFinished(true)}>{ taskText }</TypingText>
             </SpeechBubble>
 
             <Image
