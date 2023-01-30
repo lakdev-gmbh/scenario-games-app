@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextInput } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
-import themeColors from "../../../assets/styles/theme.colors";
-import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { FatTag } from "../../components/global/Tag";
 import { Collapsible } from "../../components/home/Collapsible";
 import { ListScreen } from "../ListScreen";
+import SplashScreen from "react-native-splash-screen";
 
 const styles = StyleSheet.create({
     fullHeight: {
@@ -39,6 +38,9 @@ export const HomeListScreen = () => {
     {subjects: [{name: 'Biologie'}], id: "1005", title: "Biologische Vielfalt", "image": "/storage/2022/02/25/c6af290bc45c413d724b7a0a36aaafa9304d378c.png"},
     {subjects: [{name: 'Biologie'}], id: "1002", title: "Biologische Vielfalt", "image": "/storage/2022/02/25/c6af290bc45c413d724b7a0a36aaafa9304d378c.png"}]
 
+    useEffect(() => {
+        SplashScreen.hide()
+    }, [])
 
     return <ListScreen 
         scenarios={scenarioData}

@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleProp, Text, TextStyle } from "react-native";
+import themeColors from "../../../assets/styles/theme.colors";
 import themeFontSizes from "../../../assets/styles/theme.fontSizes";
 
 
@@ -15,7 +16,8 @@ function createTextComponent(fontSize: number) {
                 fontFamily: 'PT Sans',
                 fontWeight: bold ? '700' : 'normal',
                 fontSize: fontSize,
-                lineHeight: fontSize * 1.4
+                lineHeight: fontSize * 1.4,
+                color: themeColors.TEXT,
             },
             style
         ]}>

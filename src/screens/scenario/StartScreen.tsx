@@ -17,7 +17,7 @@ const overlap = themeDimensions.BORDER_RADIUS_BAR
 
 const styles = StyleSheet.create({
     headerBackground: {
-        height: 280,
+        height: 230,
     },
     owlImage: {
         alignSelf: 'flex-end',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         
     },
     button: {
-        marginVertical: themeDimensions.MARGIN_VERTICAL_BIG
+        marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM
     },
 })
 
@@ -89,6 +89,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
         <ImageBackground
             style={styles.headerBackground}
             resizeMode="cover"
+            onError={e=> console.log(e.nativeEvent.error)}
             source={{uri: imageUri}}>
                 <LinearGradient
                 style={[{ flex: 1, flexDirection: 'column-reverse' }, globalStyles.container]}
