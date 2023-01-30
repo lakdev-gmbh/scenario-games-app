@@ -9,6 +9,7 @@ export default class ScenarioDB extends Model {
   static associations = {
     task_groups: { type: 'has_many', foreignKey: 'scenario_watermelon_id' },
     scenarios_properties: { type: 'has_many', foreignKey: 'scenario_watermelon_id' },
+    scenarios_user_groups: { type: 'has_many', foreignKey: 'scenario_watermelon_id' },
   }
 
   @text('title') title;
@@ -24,4 +25,10 @@ export default class ScenarioDB extends Model {
   properties = this.collections
     .get('properties').
     query(Q.on('scenarios_properties', 'scenario_watermelon_id', this.id));
+
+
+  @lazy 
+  userGroups = this.collections
+    .get('user_groups').
+    query(Q.on('scenarios_user_groups', 'scenario_watermelon_id', this.id));
 }

@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb'
 
 export default appSchema({
-  version: 1,
+  version: 7,
   tables: [
     tableSchema({
       name: 'scenarios',
@@ -9,7 +9,7 @@ export default appSchema({
         { name: 'title', type: 'string' },
         { name: 'description', type: 'string' },
         { name: 'published', type: 'boolean' },
-        { name: 'published_global', type: 'string' },
+        { name: 'published_global', type: 'boolean' },
         { name: 'image', type: 'string', isOptional: true },
         { name: 'user_id', type: 'string', isOptional: true },
       ]
@@ -58,6 +58,20 @@ export default appSchema({
         { name: 'property_watermelon_id', type: 'string' },
       ]
     }),
+    tableSchema({
+      name: 'user_groups',
+      columns: [
+        { name: 'title', type: 'string' },
+        { name: 'code', type: 'string' },
+      ]
+    }),
+    tableSchema({
+      name: 'scenarios_user_groups',
+      columns: [
+        { name: 'scenario_watermelon_id', type: 'string' },
+        { name: 'user_group_watermelon_id', type: 'string' },
+      ]
+    }),
     // Local tables
     tableSchema({
       name: 'user_completed_tasks',
@@ -65,6 +79,12 @@ export default appSchema({
         { name: 'task_watermelon_id', type: 'string' },
         { name: 'answer', type: 'string' },
         { name: 'is_correct', type: 'boolean' },
+      ],
+    }),
+    tableSchema({
+      name: 'app_classrooms',
+      columns: [
+        { name: 'user_group_watermelon_id', type: 'string' },
       ],
     }),
   ]

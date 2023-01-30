@@ -41,6 +41,17 @@ export class Scenario {
         );
     }
 
+    static async createManyFromDB(dbScenarios: ScenarioDB[]): Promise<Scenario[]> {
+        let scenarios: Scenario[] = [];
+
+        for (let i = 0; i < dbScenarios.length; i++) {
+            const scenarioObject = await Scenario.createFromDB(dbScenarios[i]);
+            scenarios.push(scenarioObject);
+        }
+
+        return scenarios;
+    }
+
     static async all(): Promise<Scenario[]> {
         const dbScenarios: ScenarioDB[] = await watermelondb
         .get('scenarios')

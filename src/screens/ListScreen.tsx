@@ -5,6 +5,7 @@ import themeColors from "../../assets/styles/theme.colors";
 import themeDimensions from "../../assets/styles/theme.dimensions";
 import { CollapsingToolbar } from "../components/home/CollapsingToolbar";
 import { ScenarioItem } from "../components/scenario/ScenarioItem";
+import { Scenario } from "../model/ui/Scenario";
 
 const styles = StyleSheet.create({
     fullHeight: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
 export const ListScreen = ({title, children, scenarios, classroom = false}: {
     title: string;
     children?: React.ReactNode;
-    scenarios: Array<any>;
+    scenarios: Array<Scenario[]>;
     classroom?: boolean;
 }) => {
     const [fullHeaderHeight, setFullHeaderHeight] = useState(0)

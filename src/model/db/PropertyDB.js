@@ -1,4 +1,4 @@
-import { Model } from '@nozbe/watermelondb'
+import { Model, Q } from '@nozbe/watermelondb'
 import { children, lazy, text } from '@nozbe/watermelondb/decorators';
 
 export default class PropertyDB extends Model {

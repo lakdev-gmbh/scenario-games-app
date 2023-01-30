@@ -7,10 +7,13 @@ import InfoTextDB from './InfoTextDB';
 import PropertyDB from './PropertyDB';
 import ScenarioDB from './ScenarioDB';
 import ScenarioPropertyDB from './ScenarioPropertyDB';
+import ScenarioUserGroupDB from './ScenarioUserGroupDB';
 import schema from './schema';
 import TaskDB from './TaskDB';
 import TaskGroupDB from './TaskGroupDB';
 import UserCompletedTaskDB from './UserCompletedTaskDB';
+import AppClassroomDB from './AppClassroomDB';
+import UserGroupDB from './UserGroupDB';
 
 const url = "https://scenario.laknet.de/sync"
 
@@ -37,6 +40,9 @@ const adapter = new SQLiteAdapter({
       PropertyDB,
       ScenarioPropertyDB,
       UserCompletedTaskDB,
+      ScenarioUserGroupDB,
+      AppClassroomDB,
+      UserGroupDB
     ],
   });
 
