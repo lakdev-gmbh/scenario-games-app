@@ -109,13 +109,12 @@ export const HomeListScreen = () => {
     }
 
     useEffect(() => {
-        getScenarios();
-        SplashScreen.hide()
+        getScenarios().then(() => {
+            SplashScreen.hide()
+        });
     }, [])
 
-    return isLoading ? (
-        <ActivityIndicator />
-    ) : (<ListScreen
+    return <ListScreen
         scenarios={scenarioData.filter(checkProperties)}
         title={t('screen_list_scenarios')}>
         <Collapsible
@@ -149,5 +148,4 @@ export const HomeListScreen = () => {
                 onChangeText={adjustSearchString} />
         </Collapsible>
     </ListScreen>
-    )
 }

@@ -6,12 +6,12 @@ import { Subject } from "./Subject";
 import { Topic } from "./Topic";
 
 export class Scenario {
-
     id: string;
     title: string;
     subjects: Subject[];
     topics: Topic[];
     schoolYears: SchoolYear[];
+    classLevel: SchoolYear|undefined;
     description: string;
     image: string;
 
@@ -21,6 +21,7 @@ export class Scenario {
         this.subjects = subjects;
         this.topics = topics;
         this.schoolYears = schoolYears;
+        this.classLevel = schoolYears.pop();
         this.description = description;
         this.image = image;
     }
@@ -66,5 +67,10 @@ export class Scenario {
         }
 
         return scenarios;
+    }
+
+    static async load(id: string): Promise<Scenario> {
+        const dbScenario: ScenarioDB = await watermelondb.get('scenarios').find(id);
+        return Scenario.createFromDB(dbScenario);
     }
 }

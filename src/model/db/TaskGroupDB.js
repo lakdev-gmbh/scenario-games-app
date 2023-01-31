@@ -8,12 +8,10 @@ export default class TaskGroupDB extends Model {
     scenarios: { type: 'belongs_to', key: 'scenario_watermelon_id' },
     tasks: { type: 'has_many', foreignKey: 'task_group_watermelon_id' },
     info_texts: { type: 'has_many', foreignKey: 'task_group_watermelon_id' },
-
   }
 
   @text('title') title;
   @field('weight') weight;
-  //@text('scenario_watermelon_id') scenario_watermelon_id;
 
   @relation('scenarios', 'scenario_watermelon_id') scenario;
   @children('tasks') tasks;

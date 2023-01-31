@@ -32,7 +32,7 @@ export default class Task extends Model {
   @text('type') type;
   @json('options', castPossibleAnswers) options;
 
-  @relation('task_groups', 'task_group_watermelon_id') task_group;
+  @relation('task_groups', 'task_group_watermelon_id') taskGroup;
 
   // TODO: not working, why?
   @children('user_answers') userAnswers;
