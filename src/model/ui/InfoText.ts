@@ -5,8 +5,8 @@ import { TaskGroupElement } from "./TaskGroupElement";
 export class InfoText extends TaskGroupElement {
     body: string;
 
-    constructor(title: string, weight: number, body: string, taskGroup: TaskGroup) {
-        super(title, body, weight, taskGroup, "infoText");
+    constructor(title: string, weight: number, body: string, type: string, taskGroup: TaskGroup) {
+        super(title, body, weight, taskGroup, type);
         this.body = body;
     }
     
@@ -15,6 +15,7 @@ export class InfoText extends TaskGroupElement {
             dbInfoText.title,
             dbInfoText.weight,
             dbInfoText.body,
+            dbInfoText.type,
             await dbInfoText.taskGroup
         );
     }

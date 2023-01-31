@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb'
 
 export default appSchema({
-  version: 7,
+  version: 8,
   tables: [
     tableSchema({
       name: 'scenarios',
@@ -34,6 +34,7 @@ export default appSchema({
         { name: 'title', type: 'string' },
         { name: 'weight', type: 'number' },
         { name: 'body', type: 'string' },
+        { name: 'type', type: 'string' },
       ]
     }),
     tableSchema({

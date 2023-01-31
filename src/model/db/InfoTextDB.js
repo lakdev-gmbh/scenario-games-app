@@ -11,6 +11,7 @@ export default class InfoTextDB extends Model {
   //@text('task_group_watermelon_id') task_group_watermelon_id;
   @text('title') title;
   @text('body') body;
+  @text('type') type;
   @field('weight') weight;
 
   @relation('task_groups', 'task_group_watermelon_id') taskGroup;
