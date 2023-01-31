@@ -1,6 +1,6 @@
 import { NavigationProp } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -10,6 +10,7 @@ import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { TextButton } from "../../components/global/Button";
 import { Tag } from "../../components/global/Tag";
 import { DefaultText, H1 } from "../../components/global/Text";
+import { Scenario } from "../../model/ui/Scenario";
 import { RootStackParamList } from "../../navigation/types";
 
 // define overlap (negative margin) of the container
@@ -47,18 +48,14 @@ const styles = StyleSheet.create({
 export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioStart">) => {
     const { t } = useTranslation()
     const { scenarioId } = route.params
+    const [scenario, setScenario] = useState<Scenario|null>(null)
 
-    // TODO: change hardcoded props
     // --- START scenario properties ---
-    const subjects = [
-        {name: 'Mathematik', id: 1},
-        {name: 'Mathematik2', id: 2},
-        {name: 'Physik', id: 3}
-    ]
-    const classLevel = "9"
-    const scenarioTitle = "EU Scenario"
-    const scenarioText = "Die Europäische Union, kurz EU, ist ein einzigartiger wirtschaftlicher und politischer Zusammenschluss aus 27 europäischen Ländern. Dank der EU können wir in viele Länder ganz ohne Grenzkontrollen reisen, leben in Frieden und Stabilität und profitieren indirekt von vielen Förderprogrammen und Unterstützungen. Selbst diese App würde es ohne die EU sowie die Förderung durch das Erasmus+ Programm gar nicht geben." 
-    const imageUri = "https://scenario.laknet.de" + "/storage/2022/02/25/c6af290bc45c413d724b7a0a36aaafa9304d378c.png"
+    const subjects = scenario?.subjects
+    const classLevel = scenario?.classLevel?.name
+    const scenarioTitle = scenario?.title
+    const scenarioText = scenario?.description
+    const imageUri = "https://scenario.laknet.de" + scenario?.image
     // --- END scenario properties ---
 
     //--- START random owl image ---
@@ -83,6 +80,14 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
         })
     }
 
+    const getScenario = async () => {
+        setScenario(await Scenario.load(scenarioId));
+    }
+
+    useEffect(() => {
+        getScenario()
+    }, [])
+
     // TODO: maybe use scrollview + animations for bigger texts
     
     return <View style={{flex: 1}}>
@@ -106,7 +111,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
             <H1 bold>{ scenarioTitle }</H1>
             <View style={[styles.tagsContainer, globalStyles.borderBottom]}>
                 <Tag secondary>{classLevel}</Tag>
-                {subjects.map(subject => 
+                {subjects?.map(subject => 
                     <Tag key={subject.id}>{subject.name}</Tag>
                 )}
             </View>
