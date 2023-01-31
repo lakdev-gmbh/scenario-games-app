@@ -3,10 +3,19 @@ import { children, field, json, relation, text, writer } from '@nozbe/watermelon
 
 const castPossibleAnswers = possibleAnswersObject => {
   if (possibleAnswersObject == null) return null;
-  const possibleAnswersArray = Object.values(possibleAnswersObject);
-  return possibleAnswersArray.map(possibleAnswer => {
-    return { answer: possibleAnswer.answer, is_correct: possibleAnswer.is_correct === '1' };
-  });
+  possibleAnswers = Object.values(possibleAnswersObject)
+  for (let i = 0; i < possibleAnswers.length; i++) {
+    if (possibleAnswers[i]['is_correct'] == '1') {
+      possibleAnswers[i]['is_correct'] = true;
+    } else if(possibleAnswers[i]['is_correct'] == '0') {
+      possibleAnswers[i]['is_correct'] = false;
+    }
+
+    if (possibleAnswers[i]['order']) {
+      possibleAnswers[i]['order'] = parseInt(possibleAnswers[i]['order']);
+    }
+  }
+  return possibleAnswers
 };
 
 const castOptions = optionsObject => {

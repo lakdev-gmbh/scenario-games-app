@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
 import { BiggerText, H1, Label } from "../../components/global/Text";
 import { globalStyles } from "../../../assets/styles/global";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -19,6 +19,11 @@ import { NumericTask } from "./tasks/NumericComponent";
 import { MultipleChoiceImageTask } from "./tasks/MultipleChoiceImageComponent";
 import { ScenarioTaskHTML } from "./tasks/HTMLComponent";
 import { ScenarioTaskEasyText } from "./tasks/SimpleInfoText";
+import { Scenario } from "../../model/ui/Scenario";
+import { TaskGroup } from "../../model/ui/TaskGroup";
+import { TaskGroupElement } from "../../model/ui/TaskGroupElement";
+import { Task } from "../../model/ui/Task";
+import { InfoText } from "../../model/ui/InfoText";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -125,12 +130,12 @@ const taskNumeric = {
     correct_answer: 427,
 }
 const infotext = {
-    type: 'infotext',
+    type: 'info_text',
     title: "Sägearten",
     body: "<p>Die Säge ist das Herzstück des gesamten Werks. Hier werden das zuvor angelieferte Rundholz zu hochwertigem Schnittholz verarbeitet.</p><p><br /></p><p>Für verschiedene Produkte, Durchmesser oder Schnittleistung werden unterschiedliche Sägetypen verwendet.</p><p>Beispiele für gebräuchliche Sägen sind:</p><ul><li>Bandsäge</li><li>Gattersäge</li></ul><p>Moderne Sägewerke nutzen auch:</p><ul><li>Zerspaner-Kreissägen-Kombinationen</li><li>Gatter-Kreissägen-Kombination</li></ul><h3>Funktion Bandsäge:</h3><p>Eine Bandsäge ist eine Maschine, deren Werkzeug aus einem zu einem geschlossenen Ring verlöteten Bandsägeblatt besteht. Das Endlosblatt wird über 2 Rollen geführt und angetrieben.</p><h3>Funktion Gattersäge:</h3><p>Eine Gattersäge ist eine zum Rundholzaufschnitt geeignete Maschine, die über ein Schwungrad und einen Flachriemen angetrieben wird. Das Schwungrad bewegt durch eine Pleuelstange einen an Führungen geleiteten Rahmen auf- und abwärts, an den mehrere Sägeblätter eingespannt sind.</p><p>https://commons.wikimedia.org/wiki/File:Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg</p><p><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg/800px-Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg?20091023091239\" alt=\"File:Puchberg Gattersäge in Sonnleiten.jpg\"></p>"
 }
 const easyText = {
-    type: 'simple_infotext',
+    type: 'speech_bubble',
     title: "Wahlenearten",
     body: "Ein Verbund dieser Größe benötigt entsprechend auch eine Vielzahl an Organen und Institutionen, um Entscheidungen zu treffen, zu organisieren und durchzusetzen. Eine besondere Bedeutung hat hier das Europäische Parlament - denn dieses kann alle 5 Jahre von jedem volljährigen EU-Bürger gewählt und damit direkt mit beeinflusst werden. Eine solche Menge an Wahlberechtigten stellt die EU vor viele Herausforderungen."
 }
@@ -141,8 +146,12 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
 
     // TODO: calculate progress and current task based on id
     const progress = 2/3
-    const [task, setTask] = useState<any>(easyText)
-    const lastTask = true; // TODO: check whether its the last task in group
+    const [isLoading, setLoading] = useState<boolean>(true)
+    const [task, setTask] = useState<TaskGroupElement>()
+    const [scenario, setScenario] = useState<Scenario>()
+    const [taskGroup, setTaskGroup] = useState<TaskGroup>()
+    const [lastTaskGroup, setLastTaskGroup] = useState<boolean>(false)
+    const [lastTask, setLastTask] = useState<boolean>(false)
 
     // TODO: create timer in seconds, do not measure time for infotext tasks...
     const time = 130
@@ -159,17 +168,42 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
     const correctAnswer = taskRef?.current?.getCorrectAnswer()
     const [inactive, setInactive] = useState(false)
 
+    useEffect(() => {
+        getScenario(scenarioId)
+    }, [])
+
+    const getScenario = async (scenarioId: string) => {
+        const scenarioLocal = await Scenario.load(scenarioId)
+        setScenario(scenarioLocal)
+        console.log(scenarioLocal)
+        const taskGroupLocal = await scenarioLocal.getTaskGroup(taskGroupIndex)
+        setTaskGroup(taskGroupLocal)
+        console.log(taskGroupLocal)
+        const taskLocal = taskGroupLocal.taskGroupElements[taskIndex];
+        setTask(taskLocal)
+        console.log(taskLocal)
+
+        const lastTaskGroupLocal = taskGroupIndex === scenarioLocal.taskGroupCount - 1;
+        const lastTaskLocal = taskIndex === taskGroupLocal.taskGroupElements.length - 1;
+        setLastTaskGroup(lastTaskGroupLocal)
+        setLastTask(lastTaskLocal)
+        setLoading(false);
+    }
+
     const onCloseScenario = useCallback(() => {
         navigation.goBack()
     }, [])
     const onContinue = useCallback(() => {
-        if(solve || ["infotext", "simple_infotext"].includes(task.type)) {
-            if(lastTask) {
+        if(solve || ["info_text", "speech_bubble"].includes(task.type)) {
+            console.log("last task?", lastTask, "last task group?", lastTaskGroup)
+            if(lastTask && lastTaskGroup) {
                 navigation.replace("ScenarioSuccess", {scenarioId: scenarioId})
-            } else {
-                // TODO: continue to next task here 
-                // do NOT use setTask BUT use navigation.replace()
-                setTask(taskMC)
+            } else if(lastTask) {
+                console.log("next task group")
+                navigation.replace("ScenarioTask", {scenarioId: scenarioId, taskGroupIndex: taskGroupIndex + 1,  taskIndex: 0})
+            }
+            else {
+                navigation.replace("ScenarioTask", {scenarioId: scenarioId, taskGroupIndex: taskGroupIndex, taskIndex: taskIndex + 1})
             }
             return
         }
@@ -178,14 +212,22 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
     }, [navigation, solve, lastTask, task])
 
     // --- START RENDERING ---
+    if(isLoading) {
+        console.log("loading")
+        return <View><ActivityIndicator /></View>
+    }
+
     // 1) for simple texts there is a completely different layout
-    if(task.type == "simple_infotext") {
+    if(task?.type == "speech_bubble") {
+        console.log("speech bubble")
         return <ScenarioTaskEasyText
-            title={task.title} 
-            body={task.body}
+            title={task?.title} 
+            body={task?.text}
             onContinue={onContinue} />
     }
 
+
+    console.log("task", task)
     // 2) default rendering for everything else
     return <SafeAreaView style={[globalStyles.container, styles.fullSize]}>
 
@@ -233,7 +275,7 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
 
 type AbstractTaskType = {
     solve?: boolean,
-    task: any,
+    task: TaskGroupElement,
     setEmpty: (empty: boolean) => void
 }
 
@@ -247,26 +289,26 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({solve
     switch (task.type) {
         case "order_text": return <DragDropTask
             {...commonProps}
-            solution={task.solution}
-            words={task.words} />
+            solution={(task as Task).getOrderSolution()}
+            words={(task as Task).getOrderAnswers()} />
         case "text": return <TextualTask
             {...commonProps}
-            solution={task.correct_answer} />
+            solution={(task as Task).correctAnswer} />
         case "numeric": return <NumericTask
             {...commonProps}
-            solution={task.correct_answer} />
+            solution={(task as Task).correctAnswer} />
         case "multiple_choice": return <MultipleChoiceTask
             {...commonProps}
-            possible_answers={task.possible_answers} />
+            possible_answers={(task as Task).possibleAnswers} />
         case "multiple_choice_image": return <MultipleChoiceImageTask
             {...commonProps}
-            possible_answers={task.possible_answers}
+            possible_answers={(task as Task).possibleAnswers}
         />
-        case "infotext": return <View style={styles.htmlView}>
+        case "info_text": return <View style={styles.htmlView}>
             <Label style={styles.infoLabel}><Trans i18nKey="screen_task_info" /></Label>
             <ScenarioTaskHTML
-                body={task.body} 
-                title={task.title} />
+                body={(task as InfoText).body} 
+                title={(task as InfoText).title} />
         </View>
         default: return <View />
     }

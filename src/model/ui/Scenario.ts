@@ -1,8 +1,10 @@
+import { Q } from "@nozbe/watermelondb";
 import { watermelondb } from "../db/database";
 import ScenarioDB from "../db/ScenarioDB";
 import { PropertyBag } from "./PropertyBag";
 import { SchoolYear } from "./SchoolYear";
 import { Subject } from "./Subject";
+import { TaskGroup } from "./TaskGroup";
 import { Topic } from "./Topic";
 
 export class Scenario {
@@ -14,8 +16,9 @@ export class Scenario {
     classLevel: SchoolYear|undefined;
     description: string;
     image: string;
+    taskGroupCount: number;
 
-    constructor(id: string, title: string, subjects: Subject[], topics: Topic[], schoolYears: SchoolYear[], description: string, image: string) {
+    constructor(id: string, title: string, subjects: Subject[], topics: Topic[], schoolYears: SchoolYear[], description: string, image: string, taskGroupCount: number) {
         this.id = id;
         this.title = title;
         this.subjects = subjects;
@@ -24,6 +27,7 @@ export class Scenario {
         this.classLevel = schoolYears.pop();
         this.description = description;
         this.image = image;
+        this.taskGroupCount = taskGroupCount;
     }
 
     static async createFromDB(scenario: ScenarioDB): Promise<Scenario> {
@@ -38,7 +42,8 @@ export class Scenario {
             propertyBag.topics,
             propertyBag.schoolYears,
             scenario.description,
-            scenario.image
+            scenario.image,
+            await scenario.taskGroups.fetchCount()
         );
     }
 
@@ -72,5 +77,15 @@ export class Scenario {
     static async load(id: string): Promise<Scenario> {
         const dbScenario: ScenarioDB = await watermelondb.get('scenarios').find(id);
         return Scenario.createFromDB(dbScenario);
+    }
+
+    async getTaskGroup(index: number): Promise<TaskGroup> {
+        const dbScenario: ScenarioDB = await watermelondb.get('scenarios').find(this.id);
+        const dbTaskGroup: TaskGroup[] = await dbScenario.taskGroups.extend(
+            Q.sortBy('weight', Q.asc),
+            Q.skip(index),
+            Q.take(1)
+        ).fetch(index);
+        return await TaskGroup.createFromDB(dbTaskGroup.pop());
     }
 }
