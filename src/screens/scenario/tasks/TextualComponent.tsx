@@ -27,6 +27,9 @@ export const TextualTask = React.forwardRef<ScenarioTaskRef, TextualProps>(({sol
         getCorrectAnswer: () => {
             return solution
         },
+        getCurrentAnswer: () => {
+            return currentAnswer
+        }
     }), [solution, currentAnswer])
 
     useEffect(() => {

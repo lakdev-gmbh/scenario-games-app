@@ -7,7 +7,9 @@ import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { FatTag } from "../../components/global/Tag";
 import { DefaultText, Label } from "../../components/global/Text";
 import { watermelondb } from "../../model/db/database";
+import { Property } from "../../model/ui/Property";
 import { Scenario } from "../../model/ui/Scenario";
+import { Subject } from "../../model/ui/Subject";
 import { UserGroup } from "../../model/ui/UserGroup";
 import { ListScreen } from "../ListScreen";
 
@@ -44,8 +46,8 @@ const styles = StyleSheet.create({
 
 const ClassroomItem = ({ title, subjects, levels, onPress }: {
     title: string;
-    subjects: Array<any>; // TODO: use subject type
-    levels: Array<any>; // TODO: use level type
+    subjects: Array<Subject>;
+    levels: Array<Property>;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 }) => {
 
@@ -74,7 +76,7 @@ export const ClassroomListScreen = () => {
     }
 
     const levelsInClass = (classroom: UserGroup) => {
-        return classroom.scenarios.map((scenario: Scenario) => scenario.schoolYears).flat();
+        return classroom.scenarios.map((scenario: Scenario) => scenario.classLevel).flat();
     }
 
 

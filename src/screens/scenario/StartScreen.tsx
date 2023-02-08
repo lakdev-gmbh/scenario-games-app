@@ -77,6 +77,8 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
             scenarioId: scenarioId,
             taskGroupIndex: 0,
             taskIndex: 0,
+            passedTime: 0,
+            penaltySeconds: 0
         })
     }
 

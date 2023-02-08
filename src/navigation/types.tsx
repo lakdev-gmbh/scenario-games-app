@@ -1,16 +1,23 @@
 type ScenarioProp = { scenarioId: string }
 
+type SuccessSreenProps = ScenarioProp & {
+  passedTime: number;
+  penaltySeconds: number;
+}
+
 type ScenarioTaskProps = ScenarioProp & {
   scenarioId: string;
   taskGroupIndex: number;
   taskIndex: number;
+  passedTime: number;
+  penaltySeconds: number;
 }
 
 export type RootStackParamList = {
     Home: undefined;
     Classrooms: undefined;
     ScenarioStart: ScenarioProp;
-    ScenarioSuccess: ScenarioProp;
+    ScenarioSuccess: SuccessSreenProps;
     ScenarioTask: ScenarioTaskProps;
 };
 

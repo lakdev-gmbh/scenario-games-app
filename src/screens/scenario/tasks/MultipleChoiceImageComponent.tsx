@@ -53,6 +53,12 @@ export const MultipleChoiceImageTask = React.forwardRef<ScenarioTaskRef, Multipl
             return possible_answers
                 .map(possibleAnswer => possibleAnswer.is_correct).every((answer, index) => !answer == !selectedAnswers[index]);
         },
+        getCurrentAnswer: () => {
+            return selectedAnswers.map((answer, index) => answer ? index+1 : -1).filter(el => el != -1).map((el) => 
+                    t("screen_task_mc_answer", {index: (el)})
+                )
+                .join(", ")
+        }
     }), [possible_answers, selectedAnswers])
 
     useEffect(() => {

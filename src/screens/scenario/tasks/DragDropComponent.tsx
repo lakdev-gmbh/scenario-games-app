@@ -35,6 +35,7 @@ export type ScenarioTaskProps<T> = {
 export type ScenarioTaskRef = {
     isCorrect(): boolean;
     getCorrectAnswer(): string;
+    getCurrentAnswer(): string;
 }
 
 type DragDropProps = ScenarioTaskProps<Array<string>> & {
@@ -54,6 +55,9 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
         isCorrect: isCorrect,
         getCorrectAnswer: () => {
             return solution.join(" ")
+        },
+        getCurrentAnswer: () => {
+            return duoDragDropRef.current?.getAnsweredWords().join(" ") ?? ""
         }
     }))
 

@@ -82,86 +82,37 @@ const styles = StyleSheet.create({
     }
 })
 
-// TODO remove placeholder stuff
-const taskDrag = {
-    question: "Wie lauten die ersten 6 Wörter des deutschen Textes der Europahymne?",
-    type: "order_text",
-    words: ["Freude", "Länder", "schöner", "aus", "Freiheit", "Einigkeit", "und", "Götterfunken", "Tochter", "Elysium"],
-    solution: ["Freude", "schöner", "Götterfunken", "Tochter", "aus", "Elysium"]
-}
-const taskText = {
-    question: "Gib Hallo ein.",
-    type: "text",
-    correct_answer: "Hallo"
-}
-const taskMC = {
-    question: "Wie häufig wird gewählt?",
-    type: "multiple_choice",
-    possible_answers: [
-        {answer: "Alle 2 Jahre", is_correct: false},
-        {answer: "Alle 4 Jahre", is_correct: false},
-        {answer: "Alle 5 Jahre", is_correct: true},
-        {answer: "Alle 8 Jahre", is_correct: false},
-    ]
-}
-const taskMCImage = {
-    question: "Die Flagge von diesem einem Land. Nummer 3 nämlich.",
-    type: "multiple_choice_image",
-    possible_answers: [
-        {answer: "https://scenario.laknet.de/storage/2022/10/05/d972c5b8aad6a627506ddc4b8bbcdf28b55bff9c.png", is_correct: false},
-        {answer: "https://scenario.laknet.de/storage/2022/10/05/b6e1ad49861571b74f6c4821d2ac444c4911aab4.png", is_correct: false},
-        {answer: "https://scenario.laknet.de/storage/2022/10/05/742c4f16c51ddd22adcdae82205f13038bf352b1.png", is_correct: true},
-        {answer: "https://scenario.laknet.de/storage/2022/10/05/d9828ed2b055fcabc8ce2897dca09d32d3361176.png", is_correct: false},
-    ]
-}
+
 /*const taskOrderImage = {
     question: "Ordne richtig. Aktuell wird dieser Aufgabentyp NICHT unterstützt.",
     type: "order_image",
     possible_answers: [
-        {answer: "https://scenario.laknet.de/storage/2023/01/26/536798e84e84cbb3984f104475b42e80f185a8d8.png", is_correct: false},
-        {answer: "https://scenario.laknet.de/storage/2023/01/26/b81aa670a2a0aa8c0aadbe5a464d1979edc633fe.png", is_correct: false},
-        {answer: "https://scenario.laknet.de/storage/2023/01/26/eea1c439f884f60420eb563ac13d3b28506d9c89.png", is_correct: true},
-        {answer: "https://scenario.laknet.de/storage/2023/01/26/0a9609bc8b9543ef49991106dece62f121ae83f3.png", is_correct: false},
+        {answer: "https://scenario.laknet.de/storage/2023/01/26/536798e84e84cbb3984f104475b42e80f185a8d8.png", order: 1},
+        {answer: "https://scenario.laknet.de/storage/2023/01/26/b81aa670a2a0aa8c0aadbe5a464d1979edc633fe.png", order: 2},
+        {answer: "https://scenario.laknet.de/storage/2023/01/26/eea1c439f884f60420eb563ac13d3b28506d9c89.png", order: 3},
+        {answer: "https://scenario.laknet.de/storage/2023/01/26/0a9609bc8b9543ef49991106dece62f121ae83f3.png", order: -1},
     ]
 }*/
-const taskNumeric = {
-    question: "Wenn du 427 eingibst, dann ist die Lösung richtig. Sonst falsch.",
-    type: "numeric",
-    correct_answer: 427,
-}
-const infotext = {
-    type: 'info_text',
-    title: "Sägearten",
-    body: "<p>Die Säge ist das Herzstück des gesamten Werks. Hier werden das zuvor angelieferte Rundholz zu hochwertigem Schnittholz verarbeitet.</p><p><br /></p><p>Für verschiedene Produkte, Durchmesser oder Schnittleistung werden unterschiedliche Sägetypen verwendet.</p><p>Beispiele für gebräuchliche Sägen sind:</p><ul><li>Bandsäge</li><li>Gattersäge</li></ul><p>Moderne Sägewerke nutzen auch:</p><ul><li>Zerspaner-Kreissägen-Kombinationen</li><li>Gatter-Kreissägen-Kombination</li></ul><h3>Funktion Bandsäge:</h3><p>Eine Bandsäge ist eine Maschine, deren Werkzeug aus einem zu einem geschlossenen Ring verlöteten Bandsägeblatt besteht. Das Endlosblatt wird über 2 Rollen geführt und angetrieben.</p><h3>Funktion Gattersäge:</h3><p>Eine Gattersäge ist eine zum Rundholzaufschnitt geeignete Maschine, die über ein Schwungrad und einen Flachriemen angetrieben wird. Das Schwungrad bewegt durch eine Pleuelstange einen an Führungen geleiteten Rahmen auf- und abwärts, an den mehrere Sägeblätter eingespannt sind.</p><p>https://commons.wikimedia.org/wiki/File:Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg</p><p><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg/800px-Puchberg_Gatters%C3%A4ge_in_Sonnleiten.jpg?20091023091239\" alt=\"File:Puchberg Gattersäge in Sonnleiten.jpg\"></p>"
-}
-const easyText = {
-    type: 'speech_bubble',
-    title: "Wahlenearten",
-    body: "Ein Verbund dieser Größe benötigt entsprechend auch eine Vielzahl an Organen und Institutionen, um Entscheidungen zu treffen, zu organisieren und durchzusetzen. Eine besondere Bedeutung hat hier das Europäische Parlament - denn dieses kann alle 5 Jahre von jedem volljährigen EU-Bürger gewählt und damit direkt mit beeinflusst werden. Eine solche Menge an Wahlberechtigten stellt die EU vor viele Herausforderungen."
-}
-// END
 
-export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, 'ScenarioTask'>) => {
-    const {scenarioId, taskGroupIndex, taskIndex} = route.params
+export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'ScenarioTask'>) => {
+    const { scenarioId, taskGroupIndex, taskIndex, passedTime, penaltySeconds } = route.params
 
-    // TODO: calculate progress and current task based on id
-    const progress = 2/3
+    const [progress, setProgress] = useState<number>(0)
     const [isLoading, setLoading] = useState<boolean>(true)
     const [task, setTask] = useState<TaskGroupElement>()
     const [scenario, setScenario] = useState<Scenario>()
     const [taskGroup, setTaskGroup] = useState<TaskGroup>()
     const [lastTaskGroup, setLastTaskGroup] = useState<boolean>(false)
     const [lastTask, setLastTask] = useState<boolean>(false)
+    const [time, setTime] = useState<number>(passedTime)
 
-    // TODO: create timer in seconds, do not measure time for infotext tasks...
-    const time = 130
-    const minutes = Math.floor(time/60)
-    const seconds = time % 60
+    const minutes = String(Math.floor(time / 60)).padStart(2, '0')
+    const seconds = String(time % 60).padStart(2, '0')
 
     // TODO: make dynamic?
-    const negativeSeconds = 15
+    const penaltySecondsPerMistake = 15
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     const [solve, setSolve] = useState(false)
     const taskRef = useRef<ScenarioTaskRef>(null)
     const correct = taskRef?.current?.isCorrect()
@@ -169,22 +120,43 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
     const [inactive, setInactive] = useState(false)
 
     useEffect(() => {
+        let interval = 0;
         getScenario(scenarioId)
+
     }, [])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Only count time if task is not an info text or speech bubble and if task is not solved.
+            if (!solve && task?.type && task?.type !== "info_text" && task?.type !== "speech_bubble") {
+                setTime(time => time + 1)
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+
+    }, [task, time, solve])
+
+    useEffect(() => {
+        if (correct !== undefined && !correct) {
+            setTime(time => time + penaltySecondsPerMistake)
+        }
+    }, [solve])
+
 
     const getScenario = async (scenarioId: string) => {
         const scenarioLocal = await Scenario.load(scenarioId)
         setScenario(scenarioLocal)
-        console.log(scenarioLocal)
         const taskGroupLocal = await scenarioLocal.getTaskGroup(taskGroupIndex)
         setTaskGroup(taskGroupLocal)
-        console.log(taskGroupLocal)
         const taskLocal = taskGroupLocal.taskGroupElements[taskIndex];
         setTask(taskLocal)
-        console.log(taskLocal)
-
+        let progressLocal = taskGroupIndex / scenarioLocal.taskGroupCount + taskIndex / (scenarioLocal.taskGroupCount * taskGroupLocal.taskGroupElements.length)
         const lastTaskGroupLocal = taskGroupIndex === scenarioLocal.taskGroupCount - 1;
         const lastTaskLocal = taskIndex === taskGroupLocal.taskGroupElements.length - 1;
+        if (lastTaskLocal && lastTaskGroupLocal) {
+            progressLocal = 1
+        }
+        setProgress(progressLocal)
         setLastTaskGroup(lastTaskGroupLocal)
         setLastTask(lastTaskLocal)
         setLoading(false);
@@ -193,79 +165,75 @@ export const ScenarioTaskScreen = ({navigation, route}: NativeStackScreenProps<R
     const onCloseScenario = useCallback(() => {
         navigation.goBack()
     }, [])
-    const onContinue = useCallback(() => {
-        if(solve || ["info_text", "speech_bubble"].includes(task.type)) {
-            console.log("last task?", lastTask, "last task group?", lastTaskGroup)
-            if(lastTask && lastTaskGroup) {
-                navigation.replace("ScenarioSuccess", {scenarioId: scenarioId})
-            } else if(lastTask) {
-                console.log("next task group")
-                navigation.replace("ScenarioTask", {scenarioId: scenarioId, taskGroupIndex: taskGroupIndex + 1,  taskIndex: 0})
+    const onContinue = useCallback(async () => {
+        if (solve && taskRef.current?.getCurrentAnswer() !== undefined && correct !== undefined) {
+            await ((task as Task)?.saveAnswer(taskRef.current?.getCurrentAnswer(), correct))
+        }
+        if (solve || ["info_text", "speech_bubble"].includes(task?.type || "")) {
+            const totalPenaltySeconds = penaltySeconds + (correct === undefined || correct? 0:1) * penaltySecondsPerMistake
+            if (lastTask && lastTaskGroup) {
+                navigation.replace("ScenarioSuccess", { scenarioId: scenarioId, passedTime: time, penaltySeconds: totalPenaltySeconds })
+            } else if (lastTask) {
+                navigation.replace("ScenarioTask", { scenarioId: scenarioId, taskGroupIndex: taskGroupIndex + 1, taskIndex: 0, passedTime: time, penaltySeconds: totalPenaltySeconds })
             }
             else {
-                navigation.replace("ScenarioTask", {scenarioId: scenarioId, taskGroupIndex: taskGroupIndex, taskIndex: taskIndex + 1})
+                navigation.replace("ScenarioTask", { scenarioId: scenarioId, taskGroupIndex: taskGroupIndex, taskIndex: taskIndex + 1, passedTime: time, penaltySeconds: totalPenaltySeconds })
             }
             return
         }
         setSolve(!solve)
-        // TODO: save answer, negative seconds etc.
-    }, [navigation, solve, lastTask, task])
+    }, [navigation, solve, lastTask, task, time])
 
     // --- START RENDERING ---
-    if(isLoading) {
-        console.log("loading")
+    if (isLoading) {
         return <View><ActivityIndicator /></View>
     }
 
     // 1) for simple texts there is a completely different layout
-    if(task?.type == "speech_bubble") {
-        console.log("speech bubble")
+    if (task?.type == "speech_bubble") {
         return <ScenarioTaskEasyText
-            title={task?.title} 
+            title={task?.title}
             body={task?.text}
             onContinue={onContinue} />
     }
-
-
-    console.log("task", task)
     // 2) default rendering for everything else
     return <SafeAreaView style={[globalStyles.container, styles.fullSize]}>
 
         <View style={styles.header}>
-            <Label style={styles.headerTime}>{minutes < 10 ? "0" + minutes : minutes}:{seconds}</Label>
+            <Label style={styles.headerTime}>{minutes}:{seconds}</Label>
             <TouchableOpacity onPress={onCloseScenario}>
                 <Image style={styles.close} source={require("../../../assets/images/actions/action_close.png")} />
             </TouchableOpacity>
         </View>
         <ProgressBar progress={progress} />
 
-        {task.hasOwnProperty('question') && <BiggerText style={styles.question}>{task.question}</BiggerText>}
+        {task?.hasOwnProperty('question') && <BiggerText style={styles.question}>{task.question}</BiggerText>}
 
         <View style={styles.fullSize}>
-            <AbstractTask 
+            <AbstractTask
                 task={task}
                 ref={taskRef}
-                solve={solve} 
-                setEmpty={setInactive}/>
+                solve={solve}
+                setEmpty={setInactive} />
         </View>
 
         <View style={styles.footer}>
             {solve && <H1 bold style={[styles.resultTitle, correct ? styles.correct : styles.wrong]}>
                 {correct ? t("screen_task_correct") : t("screen_task_wrong")}
-            </H1> }
+            </H1>}
             {solve && !correct && correctAnswer && <BiggerText style={styles.wrong}>
-                {t("screen_task_answer", {answer: correctAnswer})}
+                {t("screen_task_answer", { answer: correctAnswer })}
             </BiggerText>}
 
-            <TextButton 
+            <TextButton
                 onPress={onContinue}
                 disabled={inactive}
                 style={[styles.continueButton, inactive && styles.inactiveButton, solve && {
                     backgroundColor: correct ? themeColors.CORRECT : themeColors.WRONG
-                }]}>{ t("button_continue") }</TextButton>
+                }]}>{t("button_continue")}</TextButton>
 
             <BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>
-                {t("screen_task_negative", {seconds: negativeSeconds})}
+                {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
             </BiggerText>
         </View>
 
@@ -279,7 +247,7 @@ type AbstractTaskType = {
     setEmpty: (empty: boolean) => void
 }
 
-const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({solve = false, task, setEmpty}, taskRef) => {
+const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solve = false, task, setEmpty }, taskRef) => {
     const commonProps = {
         ref: taskRef,
         solve: solve,
@@ -307,7 +275,7 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({solve
         case "info_text": return <View style={styles.htmlView}>
             <Label style={styles.infoLabel}><Trans i18nKey="screen_task_info" /></Label>
             <ScenarioTaskHTML
-                body={(task as InfoText).body} 
+                body={(task as InfoText).body}
                 title={(task as InfoText).title} />
         </View>
         default: return <View />

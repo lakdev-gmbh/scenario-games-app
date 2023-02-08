@@ -33,6 +33,9 @@ export const NumericTask = React.forwardRef<ScenarioTaskRef, NumericProps>(({sol
         getCorrectAnswer: () => {
             return solution.toString()
         },
+        getCurrentAnswer: () => {
+            return currentAnswer
+        }
     }), [solution, currentAnswer])
 
     useEffect(() => {

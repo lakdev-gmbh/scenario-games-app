@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb'
 
 export default appSchema({
-  version: 8,
+  version: 10,
   tables: [
     tableSchema({
       name: 'scenarios',
@@ -86,6 +86,13 @@ export default appSchema({
       name: 'app_classrooms',
       columns: [
         { name: 'user_group_watermelon_id', type: 'string' },
+      ],
+    }),
+    tableSchema({
+      name: 'user_completed_scenarios',
+      columns: [
+        { name: 'scenario_watermelon_id', type: 'string' },
+        { name: 'progress', type: 'number' },
       ],
     }),
   ]

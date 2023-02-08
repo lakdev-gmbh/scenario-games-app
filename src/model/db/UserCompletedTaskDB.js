@@ -7,7 +7,7 @@ import relation from '@nozbe/watermelondb/decorators/relation';
 export default class UserCompletedTaskDB extends Model {
   static table = 'user_completed_tasks';
   static associations = {
-    task: { type: 'belongs_to', key: 'task_watermelon_id' },
+    tasks: { type: 'belongs_to', key: 'task_watermelon_id' },
   };
 
   @field('task_watermelon_id') taskId;

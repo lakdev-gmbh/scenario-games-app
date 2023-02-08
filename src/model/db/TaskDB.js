@@ -1,4 +1,4 @@
-import { Model } from '@nozbe/watermelondb'
+import { Model, Q } from '@nozbe/watermelondb'
 import { children, field, json, relation, text, writer } from '@nozbe/watermelondb/decorators';
 
 const castPossibleAnswers = possibleAnswersObject => {
@@ -23,7 +23,7 @@ const castOptions = optionsObject => {
   return optionsObject;
 };
 
-export default class Task extends Model {
+export default class TaskDB extends Model {
   static table = 'tasks';
 
   static associations = {
@@ -46,30 +46,15 @@ export default class Task extends Model {
   // TODO: not working, why?
   @children('user_answers') userAnswers;
 
-  isCorrect(answer) {
-    let isCorrect = true;
-    if (this.possible_answers != null) {
-      // TODO: check if answer is object
-      for (let y = 0; y < answer.length; y++) {
-        if (answer[y] != this.possible_answers[y]['is_correct']) {
-          isCorrect = false;
-          break;
-        }
-      }
-    } else {
-      isCorrect = answer == this.correct_answer
-    }
-    return isCorrect;
-  }
-
-  @writer async addUserAnswer(answer) {
-    let isCorrect = this.isCorrect(answer);
-    console.log(isCorrect);
-    const newComment = await this.collections.get('user_completed_tasks').create(userCompletedTask => {
+  @writer async addUserAnswer(answer, isCorrect) {
+    const existingUserAnswers = await this.collections.get('user_completed_tasks').query(
+      Q.where('task_watermelon_id', this.id)
+    ).destroyAllPermanently();
+    const newUserAnswer = await this.collections.get('user_completed_tasks').create(userCompletedTask => {
       userCompletedTask.taskId = this.id
       userCompletedTask.answer = answer
       userCompletedTask.isCorrect = isCorrect
     })
-    return newComment
+    return newUserAnswer
   }
 }

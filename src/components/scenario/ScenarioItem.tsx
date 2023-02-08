@@ -52,14 +52,15 @@ export const ScenarioItem = ({scenario}: {
         image: string,
         subjects: Array<{
             name: string
-        }>
+        }>,
+        progress: number
     }
 }) => {
 
     const navigation = useNavigation()
 
     // TODO: get progress, either as prop (probably better) or as watermelon query
-    const scenarioProgress: number = 1
+    const scenarioProgress: number = scenario.progress
 
     // --- START calculate progress ---
     const iconFolder = "../../../assets/images/icons/"

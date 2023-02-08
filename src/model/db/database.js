@@ -14,6 +14,7 @@ import TaskGroupDB from './TaskGroupDB';
 import UserCompletedTaskDB from './UserCompletedTaskDB';
 import AppClassroomDB from './AppClassroomDB';
 import UserGroupDB from './UserGroupDB';
+import UserCompletedScenarioDB from './UserCompletedScenarioDB';
 
 const url = "https://scenario.laknet.de/sync"
 
@@ -42,7 +43,8 @@ const adapter = new SQLiteAdapter({
       UserCompletedTaskDB,
       ScenarioUserGroupDB,
       AppClassroomDB,
-      UserGroupDB
+      UserGroupDB,
+      UserCompletedScenarioDB
     ],
   });
 
