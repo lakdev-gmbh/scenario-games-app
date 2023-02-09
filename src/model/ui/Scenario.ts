@@ -27,7 +27,7 @@ export class Scenario {
         this.subjects = subjects;
         this.topics = topics;
         this.schoolYears = schoolYears;
-        this.classLevel = schoolYears.pop();
+        this.classLevel = schoolYears[schoolYears.length - 1];
         this.description = description;
         this.image = image;
         this.taskGroupCount = taskGroupCount;

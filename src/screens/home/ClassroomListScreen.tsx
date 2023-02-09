@@ -61,7 +61,7 @@ const ClassroomItem = ({ title, subjects, levels, onPress }: {
 
         <View style={styles.classroomSubjects}>
             {subjects.map(subject => <FatTag key={subject.id}>{subject.name}</FatTag>)}
-            {levels.map(level => <FatTag secondary key={level.id}>{level.name}</FatTag>)}
+            {levels.map(level => <FatTag secondary key={level?.id}>{level?.name}</FatTag>)}
         </View>
 
     </TouchableOpacity>
@@ -72,13 +72,18 @@ export const ClassroomListScreen = () => {
     const [scenarioData, setScenarioData] = useState<Scenario[]>([]);
 
     const subjectsInClass = (classroom: UserGroup) => {
-        return classroom.scenarios.map((scenario: Scenario) => scenario.subjects).flat();
+        const subjects =  classroom.scenarios.map((scenario: Scenario) => scenario.subjects).flat();
+        const subjectsDistinct = subjects.filter(distinctObjects);
+        return subjectsDistinct;
     }
 
     const levelsInClass = (classroom: UserGroup) => {
-        return classroom.scenarios.map((scenario: Scenario) => scenario.classLevel).flat();
+        const levels = classroom.scenarios.map((scenario: Scenario) => scenario.classLevel).flat();
+        const levelsDistinct = levels.filter(distinctObjects);
+        return levelsDistinct;
     }
 
+    const distinctObjects = (v: any, i: number, self: any[]): boolean => v && self.findIndex(t => (t.name === v.name)) === i
 
     const [activeClassroom, setClassroom] = useState()
 
