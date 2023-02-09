@@ -21,8 +21,6 @@ export const ListScreen = ({title, children, scenarios, classroom = false}: {
 }) => {
     const [fullHeaderHeight, setFullHeaderHeight] = useState(0)
     const scrollY = new Animated.Value(0)
-    console.log(scenarios)
-
     return <SafeAreaView style={[
             {backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED},
             styles.fullHeight]}>

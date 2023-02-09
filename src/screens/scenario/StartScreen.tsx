@@ -112,7 +112,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
             style={[styles.container, globalStyles.container]}>
             <H1 bold>{ scenarioTitle }</H1>
             <View style={[styles.tagsContainer, globalStyles.borderBottom]}>
-                <Tag secondary>{classLevel}</Tag>
+                {classLevel? <Tag secondary>{classLevel}</Tag> : null}
                 {subjects?.map(subject => 
                     <Tag key={subject.id}>{subject.name}</Tag>
                 )}

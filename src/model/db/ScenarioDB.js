@@ -51,7 +51,6 @@ export default class ScenarioDB extends Model {
       userCompletedScenario.scenarioId = this.id
       userCompletedScenario.progress = progress
     })
-    console.log('new Scenario completion', newUserCompletion)
     return newUserCompletion
   }
 }
