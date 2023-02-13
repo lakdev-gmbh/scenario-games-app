@@ -15,13 +15,27 @@ export class Scenario {
     subjects: Subject[];
     topics: Topic[];
     schoolYears: SchoolYear[];
-    classLevel: SchoolYear|undefined;
+    classLevel: SchoolYear | undefined;
     description: string;
     image: string;
+    published: boolean;
+    publishedGlobal: boolean;
     taskGroupCount: number;
     progress: number;
 
-    constructor(id: string, title: string, subjects: Subject[], topics: Topic[], schoolYears: SchoolYear[], description: string, image: string, taskGroupCount: number, progress: number = 0) {
+    constructor(
+        id: string,
+        title: string,
+        subjects: Subject[],
+        topics: Topic[],
+        schoolYears: SchoolYear[],
+        description: string,
+        image: string,
+        published: boolean,
+        publishedGlobal: boolean,
+        taskGroupCount: number,
+        progress: number = 0
+    ) {
         this.id = id;
         this.title = title;
         this.subjects = subjects;
@@ -30,6 +44,8 @@ export class Scenario {
         this.classLevel = schoolYears[schoolYears.length - 1];
         this.description = description;
         this.image = image;
+        this.published = published;
+        this.publishedGlobal = publishedGlobal;
         this.taskGroupCount = taskGroupCount;
         this.progress = progress || 0;
     }
@@ -46,6 +62,8 @@ export class Scenario {
             propertyBag.schoolYears,
             scenario.description,
             scenario.image,
+            scenario.published,
+            scenario.published_global,
             await scenario.taskGroups.fetchCount(),
             (await scenario.highestUserCompletions.fetch()).pop()?.progress || 0
         );
@@ -64,9 +82,9 @@ export class Scenario {
 
     static async all(): Promise<Scenario[]> {
         const dbScenarios: ScenarioDB[] = await watermelondb
-        .get<ScenarioDB>('scenarios')
-        .query()
-        .fetch()
+            .get<ScenarioDB>('scenarios')
+            .query()
+            .fetch()
 
         let scenarios: Scenario[] = [];
 

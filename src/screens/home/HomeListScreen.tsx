@@ -48,7 +48,10 @@ export const HomeListScreen = () => {
             setSubjects(propertyBag.subjects);
             setSchoolYears(propertyBag.schoolYears);
 
-            let scenarios: Scenario[] = await Scenario.all();
+            let scenarios: Scenario[] = (await Scenario.all()).filter((scenario: Scenario) => {
+                // Filter by published global
+                return scenario.publishedGlobal;
+            });
             setScenarios(scenarios);
 
             setLoading(false);

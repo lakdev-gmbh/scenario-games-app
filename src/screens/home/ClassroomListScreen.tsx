@@ -97,7 +97,13 @@ export const ClassroomListScreen = () => {
             .map(async (app_classroom) => {
                 return UserGroup.createFromDB(await app_classroom.userGroup)
             }));
-        const newScenarios = newUserGroups.map((userGroup) => userGroup.scenarios).flat();
+        const newScenarios = newUserGroups
+            .map((userGroup) => userGroup.scenarios)
+            .flat()
+            .filter((scenario: Scenario) => {
+                // Filter by published
+                return scenario.published;
+            });
         setUserGroups(newUserGroups);
         setScenarioData(newScenarios);
     }
