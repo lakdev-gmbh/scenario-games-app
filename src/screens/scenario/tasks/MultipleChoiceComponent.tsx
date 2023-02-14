@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     },
     answerText: {
         color: themeColors.GREY,
+    },
+    answer: {
+        flex: 1,
     }
 })
 
@@ -89,7 +92,7 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
                     (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
                     { index+1 }
                 </BiggerText>
-                <BiggerText bold style={[styles.answerText,, 
+                <BiggerText bold style={[styles.answerText, styles.answer, 
                     (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
                     {possibleAnswer.answer}
                 </BiggerText>

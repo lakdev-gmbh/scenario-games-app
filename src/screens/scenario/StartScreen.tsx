@@ -2,7 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
@@ -17,9 +17,11 @@ import { RootStackParamList } from "../../navigation/types";
 // define overlap (negative margin) of the container
 const overlap = themeDimensions.BORDER_RADIUS_BAR
 
+const HEIGHT = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create({
     headerBackground: {
-        height: 230,
+        height: HEIGHT*0.4,
     },
     owlImage: {
         alignSelf: 'flex-end',
