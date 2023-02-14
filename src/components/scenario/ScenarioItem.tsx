@@ -3,10 +3,11 @@ import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import appConfig from "../../app.config";
 import { Tag } from "../global/Tag";
 import { DefaultText, SmallLabel } from "../global/Text";
 
-const globalUrl = "https://scenario.laknet.de"
+const globalUrl = appConfig.imageUrl
 
 const styles = StyleSheet.create({
     container: {

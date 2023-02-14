@@ -7,6 +7,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import appConfig from "../../app.config";
 import { TextButton } from "../../components/global/Button";
 import { Tag } from "../../components/global/Tag";
 import { DefaultText, H1 } from "../../components/global/Text";
@@ -55,7 +56,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
     const classLevel = scenario?.classLevel?.name
     const scenarioTitle = scenario?.title
     const scenarioText = scenario?.description
-    const imageUri = "https://scenario.laknet.de" + scenario?.image
+    const imageUri = appConfig.imageUrl + scenario?.image
     // --- END scenario properties ---
 
     //--- START random owl image ---

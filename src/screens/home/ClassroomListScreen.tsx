@@ -165,6 +165,8 @@ export const ClassroomListScreen = () => {
             <TextInput
                 placeholder={t("screen_classrooms_placeholder") as string}
                 style={[globalStyles.textInput, styles.accessInput]}
+                autoCorrect={false}
+                autoCapitalize="none"
                 onChangeText={setAccessCode} />
             <FatTag
                 style={styles.addButton}

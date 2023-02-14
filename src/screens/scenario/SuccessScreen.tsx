@@ -104,21 +104,23 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['35%', '90%'], []);
 
-    const getScenario = async () => {
+    const getScenario = async (scenarioId: string) => {
         const localScenario = await Scenario.load(scenarioId);
         setScenario(localScenario);
         const localTasks: Task[] = await localScenario.getTasks(); 
         setTasks(localTasks);
-        const userAnswers = []
+        const userAnswers: UserCompletedTaskDB[] = []
         for (const task of localTasks) {
-            userAnswers.push(await task.getLatestUserAnswer()) 
+            let answer = await task.getLatestUserAnswer()
+            if(answer)
+                userAnswers.push(answer) 
         }
         setUsersAnswers(userAnswers);
     }
 
     useEffect(() => {
-        getScenario().then(() => setIsLoading(false))
-    }, []); 
+        getScenario(scenarioId).then(() => setIsLoading(false))
+    }, [scenarioId]); 
 
     const renderQuestion = useCallback(({item, index}:
          {item: any, index: number}) => (
@@ -128,12 +130,12 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                 answer={usersAnswers[index]?.answer}
                 correct={usersAnswers[index]?.isCorrect} 
                 correctAnswer={tasks[index]?.getCorrectAnswer()} /> 
-    ), [])
+    ), [tasks, usersAnswers])
     const onClose = useCallback(() => {
         scenario?.saveProgress(correctShare).then(() => {
             navigation.goBack()
         })
-    }, [navigation]) 
+    }, [scenario, correctShare, navigation]) 
 
     if (isLoading) {
         return <View><ActivityIndicator /></View>
@@ -183,14 +185,13 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                     {footer}
                 </BottomSheetFooter>}>
                     <H1 style={[styles.overViewTitle,globalStyles.container]} bold>{ t("screen_success_overview") }</H1>
-                    {/* TODO: this only loads correclty if I refresh manually and I don't understand why */}
-                <BottomSheetFlatList
+                {!isLoading && tasks.length > 0 && <BottomSheetFlatList
                     style={globalStyles.container}
                     data={tasks}
                     keyExtractor={(i) => i.id}
                     alwaysBounceVertical={false}
                     renderItem={renderQuestion}
-                />
+                />}
             </BottomSheet>
     </View>
 
