@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
       bottomContainer: {
         paddingVertical: themeDimensions.MARGIN_VERTICAL_BIG,
         backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED,
+      },
+      // add padding to the last question so it wont be hidden by bottom sheet
+      lastQuestionContainer: {
+        paddingBottom: 150
       }
 })
 export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioSuccess">) => {
@@ -122,19 +126,27 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
         getScenario(scenarioId).then(() => setIsLoading(false))
     }, [scenarioId]); 
 
+    // save scenario progress immediately and not on close button
+    useEffect(() => {
+        if(!isNaN(correctShare) && scenario) {
+             scenario.saveProgress(correctShare)
+        }
+    }, [scenario, correctShare])
+
     const renderQuestion = useCallback(({item, index}:
-         {item: any, index: number}) => (
-            <ResultsQuestionSummary
+         {item: any, index: number}) => {
+            const res = <ResultsQuestionSummary
                 title={t("screen_success_question", {index: index+1})}
                 question={tasks[index]?.question}
                 answer={usersAnswers[index]?.answer}
                 correct={usersAnswers[index]?.isCorrect} 
                 correctAnswer={tasks[index]?.getCorrectAnswer()} /> 
-    ), [tasks, usersAnswers])
+
+            return index+1 === tasks.length ? <View style={styles.lastQuestionContainer}>{res}</View> : res
+         }, [tasks, usersAnswers])
+
     const onClose = useCallback(() => {
-        scenario?.saveProgress(correctShare).then(() => {
-            navigation.goBack()
-        })
+        navigation.goBack()
     }, [scenario, correctShare, navigation]) 
 
     if (isLoading) {
