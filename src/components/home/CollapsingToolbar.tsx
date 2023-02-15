@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
-import { Animated, LayoutChangeEvent, StyleSheet, View } from "react-native";
+import React, { useCallback } from "react";
+import { Animated, LayoutChangeEvent, Linking, StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import appConfig from "../../app.config";
 import { RootStackParamList } from "../../navigation/types";
 import { ActionIcon } from "../global/ActionIcon";
 import { H1 } from "../global/Text";
@@ -49,6 +50,11 @@ export const CollapsingToolbar = ({title, children, scrollY, onLayout, classroom
     })
 
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+
+    const onInfo = useCallback(() => {
+        // currently only open the official website in a browser
+        Linking.openURL(appConfig.infoWebsite)
+    }, [])
     
     const classroomButton = <ActionIcon
         onPress={() => {
@@ -71,6 +77,7 @@ export const CollapsingToolbar = ({title, children, scrollY, onLayout, classroom
                         bold>{ title }</H1>
                     {classroom ? homeButton : classroomButton}
                     <ActionIcon
+                        onPress={onInfo}
                         source={require(imageAssets + "actions/action_info.png")} />
                 </View>
 

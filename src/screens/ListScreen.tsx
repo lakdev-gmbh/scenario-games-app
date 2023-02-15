@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
 export const ListScreen = ({title, children, scenarios, classroom = false}: {
     title: string;
     children?: React.ReactNode;
-    scenarios: Array<Scenario[]>;
+    scenarios: Scenario[];
     classroom?: boolean;
 }) => {
     const [fullHeaderHeight, setFullHeaderHeight] = useState(0)
     const scrollY = new Animated.Value(0)
-
     return <SafeAreaView style={[
             {backgroundColor: themeColors.BACKGROUND_HIGHLIGHTED},
             styles.fullHeight]}>
@@ -47,6 +46,7 @@ export const ListScreen = ({title, children, scenarios, classroom = false}: {
             <View style={[globalStyles.container, 
                 styles.fullHeight]}>
                 <FlatList
+                    alwaysBounceVertical={false}
                     data={scenarios}
                     renderItem={({item, index}) => <View 
                         style={[

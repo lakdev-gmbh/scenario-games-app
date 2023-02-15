@@ -2,11 +2,12 @@ import { NavigationProp } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { globalStyles } from "../../../assets/styles/global";
 import themeColors from "../../../assets/styles/theme.colors";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import appConfig from "../../app.config";
 import { TextButton } from "../../components/global/Button";
 import { Tag } from "../../components/global/Tag";
 import { DefaultText, H1 } from "../../components/global/Text";
@@ -16,9 +17,11 @@ import { RootStackParamList } from "../../navigation/types";
 // define overlap (negative margin) of the container
 const overlap = themeDimensions.BORDER_RADIUS_BAR
 
+const HEIGHT = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create({
     headerBackground: {
-        height: 230,
+        height: HEIGHT*0.4,
     },
     owlImage: {
         alignSelf: 'flex-end',
@@ -55,7 +58,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
     const classLevel = scenario?.classLevel?.name
     const scenarioTitle = scenario?.title
     const scenarioText = scenario?.description
-    const imageUri = "https://scenario.laknet.de" + scenario?.image
+    const imageUri = appConfig.imageUrl + scenario?.image
     // --- END scenario properties ---
 
     //--- START random owl image ---
@@ -77,6 +80,8 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
             scenarioId: scenarioId,
             taskGroupIndex: 0,
             taskIndex: 0,
+            passedTime: 0,
+            penaltySeconds: 0
         })
     }
 
@@ -110,7 +115,7 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
             style={[styles.container, globalStyles.container]}>
             <H1 bold>{ scenarioTitle }</H1>
             <View style={[styles.tagsContainer, globalStyles.borderBottom]}>
-                <Tag secondary>{classLevel}</Tag>
+                {classLevel? <Tag secondary>{classLevel}</Tag> : null}
                 {subjects?.map(subject => 
                     <Tag key={subject.id}>{subject.name}</Tag>
                 )}

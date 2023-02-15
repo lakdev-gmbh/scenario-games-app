@@ -14,8 +14,10 @@ import TaskGroupDB from './TaskGroupDB';
 import UserCompletedTaskDB from './UserCompletedTaskDB';
 import AppClassroomDB from './AppClassroomDB';
 import UserGroupDB from './UserGroupDB';
+import UserCompletedScenarioDB from './UserCompletedScenarioDB';
+import appConfig from '../../app.config';
 
-const url = "https://scenario.laknet.de/sync"
+const url = appConfig.databaseUrl
 
 // Create the adapter to the underlying database:
 const adapter = new SQLiteAdapter({
@@ -42,7 +44,8 @@ const adapter = new SQLiteAdapter({
       UserCompletedTaskDB,
       ScenarioUserGroupDB,
       AppClassroomDB,
-      UserGroupDB
+      UserGroupDB,
+      UserCompletedScenarioDB
     ],
   });
 

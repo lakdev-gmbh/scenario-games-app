@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     },
     answerText: {
         color: themeColors.GREY,
+    },
+    answer: {
+        flex: 1,
     }
 })
 
@@ -58,6 +61,11 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
             return possible_answers
                 .map(possibleAnswer => possibleAnswer.is_correct).every((answer, index) => !answer == !selectedAnswers[index]);
         },
+        getCurrentAnswer: () => {
+            return selectedAnswers.map((answer, index) => answer ? index : -1).filter(el => el != -1).map((el) =>
+                    possible_answers[el].answer
+                ).join(", ")
+        }
     }), [possible_answers, selectedAnswers])
 
     useEffect(() => {
@@ -77,14 +85,14 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
                 selectedAnswers[index] && styles.selectedContainer,
                 solve && possibleAnswer.is_correct && styles.correctContainer,
                 solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
-            key={index} 
+            key={index}
             disabled={solve}
             onPress={() => { handleChange(index) }}>
                 <BiggerText bold style={[styles.answerText, styles.answerIndex, 
                     (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
                     { index+1 }
                 </BiggerText>
-                <BiggerText bold style={[styles.answerText,, 
+                <BiggerText bold style={[styles.answerText, styles.answer, 
                     (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
                     {possibleAnswer.answer}
                 </BiggerText>

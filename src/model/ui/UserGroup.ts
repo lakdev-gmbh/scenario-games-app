@@ -16,7 +16,6 @@ export class UserGroup {
 
     static async createFromDB(userGroupDB: UserGroupDB): Promise<UserGroup> {
         const dbScenarios = await userGroupDB.publicScenarios;
-        console.log(dbScenarios)
         const scenarios = await Scenario.createManyFromDB(dbScenarios);
         return new UserGroup(
             userGroupDB.id,

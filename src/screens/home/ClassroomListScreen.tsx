@@ -1,4 +1,5 @@
 import { Q } from "@nozbe/watermelondb";
+import { useIsFocused } from "@react-navigation/native";
 import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GestureResponderEvent, Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
@@ -7,7 +8,9 @@ import themeDimensions from "../../../assets/styles/theme.dimensions";
 import { FatTag } from "../../components/global/Tag";
 import { DefaultText, Label } from "../../components/global/Text";
 import { watermelondb } from "../../model/db/database";
+import { Property } from "../../model/ui/Property";
 import { Scenario } from "../../model/ui/Scenario";
+import { Subject } from "../../model/ui/Subject";
 import { UserGroup } from "../../model/ui/UserGroup";
 import { ListScreen } from "../ListScreen";
 
@@ -44,8 +47,8 @@ const styles = StyleSheet.create({
 
 const ClassroomItem = ({ title, subjects, levels, onPress }: {
     title: string;
-    subjects: Array<any>; // TODO: use subject type
-    levels: Array<any>; // TODO: use level type
+    subjects: Array<Subject>;
+    levels: Array<Property>;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 }) => {
 
@@ -59,7 +62,7 @@ const ClassroomItem = ({ title, subjects, levels, onPress }: {
 
         <View style={styles.classroomSubjects}>
             {subjects.map(subject => <FatTag key={subject.id}>{subject.name}</FatTag>)}
-            {levels.map(level => <FatTag secondary key={level.id}>{level.name}</FatTag>)}
+            {levels.map(level => <FatTag secondary key={level?.id}>{level?.name}</FatTag>)}
         </View>
 
     </TouchableOpacity>
@@ -67,22 +70,30 @@ const ClassroomItem = ({ title, subjects, levels, onPress }: {
 
 export const ClassroomListScreen = () => {
     const { t } = useTranslation()
+    // check if screen is focused, to update when coming back from other screens
+    const isFocused = useIsFocused();
     const [scenarioData, setScenarioData] = useState<Scenario[]>([]);
 
     const subjectsInClass = (classroom: UserGroup) => {
-        return classroom.scenarios.map((scenario: Scenario) => scenario.subjects).flat();
+        const subjects =  classroom.scenarios.map((scenario: Scenario) => scenario.subjects).flat();
+        const subjectsDistinct = subjects.filter(distinctObjects);
+        return subjectsDistinct;
     }
 
     const levelsInClass = (classroom: UserGroup) => {
-        return classroom.scenarios.map((scenario: Scenario) => scenario.schoolYears).flat();
+        const levels = classroom.scenarios.map((scenario: Scenario) => scenario.classLevel).flat();
+        const levelsDistinct = levels.filter(distinctObjects);
+        return levelsDistinct;
     }
 
+    const distinctObjects = (v: any, i: number, self: any[]): boolean => v && self.findIndex(t => (t.name === v.name)) === i
 
     const [activeClassroom, setClassroom] = useState()
 
+    // listen for isFocused, if useFocused changes 
     useEffect(() => {
-        getScenarios()
-    }, [])
+        isFocused && getScenarios();
+    },[isFocused]);
 
     const getScenarios = async () => {
         const newClassrooms = await watermelondb.get('app_classrooms').query().fetch();
@@ -90,7 +101,13 @@ export const ClassroomListScreen = () => {
             .map(async (app_classroom) => {
                 return UserGroup.createFromDB(await app_classroom.userGroup)
             }));
-        const newScenarios = newUserGroups.map((userGroup) => userGroup.scenarios).flat();
+        const newScenarios = newUserGroups
+            .map((userGroup) => userGroup.scenarios)
+            .flat()
+            .filter((scenario: Scenario) => {
+                // Filter by published
+                return scenario.published;
+            });
         setUserGroups(newUserGroups);
         setScenarioData(newScenarios);
     }
@@ -152,6 +169,8 @@ export const ClassroomListScreen = () => {
             <TextInput
                 placeholder={t("screen_classrooms_placeholder") as string}
                 style={[globalStyles.textInput, styles.accessInput]}
+                autoCorrect={false}
+                autoCapitalize="none"
                 onChangeText={setAccessCode} />
             <FatTag
                 style={styles.addButton}

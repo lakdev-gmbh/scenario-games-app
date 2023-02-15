@@ -5,13 +5,14 @@ import { TaskGroupElement } from "./TaskGroupElement";
 export class InfoText extends TaskGroupElement {
     body: string;
 
-    constructor(title: string, weight: number, body: string, type: string, taskGroup: TaskGroup) {
-        super(title, body, weight, taskGroup, type);
+    constructor(id: string, title: string, weight: number, body: string, type: string, taskGroup: TaskGroup) {
+        super(id, title, body, weight, taskGroup, type);
         this.body = body;
     }
     
     static async createFromDB(dbInfoText: InfoTextDB) {
         return new InfoText(
+            dbInfoText.id,
             dbInfoText.title,
             dbInfoText.weight,
             dbInfoText.body,

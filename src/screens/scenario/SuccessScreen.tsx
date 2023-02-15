@@ -1,6 +1,6 @@
-import React, { Fragment, useCallback, useMemo, useRef } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Image, ImageBackground, ImageStyle, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Image, ImageBackground, ImageStyle, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../assets/styles/global";
@@ -14,6 +14,9 @@ import BottomSheet, { BottomSheetFlatList, BottomSheetFooter } from '@gorhom/bot
 import { SpeechBubble } from "../../components/scenario/SpeechBubble";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
+import { Scenario } from "../../model/ui/Scenario";
+import { Task } from "../../model/ui/Task";
+import UserCompletedTaskDB from "../../model/db/UserCompletedTaskDB";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -79,40 +82,64 @@ const styles = StyleSheet.create({
       }
 })
 export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProps<RootStackParamList, "ScenarioSuccess">) => {
-    const { scenarioId } = route.params;
+    const { scenarioId, passedTime, penaltySeconds } = route.params;
     const { t } = useTranslation()
 
-    // TODO: add real data
-    const questionData = ["index-1", "index-2","index-3","index-4"]
-    const correctShare = 1
-    const negativeSeconds = 15
-    const totalTime = 320
+    const [scenario, setScenario] = useState<Scenario>()
+    const [tasks, setTasks] = useState<Task[]>([])
+    const [usersAnswers, setUsersAnswers] = useState<UserCompletedTaskDB[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const correctShare = usersAnswers.filter((answer) => answer.isCorrect).length / usersAnswers.length
+    const totalTime = passedTime
     const streak = undefined // TODO
     const averageTime = undefined // TODO
-    // TODO: get all questions, ignore/filter info texts
     
     // calculate or format data
-    const correctPercentage = (correctShare * 100)
-    const totalTimeMinutes = Math.floor(totalTime / 60)
-    const totalTimeSeconds = totalTime % 60
+    const correctPercentage = Math.round(correctShare * 100)
+    const totalTimeMinutes = String(Math.floor(totalTime / 60)).padStart(2, "0")
+    const totalTimeSeconds = String(totalTime % 60).padStart(2, "0")
     const owlAssets = calculateOwl(correctShare, totalTime, streak, averageTime)
 
     // Bottom Sheet
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['35%', '90%'], []);
 
+    const getScenario = async (scenarioId: string) => {
+        const localScenario = await Scenario.load(scenarioId);
+        setScenario(localScenario);
+        const localTasks: Task[] = await localScenario.getTasks(); 
+        setTasks(localTasks);
+        const userAnswers: UserCompletedTaskDB[] = []
+        for (const task of localTasks) {
+            let answer = await task.getLatestUserAnswer()
+            if(answer)
+                userAnswers.push(answer) 
+        }
+        setUsersAnswers(userAnswers);
+    }
+
+    useEffect(() => {
+        getScenario(scenarioId).then(() => setIsLoading(false))
+    }, [scenarioId]); 
+
     const renderQuestion = useCallback(({item, index}:
          {item: any, index: number}) => (
             <ResultsQuestionSummary
                 title={t("screen_success_question", {index: index+1})}
-                question="Diese lange Frage wurde mir gestellt und dir?"
-                answer="Meine Lösung"
-                correct={false}
-                correctAnswer="Korrekte Lösung" />
-    ), [])
+                question={tasks[index]?.question}
+                answer={usersAnswers[index]?.answer}
+                correct={usersAnswers[index]?.isCorrect} 
+                correctAnswer={tasks[index]?.getCorrectAnswer()} /> 
+    ), [tasks, usersAnswers])
     const onClose = useCallback(() => {
-        navigation.goBack()
-    }, [navigation])
+        scenario?.saveProgress(correctShare).then(() => {
+            navigation.goBack()
+        })
+    }, [scenario, correctShare, navigation]) 
+
+    if (isLoading) {
+        return <View><ActivityIndicator /></View>
+    }
 
     const hasBackground = streak && streak > 1
     const footer = <View style={[globalStyles.container, styles.bottomContainer]}>
@@ -128,7 +155,7 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                     </DefaultText>
                     <View style={styles.borderRight}></View>
                     <DefaultText style={styles.resultText}>
-                        <Trans i18nKey="screen_success_negative" values={{seconds: negativeSeconds}} />
+                        <Trans i18nKey="screen_success_negative" values={{seconds: penaltySeconds}} />
                     </DefaultText>
                 </View>
                 <View style={styles.results}>
@@ -141,7 +168,7 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                     <Trans i18nKey={owlAssets.key} values={{streak: streak}} />
                 </H1>
             </SpeechBubble>
-
+ 
             <View>
                 <Stars count={owlAssets.starCount} />
                 <Image
@@ -160,8 +187,8 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                     <H1 style={[styles.overViewTitle,globalStyles.container]} bold>{ t("screen_success_overview") }</H1>
                 <BottomSheetFlatList
                     style={globalStyles.container}
-                    data={questionData}
-                    keyExtractor={(i) => i}
+                    data={tasks}
+                    keyExtractor={(i) => i.id}
                     alwaysBounceVertical={false}
                     renderItem={renderQuestion}
                 />
@@ -179,8 +206,7 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
              source={require('../../../assets/images/owls/background_for_owl.png')}>
                  {screenContent} 
             </ImageBackground>  : screenContent}
-
-        </LinearGradient>
+        </LinearGradient> 
     </SafeAreaView>
 }
 

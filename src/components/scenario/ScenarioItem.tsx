@@ -3,10 +3,11 @@ import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../assets/styles/global";
 import themeDimensions from "../../../assets/styles/theme.dimensions";
+import appConfig from "../../app.config";
 import { Tag } from "../global/Tag";
 import { DefaultText, SmallLabel } from "../global/Text";
 
-const globalUrl = "https://scenario.laknet.de"
+const globalUrl = appConfig.imageUrl
 
 const styles = StyleSheet.create({
     container: {
@@ -52,14 +53,13 @@ export const ScenarioItem = ({scenario}: {
         image: string,
         subjects: Array<{
             name: string
-        }>
+        }>,
+        progress: number
     }
 }) => {
 
     const navigation = useNavigation()
-
-    // TODO: get progress, either as prop (probably better) or as watermelon query
-    const scenarioProgress: number = 1
+    const scenarioProgress: number = scenario.progress
 
     // --- START calculate progress ---
     const iconFolder = "../../../assets/images/icons/"
