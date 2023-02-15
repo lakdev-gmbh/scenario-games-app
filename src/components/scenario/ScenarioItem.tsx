@@ -59,8 +59,6 @@ export const ScenarioItem = ({scenario}: {
 }) => {
 
     const navigation = useNavigation()
-
-    // TODO: get progress, either as prop (probably better) or as watermelon query
     const scenarioProgress: number = scenario.progress
 
     // --- START calculate progress ---

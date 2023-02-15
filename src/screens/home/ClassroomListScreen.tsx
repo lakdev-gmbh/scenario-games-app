@@ -1,4 +1,5 @@
 import { Q } from "@nozbe/watermelondb";
+import { useIsFocused } from "@react-navigation/native";
 import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GestureResponderEvent, Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
@@ -69,6 +70,8 @@ const ClassroomItem = ({ title, subjects, levels, onPress }: {
 
 export const ClassroomListScreen = () => {
     const { t } = useTranslation()
+    // check if screen is focused, to update when coming back from other screens
+    const isFocused = useIsFocused();
     const [scenarioData, setScenarioData] = useState<Scenario[]>([]);
 
     const subjectsInClass = (classroom: UserGroup) => {
@@ -87,9 +90,10 @@ export const ClassroomListScreen = () => {
 
     const [activeClassroom, setClassroom] = useState()
 
+    // listen for isFocused, if useFocused changes 
     useEffect(() => {
-        getScenarios()
-    }, [])
+        isFocused && getScenarios();
+    },[isFocused]);
 
     const getScenarios = async () => {
         const newClassrooms = await watermelondb.get('app_classrooms').query().fetch();

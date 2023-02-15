@@ -13,6 +13,7 @@ import { Topic } from "../../model/ui/Topic";
 import { PropertyBag } from "../../model/ui/PropertyBag";
 import { Property } from "../../model/ui/Property";
 import SplashScreen from "react-native-splash-screen";
+import { useIsFocused } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
     fullHeight: {
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
 export const HomeListScreen = () => {
     const { t } = useTranslation()
 
-
+    // check if screen is focused, to update when coming back from other screens
+    const isFocused = useIsFocused();
     const [isLoading, setLoading] = useState<boolean>(true);
     const [scenarioData, setScenarios] = useState<Scenario[]>([]);
     const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -111,11 +113,12 @@ export const HomeListScreen = () => {
         return true;
     }
 
+    // listen for isFocused, if useFocused changes 
     useEffect(() => {
-        getScenarios().then(() => {
+        isFocused && getScenarios().then(() => {
             SplashScreen.hide()
         });
-    }, [])
+    },[isFocused]);
 
     return <ListScreen
         scenarios={scenarioData.filter(checkProperties)}

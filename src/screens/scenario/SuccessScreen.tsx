@@ -185,13 +185,13 @@ export const ScenarioSuccessScreen = ({navigation, route}: NativeStackScreenProp
                     {footer}
                 </BottomSheetFooter>}>
                     <H1 style={[styles.overViewTitle,globalStyles.container]} bold>{ t("screen_success_overview") }</H1>
-                {!isLoading && tasks.length > 0 && <BottomSheetFlatList
+                <BottomSheetFlatList
                     style={globalStyles.container}
                     data={tasks}
                     keyExtractor={(i) => i.id}
                     alwaysBounceVertical={false}
                     renderItem={renderQuestion}
-                />}
+                />
             </BottomSheet>
     </View>
 
