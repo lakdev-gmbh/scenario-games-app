@@ -56,13 +56,25 @@ UvH contributed to the app development through project days, computer science cl
 
 ## Installation and Usage
 
+### Requirements
+#### Before running this project, please ensure that your system meets the following requirements: <br>
+#### 1. Node 14 or newer
+#### 2. Watchman
+#### 3. Ruby installed on your computer
+#### 4. Xcode with iOS Simulator and all the necessary tools. (If you want to build an IOS app).
+#### 5. Android stuido with Android SDK. (If you want to build an Android app).
+
 ### To run the MINT Scenario Games locally, please follow the steps below:<br>
 
-#### 1. Clone this repository to your local machine using the following command:<br> `https://github.com/lakdev-gmbh/scenario-games-app.git`
+#### 1. Clone this repository to your local machine using the following command:<br> `git clone https://github.com/lakdev-gmbh/scenario-games-app.git`
 
-#### 2. Install the necessary dependencies by running the following command: <br> `npm install`
+#### 2. Move to your working directory: <br> `cd scenario-games-app`
 
-#### 3. Start the application by running the following command: <br> `npm start`
+#### 3. Install the necessary dependencies by running the following command: <br> `npm install`
+
+#### 4. Start the application by running the following command: <br> `npm start`
+
+#### 5. Press `i` to run your app on IOS or press `a` to run your app on Android: <br>
 
 <p align="center">
 <img src="https://efre.brandenburg.de/sixcms/media.php/9/H%20Kofinanziert%20von%20der%20Europäischen%20Union_POS.png" width="full" height="100" />
