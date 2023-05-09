@@ -74,6 +74,11 @@ UvH contributed to the app development through project days, computer science cl
 
 #### 4. Start the application by running the following command: <br> `npm start`
 
+#### 4. Update pod files by running the following commands: <br> 
+`pod deintegrate`<br>
+`pod cache clean --all`<br>
+`pod install`<br>
+
 #### 5. Press `i` to run your app on IOS or press `a` to run your app on Android: <br>
 
 <p align="center">
