@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://scenario-games.eu/wp-content/uploads/2023/01/owl-2.svg" />
+  <img src="https://scenario-games.eu/wp-content/uploads/2023/01/owl-2.svg"  alt="Scenario Games Owl"/>
   </p>
 
 
@@ -60,9 +60,9 @@ UvH contributed to the app development through project days, computer science cl
 #### Before running this project, please ensure that your system meets the following requirements: <br>
 #### 1. Node 14 or newer
 #### 2. Watchman
-#### 3. Ruby installed on your computer
+#### 3. Ruby 2.7.6 installed on your computer
 #### 4. Xcode with iOS Simulator and all the necessary tools. (If you want to build an IOS app).
-#### 5. Android stuido with Android SDK. (If you want to build an Android app).
+#### 5. Android studio with Android SDK. (If you want to build an Android app).
 
 ### To run the MINT Scenario Games locally, please follow the steps below:<br>
 
@@ -72,17 +72,15 @@ UvH contributed to the app development through project days, computer science cl
 
 #### 3. Install the necessary dependencies by running the following command: <br> `npm install`
 
-#### 4. Start the application by running the following command: <br> `npm start`
-
-#### 5. Update pod files by running the following commands: <br> 
-`pod deintegrate`<br>
-`pod cache clean --all`<br>
+#### 4. Update pod files by running the following command: <br>
 `pod install`<br>
+
+#### 5. Start the application by running the following command: <br> `npm start`
 
 #### 6. Press `i` to run your app on IOS or press `a` to run your app on Android: <br>
 
 <p align="center">
-<img src="https://efre.brandenburg.de/sixcms/media.php/9/H%20Kofinanziert%20von%20der%20Europäischen%20Union_POS.png" width="full" height="100" />
+<img src="https://efre.brandenburg.de/sixcms/media.php/9/H%20Kofinanziert%20von%20der%20Europäischen%20Union_POS.png" width="full" height="100"  alt="Kofinanziert von der EU"/>
   </p>
 
 <h3 align="center">© 2023 Scenario Games</h3>
