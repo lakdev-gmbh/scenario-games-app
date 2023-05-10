@@ -532,8 +532,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lakdev.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = de.lakdev.ScenarioGames;
+				PRODUCT_BUNDLE_IDENTIFIER = de.lakdev.ScenarioGames;
 				PRODUCT_NAME = ScenarioGames;
 				SWIFT_OBJC_BRIDGING_HEADER = "ScenarioGames-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -562,8 +561,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lakdev.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = de.lakdev.ScenarioGames;
+				PRODUCT_BUNDLE_IDENTIFIER = de.lakdev.ScenarioGames;
 				PRODUCT_NAME = ScenarioGames;
 				SWIFT_OBJC_BRIDGING_HEADER = "ScenarioGames-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
