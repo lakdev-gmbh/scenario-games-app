@@ -72,8 +72,7 @@ UvH contributed to the app development through project days, computer science cl
 
 #### 3. Install the necessary dependencies by running the following command: <br> `npm install`
 
-#### 4. Update pod files by running the following command: <br>
-`pod install`<br>
+#### 4. Update pod files by running the following command: <br> `pod install`
 
 #### 5. Start the application by running the following command: <br> `npm start`
 
