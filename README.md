@@ -48,21 +48,21 @@ UvH contributed to the app development through project days, computer science cl
 
 ## Scenario Creator Features
 ### The Scenario Creator offers the following features:<br>
-#### 1. Sharing of scenarios using codes <br>
-#### 2. Various question types, including multiple-choice, arranging texts and images, mathematical tasks, and more<br>
-#### 3. In-creator gameplay functionality<br>
-#### 4. Task grouping<br>
-#### 5. Collaborative scenario creation in groups<br>
+1. Sharing of scenarios using codes <br>
+2. Various question types, including multiple-choice, arranging texts and images, mathematical tasks, and more<br>
+3. In-creator gameplay functionality<br>
+4. Task grouping<br>
+5. Collaborative scenario creation in groups<br>
 
 ## Installation and Usage
 
 ### Requirements
 #### Before running this project, please ensure that your system meets the following requirements: <br>
-#### 1. Node 14 or newer
-#### 2. Watchman
-#### 3. Ruby 2.7.6 installed on your computer
-#### 4. Xcode with iOS Simulator and all the necessary tools. (If you want to build an IOS app).
-#### 5. Android studio with Android SDK. (If you want to build an Android app).
+1. Node 14 or newer
+2. Watchman
+3. Ruby 2.7.6 installed on your computer
+4. Xcode with iOS Simulator and all the necessary tools. (If you want to build an IOS app).
+5. Android studio with Android SDK. (If you want to build an Android app).
 
 ### To run the MINT Scenario Games locally, please follow the steps below:<br>
 
@@ -76,8 +76,7 @@ UvH contributed to the app development through project days, computer science cl
 
 5. Start the application by running the following command: <br> `npm start`
 
-
-#### 6. Press `i` to run your app on IOS or press `a` to run your app on Android: <br>
+6. Press `i` to run your app on IOS or press `a` to run your app on Android: <br>
 
 <p align="center">
 <img src="https://efre.brandenburg.de/sixcms/media.php/9/H%20Kofinanziert%20von%20der%20Europäischen%20Union_POS.png" width="full" height="100"  alt="Kofinanziert von der EU"/>
