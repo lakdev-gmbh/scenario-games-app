@@ -13,6 +13,7 @@ import { Tag } from "../../components/global/Tag";
 import { DefaultText, H1 } from "../../components/global/Text";
 import { Scenario } from "../../model/ui/Scenario";
 import { RootStackParamList } from "../../navigation/types";
+import {ScrollView} from "react-native-gesture-handler";
 
 // define overlap (negative margin) of the container
 const overlap = themeDimensions.BORDER_RADIUS_BAR
@@ -121,9 +122,11 @@ export const ScenarioStartScreen = ({navigation, route}: NativeStackScreenProps<
                 )}
             </View>
 
-            <DefaultText style={{flex: 1}}>
-                { scenarioText }
-            </DefaultText>
+            <ScrollView>
+                <DefaultText style={{flex: 1}}>
+                    {scenarioText}
+                </DefaultText>
+            </ScrollView>
 
             <TextButton onPress={onStart} style={styles.button}>
                 { t("button_start") }

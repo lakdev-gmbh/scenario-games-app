@@ -48,6 +48,8 @@ export const NumericTask = React.forwardRef<ScenarioTaskRef, NumericProps>(({sol
         }]}
         autoFocus
         editable={!solve}
-        value={currentAnswer} 
-        onChangeText={setCurrentAnswer} />
+        value={currentAnswer}
+        onChangeText={setCurrentAnswer}
+        keyboardType="numeric"
+    />
 })

@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         flex: 1,
-        marginTop: 8,
     }
 })
 

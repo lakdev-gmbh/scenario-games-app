@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
+import {ActivityIndicator, Image, Keyboard, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
 import { BiggerText, H1, Label } from "../../components/global/Text";
 import { globalStyles } from "../../../assets/styles/global";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -197,8 +197,8 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
             onContinue={onContinue} />
     }
     // 2) default rendering for everything else
-    return <SafeAreaView style={[globalStyles.container, styles.fullSize]}>
-
+    return <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <SafeAreaView style={[globalStyles.container, styles.fullSize]}>
         <View style={styles.header}>
             <Label style={styles.headerTime}>{minutes}:{seconds}</Label>
             <TouchableOpacity onPress={onCloseScenario}>
@@ -232,13 +232,12 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
                     backgroundColor: correct ? themeColors.CORRECT : themeColors.WRONG
                 }]}>{t("button_continue")}</TextButton>
 
-            <BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>
-                {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
-            </BiggerText>
-        </View>
-
-    </SafeAreaView>
-
+                <BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>
+                    {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
+                </BiggerText>
+            </View>
+        </SafeAreaView>
+    </TouchableWithoutFeedback>
 }
 
 type AbstractTaskType = {

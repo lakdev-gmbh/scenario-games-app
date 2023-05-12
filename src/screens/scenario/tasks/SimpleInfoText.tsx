@@ -64,7 +64,7 @@ export const ScenarioTaskEasyText = ({title, body, onContinue}: {
 
             <SpeechBubble full
                 style={styles.speechBubble}>
-                <TypingText onFinish={() => setFinished(true)}>{ body }</TypingText>
+                <TypingText animationDuration={body.length >= 200 ? 20 : 40}  onFinish={() => setFinished(true)}>{body}</TypingText>
             </SpeechBubble>
 
             <Image
