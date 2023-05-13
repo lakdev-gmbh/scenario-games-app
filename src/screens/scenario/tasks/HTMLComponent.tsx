@@ -45,6 +45,11 @@ export const ScenarioTaskHTML = ({title, body}: {
                 h1: colorized,
                 h2: colorized,
                 h3: colorized,
+                img: {
+                    width: "100%",
+                    height: "12rem",
+                    marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
+                }
             }}
             contentWidth={width}
             source={{ html: body }}

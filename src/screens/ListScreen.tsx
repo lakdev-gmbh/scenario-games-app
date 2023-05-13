@@ -57,13 +57,13 @@ export const ListScreen = ({title, children, scenarios, classroom = false}: {
                         </View>
                     }
                     keyExtractor={item => item.id}
-                    onScroll={Animated.event([{
-                        nativeEvent: {
-                            contentOffset: {
-                                y: scrollY
-                            }
-                        }
-                    }], {useNativeDriver: false})}
+                    // onScroll={Animated.event([{
+                    //     nativeEvent: {
+                    //         contentOffset: {
+                    //             y: scrollY
+                    //         }
+                    //     }
+                    // }], {useNativeDriver: false})}
                     scrollEventThrottle={16}
                 />
             </View>
