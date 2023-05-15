@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Dimensions} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../../../../assets/styles/global";
@@ -13,6 +13,9 @@ import { SpeechBubble } from "../../../components/scenario/SpeechBubble";
 import { TypingText } from "../../../components/scenario/TypingText";
 import { RootStackParamList } from "../../../navigation/types";
 
+
+const { height: phoneHeight} = Dimensions.get("window")
+const owlHeight = phoneHeight >= 700 ? 145 : 100;
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     },
     owl: {
         width: "100%",
-        height: 145,
+        height: owlHeight,
         resizeMode: "contain",
         marginTop: themeDimensions.MARGIN_VERTICAL_MEDIUM,
         marginBottom: themeDimensions.MARGIN_VERTICAL_BIG,

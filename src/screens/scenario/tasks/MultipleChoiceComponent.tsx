@@ -1,10 +1,11 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {Pressable, StyleSheet, TouchableOpacity, View} from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
 import { BiggerText } from "../../../components/global/Text";
 import { ScenarioTaskRef } from "./DragDropComponent";
+import {ScrollView} from "react-native-gesture-handler";
 
 export type AnswerType = {
     answer: string;
@@ -78,9 +79,12 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
         setSelectedAnswers(answers);
     }
 
+    // TODO: make scrollable only if screen is too small
     return <View>
+        <ScrollView>
         {possible_answers.map((possibleAnswer, index) =>
-            <TouchableOpacity 
+            <Pressable key={index}>
+            <TouchableOpacity
             style={[styles.answerContainer,
                 selectedAnswers[index] && styles.selectedContainer,
                 solve && possibleAnswer.is_correct && styles.correctContainer,
@@ -97,6 +101,8 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
                     {possibleAnswer.answer}
                 </BiggerText>
             </TouchableOpacity>
+            </Pressable>
         )}
+        </ScrollView>
     </View>
 })

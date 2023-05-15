@@ -43,7 +43,7 @@ export const ListScreen = ({title, children, scenarios, classroom = false}: {
             </CollapsingToolbar>
             
 
-            <View style={[globalStyles.container, 
+            <View style={[globalStyles.container,
                 styles.fullHeight]}>
                 <FlatList
                     alwaysBounceVertical={false}
@@ -57,13 +57,15 @@ export const ListScreen = ({title, children, scenarios, classroom = false}: {
                         </View>
                     }
                     keyExtractor={item => item.id}
-                    // onScroll={Animated.event([{
-                    //     nativeEvent: {
-                    //         contentOffset: {
+                    onScroll={Animated.event([{
+                        nativeEvent: {
+                            contentOffset: {
+                    //             // BUG: This line causes scroll to be janky
                     //             y: scrollY
-                    //         }
-                    //     }
-                    // }], {useNativeDriver: false})}
+                    //             // END BUG
+                            }
+                        }
+                    }], {useNativeDriver: false})}
                     scrollEventThrottle={16}
                 />
             </View>
