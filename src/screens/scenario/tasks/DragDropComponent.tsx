@@ -92,18 +92,29 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
             textStyle={styles.word} />
     }, [solution, solve, duoDragDropRef])
 
-    return <View style={styles.container}>
+    // Only scrollable if screen height is smaller than 700
+    return (phoneHeight >= 700 ?
+        <View style={styles.container}>
+            <DuoDragDrop
+                ref={duoDragDropRef}
+                extraData={solve}
+                gesturesDisabled={solve}
+                renderWord={renderWord}
+                wordHeight={phoneHeight >= 700 ? 40 : 32}
+                onDrop={checkEmpty}
+                words={words} />
+</View> : <View style={styles.container}>
         <ScrollView>
             <Pressable>
-        <DuoDragDrop
-        ref={duoDragDropRef}
-        extraData={solve}
-        gesturesDisabled={solve}
-        renderWord={renderWord} 
-        wordHeight={phoneHeight >= 700 ? 40 : 32}
-        onDrop={checkEmpty}
-        words={words} />
+                <DuoDragDrop
+                    ref={duoDragDropRef}
+                    extraData={solve}
+                    gesturesDisabled={solve}
+                    renderWord={renderWord}
+                    wordHeight={phoneHeight >= 700 ? 40 : 32}
+                    onDrop={checkEmpty}
+                    words={words} />
             </Pressable>
         </ScrollView>
-    </View>
+    </View>)
 })

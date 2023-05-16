@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {Pressable, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Dimensions, Pressable, StyleSheet, TouchableOpacity, View} from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
 import { BiggerText } from "../../../components/global/Text";
@@ -17,6 +17,8 @@ export type MultipleChoiceType = {
     setEmpty: (empty: boolean) => void;
     possible_answers: [AnswerType];
 }
+
+const { height: phoneHeight} = Dimensions.get("window")
 
 const styles = StyleSheet.create({
     answerContainer: {
@@ -79,30 +81,52 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
         setSelectedAnswers(answers);
     }
 
-    // TODO: make scrollable only if screen is too small
-    return <View>
+    // Only scrollable if screen height is smaller than 700
+    return (phoneHeight >= 700 ?  <View>
+            {possible_answers.map((possibleAnswer, index) =>
+                <Pressable key={index}>
+                    <TouchableOpacity
+                        style={[styles.answerContainer,
+                            selectedAnswers[index] && styles.selectedContainer,
+                            solve && possibleAnswer.is_correct && styles.correctContainer,
+                            solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
+                        key={index}
+                        disabled={solve}
+                        onPress={() => { handleChange(index) }}>
+                        <BiggerText bold style={[styles.answerText, styles.answerIndex,
+                            (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                            { index+1 }
+                        </BiggerText>
+                        <BiggerText bold style={[styles.answerText, styles.answer,
+                            (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                            {possibleAnswer.answer}
+                        </BiggerText>
+                    </TouchableOpacity>
+                </Pressable>
+            )}
+    </View> : <View>
         <ScrollView>
-        {possible_answers.map((possibleAnswer, index) =>
-            <Pressable key={index}>
-            <TouchableOpacity
-            style={[styles.answerContainer,
-                selectedAnswers[index] && styles.selectedContainer,
-                solve && possibleAnswer.is_correct && styles.correctContainer,
-                solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
-            key={index}
-            disabled={solve}
-            onPress={() => { handleChange(index) }}>
-                <BiggerText bold style={[styles.answerText, styles.answerIndex, 
-                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
-                    { index+1 }
-                </BiggerText>
-                <BiggerText bold style={[styles.answerText, styles.answer, 
-                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
-                    {possibleAnswer.answer}
-                </BiggerText>
-            </TouchableOpacity>
-            </Pressable>
-        )}
+            {possible_answers.map((possibleAnswer, index) =>
+                <Pressable key={index}>
+                    <TouchableOpacity
+                        style={[styles.answerContainer,
+                            selectedAnswers[index] && styles.selectedContainer,
+                            solve && possibleAnswer.is_correct && styles.correctContainer,
+                            solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
+                        key={index}
+                        disabled={solve}
+                        onPress={() => { handleChange(index) }}>
+                        <BiggerText bold style={[styles.answerText, styles.answerIndex,
+                            (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                            { index+1 }
+                        </BiggerText>
+                        <BiggerText bold style={[styles.answerText, styles.answer,
+                            (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                            {possibleAnswer.answer}
+                        </BiggerText>
+                    </TouchableOpacity>
+                </Pressable>
+            )}
         </ScrollView>
-    </View>
+    </View>)
 })
