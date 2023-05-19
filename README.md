@@ -48,11 +48,12 @@ UvH contributed to the app development through project days, computer science cl
 
 ## Scenario Games App Features
 ### The Scenario Games App offers the following features:<br>
-1. Sharing of scenarios using codes <br>
+1. Engaging Design: The app incorporates a modern and playful design that sparks enthusiasm for learning. It incorporates features commonly found in modern e-learning apps, ensuring an enjoyable user experience. <br>
 2. Various question types, including multiple-choice, arranging texts and images, mathematical tasks, and more<br>
-3. In-creator gameplay functionality<br>
-4. Task grouping<br>
-5. Collaborative scenario creation in groups<br>
+3. Classroom Integration: With support for iOS and Android devices, every student can utilize the app during classroom activities. This seamless compatibility facilitates the easy incorporation of scenarios into the teaching process.<br>
+4. Scenario Selection and Filtering: Users can browse and choose from a variety of scenarios available in the app. Additionally, they can filter scenarios based on specific topics of interest or educational levels, allowing for personalized learning experiences.<br>
+5. Task Tips: The app offers helpful tips and guidance on how to complete tasks with the highest possible score, enabling users to earn more points and improve their performance.<br>
+6. Correct Answers Review: Users have the option to review all the correct answers at the end of a scenario and compare them with their own selected answers, facilitating learning and self-assessment.
 
 ## Installation and Usage
 
