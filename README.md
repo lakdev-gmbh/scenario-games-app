@@ -46,8 +46,8 @@ Ulrich-von-Hutten-Gymnasium (UvH) is a public school located in Berlin (Lichtenr
 and is renowned for its commitment to sustainability, being awarded the "faire Schule" (fair school) label.
 UvH contributed to the app development through project days, computer science classes, and elective courses.
 
-## Scenario Creator Features
-### The Scenario Creator offers the following features:<br>
+## Scenario Games App Features
+### The Scenario Games App offers the following features:<br>
 1. Sharing of scenarios using codes <br>
 2. Various question types, including multiple-choice, arranging texts and images, mathematical tasks, and more<br>
 3. In-creator gameplay functionality<br>
@@ -72,7 +72,7 @@ UvH contributed to the app development through project days, computer science cl
 
 3. Install the necessary dependencies by running the following command: <br> `npm install`
 
-4. Update pod files by running the following command: <br> `pod install`
+4. Update pod files by running the following command: <br> `npx pod-install`
 
 5. Start the application by running the following command: <br> `npm start`
 
