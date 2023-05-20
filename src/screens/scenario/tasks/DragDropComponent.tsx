@@ -1,9 +1,13 @@
 import DuoDragDrop, { DuoDragDropRef, Word } from "@jamsch/react-native-duo-drag-drop";
 import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
-import { StyleSheet, View } from "react-native";
+import {Dimensions, Pressable, StyleSheet, View} from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
 import themeFontSizes from "../../../../assets/styles/theme.fontSizes";
+import {ScrollView} from "react-native-gesture-handler";
+
+
+const { height: phoneHeight} = Dimensions.get("window")
 
 const styles = StyleSheet.create({
     container: {
@@ -88,14 +92,28 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
             textStyle={styles.word} />
     }, [solution, solve, duoDragDropRef])
 
-    return <View style={styles.container}>
+    // Only scrollable if screen height is smaller than 700
+
+    const duoDragDrop = <Pressable>
         <DuoDragDrop
-        ref={duoDragDropRef}
-        extraData={solve}
-        gesturesDisabled={solve}
-        renderWord={renderWord} 
-        wordHeight={40}
-        onDrop={checkEmpty}
-        words={words} />
-    </View>
+            ref={duoDragDropRef}
+            extraData={solve}
+            gesturesDisabled={solve}
+            renderWord={renderWord}
+            wordHeight={phoneHeight >= 700 ? 40 : 32}
+            onDrop={checkEmpty}
+            words={words} />
+    </Pressable>
+
+    return (phoneHeight <= 700 ?
+            <View style={styles.container}>
+                <ScrollView>
+                    {duoDragDrop}
+                </ScrollView>
+            </View>
+         :
+            <View style={styles.container}>
+                {duoDragDrop}
+            </View>
+    )
 })

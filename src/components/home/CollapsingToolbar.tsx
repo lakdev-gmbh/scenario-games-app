@@ -40,7 +40,8 @@ export const CollapsingToolbar = ({title, children, scrollY, onLayout, classroom
         // make input range a smaller to faster shrink the view
         inputRange: [0, 50], // = size that needs to be scrolled to collapse
         // estimated size of header part (250): must be greater than actual size
-        outputRange: [250, 0],
+        // TODO: Decide which height to use
+        outputRange: [300, 0],
         extrapolate: 'clamp'
     })
     const headerOpacity = scrollY.interpolate({
