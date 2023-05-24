@@ -16,8 +16,16 @@ import AppClassroomDB from './AppClassroomDB';
 import UserGroupDB from './UserGroupDB';
 import UserCompletedScenarioDB from './UserCompletedScenarioDB';
 import appConfig from '../../app.config';
+import {NativeModules, Platform} from "react-native";
 
 const url = appConfig.databaseUrl
+const deviceLanguage =
+    Platform.OS === 'ios'
+        ? NativeModules.SettingsManager.settings.AppleLocale ||
+        NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
+        : NativeModules.I18nManager.localeIdentifier;
+
+const language = deviceLanguage.slice(0, 2)
 
 // Create the adapter to the underlying database:
 const adapter = new SQLiteAdapter({
@@ -57,7 +65,11 @@ const adapter = new SQLiteAdapter({
         const urlParams = `last_pulled_at=${lastPulledAt}&schema_version=${schemaVersion}&migration=${encodeURIComponent(
           JSON.stringify(migration),
         )}`;
-        const response = await fetch(`${url}?${urlParams}`);
+        const response = await fetch(`${url}?${urlParams}`, {
+            headers: {
+              "Accept-Language": `${language}`,
+            },
+        });
         if (!response.ok) {
           throw new Error(await response.text());
         }
