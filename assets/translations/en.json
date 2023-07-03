@@ -1,0 +1,44 @@
+{
+  "screen_list_classrooms": "My Classrooms",
+  "screen_classrooms_add": "New\nClassroom",
+  "screen_classrooms_placeholder": "Access code",
+  "screen_classrooms_all": "All Classrooms",
+  "screen_classrooms_empty": "You haven't joined any classrooms yet. Ask your teacher for an access code to see scenarios here.",
+
+  "screen_list_scenarios": "Topic Search",
+  "filter_subjects": "Subject",
+  "filter_grades": "Grade",
+  "filter_search": "Topic Search",
+  "filter_search_placeholder": "Search Keyword",
+
+  "screen_task_info": "Info",
+  "screen_task_correct": "Correct!",
+  "screen_task_wrong": "Wrong!",
+  "screen_task_negative": "{{seconds}} Penalty seconds",
+  "screen_task_answer": "Correct would be: {{answer}}",
+  "screen_task_mc_answer": "Answer {{index}}",
+
+  "screen_success": "Done!",
+  "screen_success_overview": "Overview",
+  "screen_success_question": "Question {{index}}",
+  "screen_success_correct": "{{percentage}} % Correct",
+  "screen_success_negative": "Penalty time: {{seconds}} Sec.",
+  "screen_success_time": "Time: {{minutes}}:{{seconds}} Min.",
+
+  "screen_success_message_bad_1": "Oh, you can do better.",
+  "screen_success_message_bad_2": "Too bad. Try again!",
+  "screen_success_message_okay": "Nice try.",
+  "screen_success_message_good": "Well done! Keep it up!",
+  "screen_success_message_very_good": "Very good! Hardly any errors!",
+  "screen_success_message_fast": "You are super quick!",
+  "screen_success_message_complete": "Wow! Everything right!",
+  "screen_success_message_complete_fast": "Wow! Top time! Everything right!",
+  "screen_success_message_streak": "Streak! {{streak}} Scenarios without errors!",
+
+  "question_correct_answer": "Correct answer: {{answer}}",
+
+  "button_add": "add",
+  "button_start": "Start",
+  "button_next_scenario": "Next Challenge",
+  "button_continue": "Continue"
+}
