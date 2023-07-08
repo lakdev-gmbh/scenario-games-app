@@ -1,5 +1,5 @@
 import DuoDragDrop, { DuoDragDropRef, Word } from "@jamsch/react-native-duo-drag-drop";
-import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
+import React, {useCallback, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {Dimensions, Pressable, StyleSheet, View} from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
@@ -48,6 +48,8 @@ type DragDropProps = ScenarioTaskProps<Array<string>> & {
 
 export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({words, solution, solve = false, setEmpty}, ref) => {
     const duoDragDropRef = useRef<DuoDragDropRef>(null);
+    const [shuffledWords, setShuffledWords] = useState<string[]>(words);
+    const [wordsShuffled, setWordsShuffled] = useState<boolean>(false);
     const isCorrect = () => {
         const answeredWords = duoDragDropRef.current?.getAnsweredWords()
         if(answeredWords?.length != solution.length)
@@ -72,6 +74,10 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
 
     useEffect(() => {
         checkEmpty()
+        if(!wordsShuffled) {
+            setShuffledWords([...words].sort(() => Math.random() - 0.5))
+            setWordsShuffled(true)
+        }
     }, [])
 
     const renderWord = useCallback((word: string, index: number) => {    
@@ -102,7 +108,7 @@ export const DragDropTask = React.forwardRef<ScenarioTaskRef, DragDropProps>(({w
             renderWord={renderWord}
             wordHeight={phoneHeight >= 700 ? 40 : 32}
             onDrop={checkEmpty}
-            words={words} />
+            words={shuffledWords} />
     </Pressable>
 
     return (phoneHeight <= 700 ?
