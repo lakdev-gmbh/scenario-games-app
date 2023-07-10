@@ -24,6 +24,7 @@ import { TaskGroup } from "../../model/ui/TaskGroup";
 import { TaskGroupElement } from "../../model/ui/TaskGroupElement";
 import { Task } from "../../model/ui/Task";
 import { InfoText } from "../../model/ui/InfoText";
+import {DecimalNumericComponent} from "./tasks/DecimalNumericComponent";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -258,6 +259,10 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solv
             {...commonProps}
             solution={(task as Task).getOrderSolution()}
             words={(task as Task).getOrderAnswers()} />
+        // TODO: change to `case "text": return <DecimalNumericComponent ... />`
+        // case "text": return <DecimalNumericComponent
+        //     {...commonProps}
+        //     solution={(task as Task).correctAnswer} />
         case "text": return <TextualTask
             {...commonProps}
             solution={(task as Task).correctAnswer} />
