@@ -24,7 +24,7 @@ import { TaskGroup } from "../../model/ui/TaskGroup";
 import { TaskGroupElement } from "../../model/ui/TaskGroupElement";
 import { Task } from "../../model/ui/Task";
 import { InfoText } from "../../model/ui/InfoText";
-import {DecimalNumericComponent} from "./tasks/DecimalNumericComponent";
+import {SymbolsInputComponent} from "./tasks/SymbolsInputComponent";
 
 const styles = StyleSheet.create({
     fullSize: {
@@ -117,6 +117,10 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
     const [solve, setSolve] = useState(false)
     const taskRef = useRef<ScenarioTaskRef>(null)
     const correct = taskRef?.current?.isCorrect()
+    let partiallyCorrect = false;
+    if (taskRef?.current?.isPartiallyCorrect?.() ?? false) {
+        partiallyCorrect = true;
+    }
     const correctAnswer = taskRef?.current?.getCorrectAnswer()
     const [inactive, setInactive] = useState(false)
 
@@ -138,8 +142,11 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
     }, [task, time, solve])
 
     useEffect(() => {
-        if (correct !== undefined && !correct) {
+        if (correct !== undefined && !partiallyCorrect && !correct) {
             setTime(time => time + penaltySecondsPerMistake)
+        }
+        if(partiallyCorrect) {
+            console.log("Partially correct")
         }
     }, [solve])
 
@@ -219,10 +226,20 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
         </View>
 
         <View style={styles.footer}>
-            {solve && <H1 bold style={[styles.resultTitle, correct ? styles.correct : styles.wrong]}>
-                {correct ? t("screen_task_correct") : t("screen_task_wrong")}
-            </H1>}
-            {solve && !correct && correctAnswer && <BiggerText style={styles.wrong}>
+            {/*{solve && <H1 bold style={[styles.resultTitle, correct ? styles.correct : styles.wrong]}>*/}
+            {/*    {correct ? t("screen_task_correct") : t("screen_task_wrong")}*/}
+            {/*</H1>}*/}
+            {solve && (
+                <H1 bold style={[styles.resultTitle, correct ? styles.correct : (partiallyCorrect ? styles.wrong : styles.wrong)]}>
+                    {correct ? t("screen_task_correct") : (partiallyCorrect ? "Almost there!" : t("screen_task_wrong"))}
+                </H1>
+            )}
+
+            {solve && !correct && !partiallyCorrect &&  correctAnswer && <BiggerText style={styles.wrong}>
+                {t("screen_task_answer", { answer: correctAnswer })}
+            </BiggerText>}
+
+            {solve && !correct && partiallyCorrect && correctAnswer && <BiggerText style={styles.wrong}>
                 {t("screen_task_answer", { answer: correctAnswer })}
             </BiggerText>}
 
@@ -233,9 +250,20 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
                     backgroundColor: correct ? themeColors.CORRECT : themeColors.WRONG
                 }]}>{t("button_continue")}</TextButton>
 
-                <BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>
-                    {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
-                </BiggerText>
+            <BiggerText
+                bold
+                style={[
+                    styles.hidden,
+                    (solve && !correct && !partiallyCorrect && styles.wrong),
+                    styles.negativeTime
+                ]}
+            >
+                {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
+            </BiggerText>
+
+            {/*<BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>*/}
+                {/*    {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}*/}
+                {/*</BiggerText>*/}
             </View>
         </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -259,13 +287,13 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solv
             {...commonProps}
             solution={(task as Task).getOrderSolution()}
             words={(task as Task).getOrderAnswers()} />
-        // TODO: change to `case "text": return <DecimalNumericComponent ... />`
-        // case "text": return <DecimalNumericComponent
-        //     {...commonProps}
-        //     solution={(task as Task).correctAnswer} />
-        case "text": return <TextualTask
+        // TODO: change to `case "text": return <SymbolsInputComponent ... />`
+        case "text": return <SymbolsInputComponent
             {...commonProps}
             solution={(task as Task).correctAnswer} />
+        // case "text": return <TextualTask
+        //     {...commonProps}
+        //     solution={(task as Task).correctAnswer} />
         case "numeric": return <NumericTask
             {...commonProps}
             solution={(task as Task).correctAnswer} />
