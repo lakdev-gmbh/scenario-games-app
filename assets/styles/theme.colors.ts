@@ -10,6 +10,7 @@ export default {
     //TEXT_PRIMARY_LIGHT: '#527FF1',
     CORRECT: '#00B94A',
     WRONG: '#DC0229',
+    ALMOST: '#FFC107',
     BACKGROUND: '#F3F3F3',
     BACKGROUND_HIGHLIGHTED: 'white',
     BACKGROUND_OVERLAY_START: 'rgba(41, 96, 238, 0)',

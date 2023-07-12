@@ -14,6 +14,7 @@
     "screen_task_info": "Info",
     "screen_task_correct": "Korrekt!",
     "screen_task_wrong": "Falsch!",
+    "screen_task_almost": "Fast richtig!",
     "screen_task_negative": "{{seconds}} Strafsekunden",
     "screen_task_answer": "Richtig wäre: {{answer}}",
     "screen_task_mc_answer": "Antwort {{index}}",

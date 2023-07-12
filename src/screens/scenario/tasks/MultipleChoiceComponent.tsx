@@ -14,6 +14,7 @@ export type AnswerType = {
 
 export type MultipleChoiceType = {
     solve?: boolean;
+    partially_correct?: boolean;
     setEmpty: (empty: boolean) => void;
     possible_answers: [AnswerType];
 }
@@ -38,6 +39,9 @@ const styles = StyleSheet.create({
     wrongContainer: {
         backgroundColor: themeColors.WRONG,
     },
+    almostContainer: {
+        backgroundColor: themeColors.ALMOST,
+    },
     answerIndex: {
         marginEnd: 24,
     },
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoiceType>(({solve = false, possible_answers, setEmpty}, ref) => {
+export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoiceType>(({solve = false,partially_correct= false, possible_answers, setEmpty}, ref) => {
     const [selectedAnswers, setSelectedAnswers] = useState<boolean[]>([]);
     const {t} = useTranslation()
 
@@ -68,7 +72,15 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
             return selectedAnswers.map((answer, index) => answer ? index : -1).filter(el => el != -1).map((el) =>
                     possible_answers[el].answer
                 ).join(", ")
+        },
+        isPartiallyCorrect: () => {
+            const amountOfCorrectAnswers = possible_answers.filter((answer) => answer.is_correct).length;
+            const selectedWrongAnswers = possible_answers.filter((answer, index) => !answer.is_correct && selectedAnswers[index]).length;
+            if(amountOfCorrectAnswers < 2 || selectedWrongAnswers > 0) return false
+            //const selectedCorrectAnswers = possible_answers.filter((answer, index) => answer.is_correct && selectedAnswers[index]).length;
+            return true
         }
+
     }), [possible_answers, selectedAnswers])
 
     useEffect(() => {
@@ -81,27 +93,31 @@ export const MultipleChoiceTask = React.forwardRef<ScenarioTaskRef, MultipleChoi
         setSelectedAnswers(answers);
     }
 
-    const multipleChoiceAnswers = possible_answers.map((possibleAnswer, index) =>
-            <Pressable key={index}>
-                <TouchableOpacity
-                    style={[styles.answerContainer,
-                        selectedAnswers[index] && styles.selectedContainer,
-                        solve && possibleAnswer.is_correct && styles.correctContainer,
-                        solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,]}
-                    key={index}
-                    disabled={solve}
-                    onPress={() => { handleChange(index) }}>
-                    <BiggerText bold style={[styles.answerText, styles.answerIndex,
-                        (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
-                        { index+1 }
-                    </BiggerText>
-                    <BiggerText bold style={[styles.answerText, styles.answer,
-                        (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
-                        {possibleAnswer.answer}
-                    </BiggerText>
-                </TouchableOpacity>
-            </Pressable>
-        )
+    const multipleChoiceAnswers = possible_answers.map((possibleAnswer, index) => {
+        return <Pressable key={index}>
+            <TouchableOpacity
+                style={[styles.answerContainer,
+                    selectedAnswers[index] && styles.selectedContainer,
+                    solve && possibleAnswer.is_correct && styles.correctContainer,
+                    solve && !possibleAnswer.is_correct && selectedAnswers[index] && styles.wrongContainer,
+                    solve && possibleAnswer.is_correct && partially_correct && !selectedAnswers[index] && styles.almostContainer,
+                ]}
+                key={index}
+                disabled={solve}
+                onPress={() => {
+                    handleChange(index)
+                }}>
+                <BiggerText bold style={[styles.answerText, styles.answerIndex,
+                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                    {index + 1}
+                </BiggerText>
+                <BiggerText bold style={[styles.answerText, styles.answer,
+                    (selectedAnswers[index] || (solve && possibleAnswer.is_correct)) && {color: themeColors.TEXT_ON_PRIMARY}]}>
+                    {possibleAnswer.answer}
+                </BiggerText>
+            </TouchableOpacity>
+        </Pressable>
+    })
 
     // Only scrollable if screen height is smaller than 700 OR there are more than 5 answers
     return (phoneHeight <= 700 || possible_answers.length >= 5 ?

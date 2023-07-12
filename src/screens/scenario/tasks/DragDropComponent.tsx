@@ -40,6 +40,7 @@ export type ScenarioTaskRef = {
     isCorrect(): boolean;
     getCorrectAnswer(): string;
     getCurrentAnswer(): string;
+    isPartiallyCorrect?(): boolean;
 }
 
 type DragDropProps = ScenarioTaskProps<Array<string>> & {

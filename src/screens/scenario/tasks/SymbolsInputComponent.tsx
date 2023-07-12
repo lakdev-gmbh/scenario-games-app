@@ -74,7 +74,7 @@ export const SymbolsInputComponent = React.forwardRef<ScenarioTaskRef, TextualPr
                 }
                 return <TextInput maxLength={1} style={[globalStyles.borderBottom, styles.input, solve && {
                     color: correct ? themeColors.CORRECT : themeColors.WRONG
-                }]} editable={!solve} key={index} keyboardType={"decimal-pad"} onChangeText={(value) => handleChange(value, index)}/>
+                }]} editable={!solve} key={index} onChangeText={(value) => handleChange(value, index)}/>
             })}
         </View>
     )

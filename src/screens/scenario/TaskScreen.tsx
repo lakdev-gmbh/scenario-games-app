@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
     correct: {
         color: themeColors.CORRECT
     },
+    almost: {
+        color: themeColors.ALMOST
+    },
+    almostText: {
+        color: "#daa200"
+    },
     negativeTime: {
         textAlign: 'right',
     },
@@ -145,9 +151,6 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
         if (correct !== undefined && !partiallyCorrect && !correct) {
             setTime(time => time + penaltySecondsPerMistake)
         }
-        if(partiallyCorrect) {
-            console.log("Partially correct")
-        }
     }, [solve])
 
 
@@ -222,24 +225,23 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
                 task={task}
                 ref={taskRef}
                 solve={solve}
-                setEmpty={setInactive} />
+                setEmpty={setInactive}
+                partiallyCorrect={partiallyCorrect}
+            />
         </View>
 
         <View style={styles.footer}>
-            {/*{solve && <H1 bold style={[styles.resultTitle, correct ? styles.correct : styles.wrong]}>*/}
-            {/*    {correct ? t("screen_task_correct") : t("screen_task_wrong")}*/}
-            {/*</H1>}*/}
             {solve && (
-                <H1 bold style={[styles.resultTitle, correct ? styles.correct : (partiallyCorrect ? styles.wrong : styles.wrong)]}>
-                    {correct ? t("screen_task_correct") : (partiallyCorrect ? "Almost there!" : t("screen_task_wrong"))}
+                <H1 bold style={[styles.resultTitle, correct ? styles.correct : (partiallyCorrect ? styles.almost : styles.wrong)]}>
+                    {correct ? t("screen_task_correct") : (partiallyCorrect ? t("screen_task_almost") : t("screen_task_wrong"))}
                 </H1>
             )}
 
-            {solve && !correct && !partiallyCorrect &&  correctAnswer && <BiggerText style={styles.wrong}>
+            {solve && !correct && !partiallyCorrect && correctAnswer && <BiggerText style={styles.wrong}>
                 {t("screen_task_answer", { answer: correctAnswer })}
             </BiggerText>}
 
-            {solve && !correct && partiallyCorrect && correctAnswer && <BiggerText style={styles.wrong}>
+            {solve && !correct && partiallyCorrect && correctAnswer && <BiggerText style={styles.almostText}>
                 {t("screen_task_answer", { answer: correctAnswer })}
             </BiggerText>}
 
@@ -247,7 +249,7 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
                 onPress={onContinue}
                 disabled={inactive}
                 style={[styles.continueButton, inactive && styles.inactiveButton, solve && {
-                    backgroundColor: correct ? themeColors.CORRECT : themeColors.WRONG
+                    backgroundColor: correct ? themeColors.CORRECT : (partiallyCorrect ? themeColors.ALMOST : themeColors.WRONG)
                 }]}>{t("button_continue")}</TextButton>
 
             <BiggerText
@@ -260,10 +262,6 @@ export const ScenarioTaskScreen = ({ navigation, route }: NativeStackScreenProps
             >
                 {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}
             </BiggerText>
-
-            {/*<BiggerText bold style={[styles.hidden, solve && !correct && styles.wrong, styles.negativeTime]}>*/}
-                {/*    {t("screen_task_negative", { seconds: penaltySecondsPerMistake })}*/}
-                {/*</BiggerText>*/}
             </View>
         </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -273,9 +271,10 @@ type AbstractTaskType = {
     solve?: boolean,
     task: TaskGroupElement,
     setEmpty: (empty: boolean) => void
+    partiallyCorrect?: boolean
 }
 
-const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solve = false, task, setEmpty }, taskRef) => {
+const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solve = false, task, setEmpty , partiallyCorrect = false}, taskRef) => {
     const commonProps = {
         ref: taskRef,
         solve: solve,
@@ -299,6 +298,7 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(({ solv
             solution={(task as Task).correctAnswer} />
         case "multiple_choice": return <MultipleChoiceTask
             {...commonProps}
+           partially_correct={partiallyCorrect}
             possible_answers={(task as Task).possibleAnswers} />
         case "multiple_choice_image": return <MultipleChoiceImageTask
             {...commonProps}
