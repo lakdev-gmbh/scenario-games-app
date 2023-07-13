@@ -26,7 +26,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
   ScenarioTaskRef,
   TextualProps
 >(({solution, solve = false, setEmpty}, ref) => {
-  const hintsIndexesArray = [1, 2, 4];
+  const hintsIndexesArray = [0];
   const modifiedArray: string[] = solution.split('').map((element, index) => {
     if (hintsIndexesArray.includes(index)) return element;
     return '';
@@ -130,6 +130,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
             ]}
             editable={!solve}
             key={index}
+            autoCapitalize={'none'}
             onChangeText={value => handleChange(value, index)}
             onSubmitEditing={() => {
               if (index < solutionArray.length - 1) {

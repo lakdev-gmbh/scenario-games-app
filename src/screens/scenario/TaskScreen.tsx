@@ -366,6 +366,9 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(
       setEmpty: setEmpty,
     };
 
+    console.log(task.type);
+    console.log(task.options);
+
     switch (task.type) {
       case 'order_text':
         return (
@@ -375,17 +378,20 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(
             words={(task as Task).getOrderAnswers()}
           />
         );
-      // TODO: change to `case "text": return <SymbolsInputComponent ... />`
-      case 'text':
+      case 'hinted_fill_in_the_blank':
         return (
           <HintedFillInTheBlankComponent
             {...commonProps}
             solution={(task as Task).correctAnswer}
           />
         );
-      // case "text": return <TextualTask
-      //     {...commonProps}
-      //     solution={(task as Task).correctAnswer} />
+      case 'text':
+        return (
+          <TextualTask
+            {...commonProps}
+            solution={(task as Task).correctAnswer}
+          />
+        );
       case 'numeric':
         return (
           <NumericTask
