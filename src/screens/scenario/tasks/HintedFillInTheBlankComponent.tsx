@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 type TextualProps = ScenarioTaskProps<string>;
 
-export const SymbolsInputComponent = React.forwardRef<
+export const HintedFillInTheBlankComponent = React.forwardRef<
   ScenarioTaskRef,
   TextualProps
 >(({solution, solve = false, setEmpty}, ref) => {
