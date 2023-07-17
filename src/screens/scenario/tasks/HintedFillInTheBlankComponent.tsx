@@ -2,7 +2,7 @@ import React, {useEffect, useImperativeHandle, useRef, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {globalStyles} from '../../../../assets/styles/global';
 import themeColors from '../../../../assets/styles/theme.colors';
-import {ScenarioTaskProps, ScenarioTaskRef} from './DragDropComponent';
+import {ScenarioTaskRef} from './DragDropComponent';
 import themeDimensions from '../../../../assets/styles/theme.dimensions';
 import themeFontSizes from '../../../../assets/styles/theme.fontSizes';
 
@@ -20,15 +20,20 @@ const styles = StyleSheet.create({
   },
 });
 
-type TextualProps = ScenarioTaskProps<string>;
+// type TextualProps = ScenarioTaskProps<string>;
+type FillInTheBlankProps = {
+  solution: string;
+  solve?: boolean;
+  setEmpty?: (empty: boolean) => void;
+  hintsArray: Array<number>;
+};
 
 export const HintedFillInTheBlankComponent = React.forwardRef<
   ScenarioTaskRef,
-  TextualProps
->(({solution, solve = false, setEmpty}, ref) => {
-  const hintsIndexesArray = [0];
+  FillInTheBlankProps
+>(({solution, solve = false, setEmpty, hintsArray}, ref) => {
   const modifiedArray: string[] = solution.split('').map((element, index) => {
-    if (hintsIndexesArray.includes(index)) return element;
+    if (hintsArray.includes(index)) return element;
     return '';
   });
 
@@ -41,7 +46,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
   const getNextInputIndex = (currentIndex: number): number => {
     let nextIndex = currentIndex + 1;
     while (nextIndex < solutionArray.length) {
-      if (!hintsIndexesArray.includes(nextIndex)) {
+      if (!hintsArray.includes(nextIndex)) {
         return nextIndex;
       }
       nextIndex++;
@@ -98,7 +103,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
         marginBottom: 20,
       }}>
       {solutionArray.map((symbol, index) => {
-        if (hintsIndexesArray.includes(index)) {
+        if (hintsArray.includes(index)) {
           return (
             <TextInput
               key={index}

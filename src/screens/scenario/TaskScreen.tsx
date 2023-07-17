@@ -45,9 +45,19 @@ const styles = StyleSheet.create({
   headerTime: {
     flex: 1,
   },
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   close: {
     height: 20,
     width: 20,
+    marginLeft: '2%',
+  },
+  return: {
+    height: 30,
+    width: 30,
   },
   question: {
     marginVertical: themeDimensions.MARGIN_VERTICAL_MEDIUM,
@@ -194,6 +204,42 @@ export const ScenarioTaskScreen = ({
   const onCloseScenario = useCallback(() => {
     navigation.goBack();
   }, []);
+
+  const onGoBack = async () => {
+    if (taskIndex > 0) {
+      const totalPenaltySeconds =
+        penaltySeconds +
+        (correct === undefined || correct ? 0 : 1) * penaltySecondsPerMistake;
+      navigation.replace('ScenarioTask', {
+        scenarioId: scenarioId,
+        taskGroupIndex: taskGroupIndex,
+        taskIndex: taskIndex - 1,
+        passedTime: time,
+        penaltySeconds: totalPenaltySeconds,
+      });
+    } else if (taskGroupIndex > 0) {
+      const lastTaskGroupIndex = taskGroupIndex - 1;
+      // @ts-ignore
+      const lastTaskGroupLocal = await scenario?.getTaskGroup(
+        lastTaskGroupIndex,
+      );
+      // @ts-ignore
+      const lastTaskIndex = lastTaskGroupLocal.taskGroupElements.length - 1;
+      const totalPenaltySeconds =
+        penaltySeconds +
+        (correct === undefined || correct ? 0 : 1) * penaltySecondsPerMistake;
+      navigation.replace('ScenarioTask', {
+        scenarioId: scenarioId,
+        taskGroupIndex: lastTaskGroupIndex,
+        taskIndex: lastTaskIndex,
+        passedTime: time,
+        penaltySeconds: totalPenaltySeconds,
+      });
+    } else {
+      navigation.goBack();
+    }
+  };
+
   const onContinue = useCallback(async () => {
     if (
       solve &&
@@ -253,6 +299,7 @@ export const ScenarioTaskScreen = ({
         title={task?.title}
         body={task?.text}
         onContinue={onContinue}
+        onGoBack={onGoBack}
       />
     );
   }
@@ -264,12 +311,23 @@ export const ScenarioTaskScreen = ({
           <Label style={styles.headerTime}>
             {minutes}:{seconds}
           </Label>
-          <TouchableOpacity onPress={onCloseScenario}>
-            <Image
-              style={styles.close}
-              source={require('../../../assets/images/actions/action_close.png')}
-            />
-          </TouchableOpacity>
+
+          <View style={styles.headerButtons}>
+            <TouchableOpacity onPress={onGoBack}>
+              {/*<Text>Go back</Text>*/}
+              <Image
+                style={styles.return}
+                source={require('../../../assets/images/actions/action_return.png')}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={onCloseScenario}>
+              <Image
+                style={styles.close}
+                source={require('../../../assets/images/actions/action_close.png')}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         <ProgressBar progress={progress} />
 
@@ -366,8 +424,9 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(
       setEmpty: setEmpty,
     };
 
-    console.log(task.type);
-    console.log(task.options);
+    // console.log(task.type);
+    // console.log(task.options);
+    //console.log(task.options);
 
     switch (task.type) {
       case 'order_text':
@@ -382,6 +441,7 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(
         return (
           <HintedFillInTheBlankComponent
             {...commonProps}
+            hintsArray={(task as Task).options?.hints_indexes}
             solution={(task as Task).correctAnswer}
           />
         );
