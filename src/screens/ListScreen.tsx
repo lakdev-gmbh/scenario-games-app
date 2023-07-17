@@ -29,7 +29,12 @@ export const ListScreen = ({
   const scrollY = new Animated.Value(0);
 
   const updatePaddingTop = (newHeight: number) => {
-    if (newHeight > paddingTop) {
+    // If the new height is greater than the paddingTop, or if the difference is less than 50, update the paddingTop
+    const difference = Math.abs(paddingTop - newHeight);
+    if (
+      newHeight > paddingTop ||
+      (difference < 50 && newHeight !== paddingTop)
+    ) {
       setPaddingTop(newHeight);
     }
   };
