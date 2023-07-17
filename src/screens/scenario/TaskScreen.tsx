@@ -32,6 +32,7 @@ import {TaskGroupElement} from '../../model/ui/TaskGroupElement';
 import {Task} from '../../model/ui/Task';
 import {InfoText} from '../../model/ui/InfoText';
 import {HintedFillInTheBlankComponent} from './tasks/HintedFillInTheBlankComponent';
+import {SwipeGestureHandler} from '../../components/scenario/SwipeGestureHandler';
 
 const styles = StyleSheet.create({
   fullSize: {
@@ -295,6 +296,8 @@ export const ScenarioTaskScreen = ({
   // 1) for simple texts there is a completely different layout
   if (task?.type == 'speech_bubble') {
     return (
+      // BUG: SwipeGestureHandler does not work. Probably because of the two handlers.
+      // <SwipeGestureHandler onSwipe={onGoBack}>
       <ScenarioTaskEasyText
         title={task?.title}
         body={task?.text}
@@ -307,103 +310,108 @@ export const ScenarioTaskScreen = ({
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[globalStyles.container, styles.fullSize]}>
-        <View style={styles.header}>
-          <Label style={styles.headerTime}>
-            {minutes}:{seconds}
-          </Label>
+        <SwipeGestureHandler onSwipe={onGoBack}>
+          <View style={{flex: 1}}>
+            <View style={styles.header}>
+              <Label style={styles.headerTime}>
+                {minutes}:{seconds}
+              </Label>
 
-          <View style={styles.headerButtons}>
-            <TouchableOpacity onPress={onGoBack}>
-              {/*<Text>Go back</Text>*/}
-              <Image
-                style={styles.return}
-                source={require('../../../assets/images/actions/action_return.png')}
-              />
-            </TouchableOpacity>
+              <View style={styles.headerButtons}>
+                <TouchableOpacity onPress={onGoBack}>
+                  <Image
+                    style={styles.return}
+                    source={require('../../../assets/images/actions/action_return.png')}
+                  />
+                </TouchableOpacity>
 
-            <TouchableOpacity onPress={onCloseScenario}>
-              <Image
-                style={styles.close}
-                source={require('../../../assets/images/actions/action_close.png')}
+                <TouchableOpacity onPress={onCloseScenario}>
+                  <Image
+                    style={styles.close}
+                    source={require('../../../assets/images/actions/action_close.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ProgressBar progress={progress} />
+
+            {task?.hasOwnProperty('question') && (
+              <BiggerText style={styles.question}>{task.question}</BiggerText>
+            )}
+
+            <View style={styles.fullSize}>
+              <AbstractTask
+                task={task}
+                ref={taskRef}
+                solve={solve}
+                setEmpty={setInactive}
+                partiallyCorrect={partiallyCorrect}
               />
-            </TouchableOpacity>
+            </View>
+
+            <View style={styles.footer}>
+              {solve && (
+                <H1
+                  bold
+                  style={[
+                    styles.resultTitle,
+                    correct
+                      ? styles.correct
+                      : partiallyCorrect
+                      ? styles.almost
+                      : styles.wrong,
+                  ]}>
+                  {correct
+                    ? t('screen_task_correct')
+                    : partiallyCorrect
+                    ? t('screen_task_almost')
+                    : t('screen_task_wrong')}
+                </H1>
+              )}
+
+              {solve && !correct && !partiallyCorrect && correctAnswer && (
+                <BiggerText style={styles.wrong}>
+                  {t('screen_task_answer', {answer: correctAnswer})}
+                </BiggerText>
+              )}
+
+              {solve && !correct && partiallyCorrect && correctAnswer && (
+                <BiggerText style={styles.almostText}>
+                  {t('screen_task_answer', {answer: correctAnswer})}
+                </BiggerText>
+              )}
+
+              <TextButton
+                onPress={onContinue}
+                disabled={inactive}
+                style={[
+                  styles.continueButton,
+                  inactive && styles.inactiveButton,
+                  solve && {
+                    backgroundColor: correct
+                      ? themeColors.CORRECT
+                      : partiallyCorrect
+                      ? themeColors.ALMOST
+                      : themeColors.WRONG,
+                  },
+                ]}>
+                {t('button_continue')}
+              </TextButton>
+
+              <BiggerText
+                bold
+                style={[
+                  styles.hidden,
+                  solve && !correct && !partiallyCorrect && styles.wrong,
+                  styles.negativeTime,
+                ]}>
+                {t('screen_task_negative', {
+                  seconds: penaltySecondsPerMistake,
+                })}
+              </BiggerText>
+            </View>
           </View>
-        </View>
-        <ProgressBar progress={progress} />
-
-        {task?.hasOwnProperty('question') && (
-          <BiggerText style={styles.question}>{task.question}</BiggerText>
-        )}
-
-        <View style={styles.fullSize}>
-          <AbstractTask
-            task={task}
-            ref={taskRef}
-            solve={solve}
-            setEmpty={setInactive}
-            partiallyCorrect={partiallyCorrect}
-          />
-        </View>
-
-        <View style={styles.footer}>
-          {solve && (
-            <H1
-              bold
-              style={[
-                styles.resultTitle,
-                correct
-                  ? styles.correct
-                  : partiallyCorrect
-                  ? styles.almost
-                  : styles.wrong,
-              ]}>
-              {correct
-                ? t('screen_task_correct')
-                : partiallyCorrect
-                ? t('screen_task_almost')
-                : t('screen_task_wrong')}
-            </H1>
-          )}
-
-          {solve && !correct && !partiallyCorrect && correctAnswer && (
-            <BiggerText style={styles.wrong}>
-              {t('screen_task_answer', {answer: correctAnswer})}
-            </BiggerText>
-          )}
-
-          {solve && !correct && partiallyCorrect && correctAnswer && (
-            <BiggerText style={styles.almostText}>
-              {t('screen_task_answer', {answer: correctAnswer})}
-            </BiggerText>
-          )}
-
-          <TextButton
-            onPress={onContinue}
-            disabled={inactive}
-            style={[
-              styles.continueButton,
-              inactive && styles.inactiveButton,
-              solve && {
-                backgroundColor: correct
-                  ? themeColors.CORRECT
-                  : partiallyCorrect
-                  ? themeColors.ALMOST
-                  : themeColors.WRONG,
-              },
-            ]}>
-            {t('button_continue')}
-          </TextButton>
-
-          <BiggerText
-            bold
-            style={[
-              styles.hidden,
-              solve && !correct && !partiallyCorrect && styles.wrong,
-              styles.negativeTime,
-            ]}>
-            {t('screen_task_negative', {seconds: penaltySecondsPerMistake})}
-          </BiggerText>
-        </View>
+        </SwipeGestureHandler>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

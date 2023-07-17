@@ -17,7 +17,14 @@ export const AppContainer = () => {
       <Stack.Screen name="Home" component={HomeListScreen} />
       <Stack.Screen name="Classrooms" component={ClassroomListScreen} />
       <Stack.Screen name="ScenarioStart" component={ScenarioStartScreen} />
-      <Stack.Screen name="ScenarioTask" component={ScenarioTaskScreen} />
+      <Stack.Screen
+        name="ScenarioTask"
+        options={{
+          gestureEnabled: false,
+          animation: 'fade_from_bottom',
+        }}
+        component={ScenarioTaskScreen}
+      />
       <Stack.Screen name="ScenarioSuccess" component={ScenarioSuccessScreen} />
     </Stack.Navigator>
   );

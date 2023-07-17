@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Animated, FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {globalStyles} from '../../assets/styles/global';
 import themeColors from '../../assets/styles/theme.colors';
@@ -6,7 +6,6 @@ import themeDimensions from '../../assets/styles/theme.dimensions';
 import {CollapsingToolbar} from '../components/home/CollapsingToolbar';
 import {ScenarioItem} from '../components/scenario/ScenarioItem';
 import {Scenario} from '../model/ui/Scenario';
-import {useRoute} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   fullHeight: {
@@ -25,36 +24,19 @@ export const ListScreen = ({
   scenarios: Scenario[];
   classroom?: boolean;
 }) => {
-  // const [classroomHeaderFullHeight, setClassroomHeaderFullHeight] = useState(0);
-  // const [classroomHeightIsSet, setClassroomHeightIsSet] = useState(false);
-  // const [homeHeaderFullHeight, setHomeHeaderFullHeight] = useState(0);
-  // const [homeHeightIsSet, setHomeHeightIsSet] = useState(false);
   const [fullHeaderHeight, setFullHeaderHeight] = useState(0);
+  const [paddingTop, setPaddingTop] = useState(0);
   const scrollY = new Animated.Value(0);
-  const route = useRoute();
 
-  // const getPaddingTop = () => {
-  //   if (route.name === 'Home') {
-  //     console.log(
-  //       'Returning homeHeaderFullHeight + themeDimensions.MARGIN_VERTICAL_BIG',
-  //     );
-  //     return homeHeaderFullHeight + themeDimensions.MARGIN_VERTICAL_BIG;
-  //   }
-  //   if (route.name === 'Classrooms' && classroomHeaderFullHeight !== 0) {
-  //     console.log(
-  //       'Returning classroomHeaderFullHeight + themeDimensions.MARGIN_VERTICAL_BIG',
-  //     );
-  //     return classroomHeaderFullHeight + themeDimensions.MARGIN_VERTICAL_BIG;
-  //   }
-  //
-  //   // Return a default value if none of the conditions are met
-  //   return 0;
-  // };
+  const updatePaddingTop = (newHeight: number) => {
+    if (newHeight > paddingTop) {
+      setPaddingTop(newHeight);
+    }
+  };
 
-  // useEffect(() => {
-  //   console.log(`Padding top: ${getPaddingTop()}`);
-  //   getPaddingTop();
-  // }, [route.name]);
+  useEffect(() => {
+    updatePaddingTop(fullHeaderHeight + themeDimensions.MARGIN_VERTICAL_BIG);
+  }, [paddingTop, fullHeaderHeight]);
 
   return (
     <SafeAreaView
@@ -76,15 +58,6 @@ export const ListScreen = ({
             // calculate full height used for padding of the list view
             const height = event.nativeEvent.layout.height;
             setFullHeaderHeight(height);
-            // if (route.name === 'Home' && !homeHeightIsSet) {
-            //   setHomeHeaderFullHeight(height);
-            //   setHomeHeightIsSet(true);
-            // }
-            //
-            // if (route.name === 'Classrooms' && !classroomHeightIsSet) {
-            //   setClassroomHeaderFullHeight(height);
-            //   setClassroomHeightIsSet(true);
-            // }
           }}
           title={title}>
           {children}
@@ -98,8 +71,7 @@ export const ListScreen = ({
               <View
                 style={[
                   index === 0 && {
-                    paddingTop: route.name === 'Home' ? '90%' : '65%',
-                    // fullHeaderHeight + themeDimensions.MARGIN_VERTICAL_BIG,
+                    paddingTop: paddingTop,
                   },
                   index + 1 === scenarios.length && {
                     paddingBottom: themeDimensions.PADDING_SCROLLVIEW_BOTTOM,
