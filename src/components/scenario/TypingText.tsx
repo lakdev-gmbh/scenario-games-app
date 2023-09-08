@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import { DefaultText } from "../global/Text";
 
-export const TypingText = ({children, animationDuration = 40, growWhileTyping = false, onFinish}: {
+export const TypingText = ({children, animationDuration = 20, growWhileTyping = false, onFinish}: {
     children: string;
     animationDuration?: number;
     onFinish?: () => void;

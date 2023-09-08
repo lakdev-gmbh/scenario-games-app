@@ -449,7 +449,7 @@ const AbstractTask = React.forwardRef<ScenarioTaskRef, AbstractTaskType>(
         return (
           <HintedFillInTheBlankComponent
             {...commonProps}
-            hintsArray={(task as Task).options?.hints_indexes}
+            typeArray={(task as Task).options?.hints_indexes} /* For some reason hints_indexes does not return the hint positions but the typing ones  */
             solution={(task as Task).correctAnswer}
           />
         );

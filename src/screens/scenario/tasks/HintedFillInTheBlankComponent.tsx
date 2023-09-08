@@ -25,15 +25,15 @@ type FillInTheBlankProps = {
   solution: string;
   solve?: boolean;
   setEmpty?: (empty: boolean) => void;
-  hintsArray: Array<number>;
+  typeArray: Array<number>;
 };
 
 export const HintedFillInTheBlankComponent = React.forwardRef<
   ScenarioTaskRef,
   FillInTheBlankProps
->(({solution, solve = false, setEmpty, hintsArray}, ref) => {
+>(({solution, solve = false, setEmpty, typeArray}, ref) => {
   const modifiedArray: string[] = solution.split('').map((element, index) => {
-    if (hintsArray.includes(index)) return element;
+    if (!typeArray.includes(index)) return element;
     return '';
   });
 
@@ -46,7 +46,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
   const getNextInputIndex = (currentIndex: number): number => {
     let nextIndex = currentIndex + 1;
     while (nextIndex < solutionArray.length) {
-      if (!hintsArray.includes(nextIndex)) {
+      if (typeArray.includes(nextIndex)) {
         return nextIndex;
       }
       nextIndex++;
@@ -103,7 +103,7 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
         marginBottom: 20,
       }}>
       {solutionArray.map((symbol, index) => {
-        if (hintsArray.includes(index)) {
+        if (!typeArray.includes(index)) {
           return (
             <TextInput
               key={index}
@@ -135,6 +135,8 @@ export const HintedFillInTheBlankComponent = React.forwardRef<
             ]}
             editable={!solve}
             key={index}
+            keyboardType={isNaN(Number(symbol)) ? 'default' : 'numeric'}
+            value={currentAnswer[index]}
             autoCapitalize={'none'}
             onChangeText={value => handleChange(value, index)}
             onSubmitEditing={() => {
