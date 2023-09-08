@@ -1,9 +1,9 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, StyleSheet, TouchableOpacity, } from "react-native";
 import themeColors from "../../../../assets/styles/theme.colors";
 import themeDimensions from "../../../../assets/styles/theme.dimensions";
-import { BiggerText, Label } from "../../../components/global/Text";
+import {  Label } from "../../../components/global/Text";
 import { ScenarioTaskRef } from "./DragDropComponent";
 import { MultipleChoiceType } from "./MultipleChoiceComponent";
 
@@ -58,6 +58,13 @@ export const MultipleChoiceImageTask = React.forwardRef<ScenarioTaskRef, Multipl
                     t("screen_task_mc_answer", {index: (el)})
                 )
                 .join(", ")
+        },
+        isPartiallyCorrect: () => {
+            const amountOfCorrectAnswers = possible_answers.filter((answer) => answer.is_correct).length;
+            const selectedWrongAnswers = possible_answers.filter((answer, index) => !answer.is_correct && selectedAnswers[index]).length;
+            if(amountOfCorrectAnswers < 2 || selectedWrongAnswers > 0) return false
+            //const selectedCorrectAnswers = possible_answers.filter((answer, index) => answer.is_correct && selectedAnswers[index]).length;
+            return true
         }
     }), [possible_answers, selectedAnswers])
 
